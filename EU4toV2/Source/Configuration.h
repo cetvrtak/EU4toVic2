@@ -61,6 +61,7 @@ class Configuration: commonItems::parser
 		[[nodiscard]] const auto& getCK2ExportPath() const { return CK2ExportPath; }
 		[[nodiscard]] const auto& getVic2Path() const { return Vic2Path; }
 		[[nodiscard]] const auto& getVic2DocumentsPath() const { return Vic2DocumentsPath; }
+		[[nodiscard]] const auto& getVic2ModPath() const { return Vic2ModPath; }
 		[[nodiscard]] const auto& getResetProvinces() const { return resetProvinces; }
 		[[nodiscard]] const auto& getEU4Version() const { return version; }
 		[[nodiscard]] const auto& getFirstEU4Date() const { return firstEU4Date; }
@@ -69,6 +70,7 @@ class Configuration: commonItems::parser
 		[[nodiscard]] const auto& getOutputName() const { return outputName; }
 		[[nodiscard]] const auto& getActualName() const { return actualName; }
 		[[nodiscard]] const auto& getEU4Mods() const { return EU4Mods; }
+		[[nodiscard]] const auto& getVic2ModName() const { return vic2Mod; }
 
 		[[nodiscard]] bool wasDLCActive(const std::string& DLC) const;
 
@@ -76,6 +78,7 @@ class Configuration: commonItems::parser
 		static void verifyEU4Path(const std::string& path, bool (*DoesFolderExist)(const std::string& path2), bool (*doesFileExist)(const std::string& path3));
 		static void verifyVic2Path(const std::string& path, bool (*DoesFolderExist)(const std::string& path2), bool (*doesFileExist)(const std::string& path3));
 		static void verifyVic2DocumentsPath(const std::string& path, bool (*DoesFolderExist)(const std::string& path2));
+		static void verifyVic2ModPath(const std::string& path, bool (*DoesFolderExist)(const std::string& path2));
 		void setOutputName();
 
 		// options from configuration.txt
@@ -86,6 +89,7 @@ class Configuration: commonItems::parser
 		std::string CK2ExportPath;
 		std::string Vic2Path;
 		std::string Vic2DocumentsPath;
+		std::string Vic2ModPath;
 		std::string resetProvinces = "no";
 		double MaxLiteracy = 1.0;
 		LIBERTYDESIRE libertyThreshold = LIBERTYDESIRE::Loyal;
@@ -111,6 +115,7 @@ class Configuration: commonItems::parser
 		std::string actualName; // Not normalized like outputName
 		std::vector<std::string> activeDLCs;
 		std::vector<std::string> EU4Mods;
+		std::string vic2Mod = "HPM";
 };
 
 extern Configuration theConfiguration;

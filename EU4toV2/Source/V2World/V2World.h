@@ -126,6 +126,8 @@ class World
 	void addAcceptedCultures(const EU4::Regions& eu4Regions);
 	void addReligionCulture();
 
+	void outputV2Mod() const;
+
 	mappers::ProvinceMapper provinceMapper;
 	mappers::Continents continentsMapper;
 	mappers::CountryMappings countryMapper;

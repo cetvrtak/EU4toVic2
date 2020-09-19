@@ -41,6 +41,11 @@ void Configuration::instantiate(std::istream& theStream, bool (*DoesFolderExist)
 		Vic2DocumentsPath = path.getString();
 		verifyVic2DocumentsPath(Vic2DocumentsPath, DoesFolderExist);
 	});
+	registerKeyword("targetGameModPath", [this, DoesFolderExist](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString path(theStream);
+		Vic2ModPath = path.getString();
+		verifyVic2ModPath(Vic2ModPath, DoesFolderExist);
+	});
 	registerKeyword("max_literacy", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString maxLiteracyString(theStream);
 		MaxLiteracy = static_cast<double>(std::stoi(maxLiteracyString.getString())) / 100;
@@ -138,6 +143,13 @@ void Configuration::verifyVic2DocumentsPath(const std::string& path, bool (*Does
 	if (!DoesFolderExist(path))
 		throw std::runtime_error(path + " does not exist!");
 	LOG(LogLevel::Info) << "\tVictoria 2 documents directory is " << path;
+}
+
+void Configuration::verifyVic2ModPath(const std::string& path, bool (*DoesFolderExist)(const std::string& path2))
+{
+	if (!DoesFolderExist(path))
+		throw std::runtime_error(path + " does not exist!");
+	LOG(LogLevel::Info) << "\tVictoria 2 mod directory is " << path;
 }
 
 bool Configuration::wasDLCActive(const std::string& DLC) const

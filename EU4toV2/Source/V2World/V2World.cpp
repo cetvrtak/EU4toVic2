@@ -218,7 +218,7 @@ void V2::World::dropCores()
 {
 	// This function is used to drop EXTANT country cores over provinces where they do not have primary/accepted culture dominance.
 	// Dead country cores will remain so something can be released.
-	
+
 	// This is quicker if we first build a country/culture cache and then check against it then iterate through
 	// every province and do multiple unneeded checks.
 
@@ -236,7 +236,7 @@ void V2::World::dropCores()
 
 	for (auto& province: provinces)
 	{
-		if (province.second->getCores().empty()) // Don't waste time 
+		if (province.second->getCores().empty()) // Don't waste time
 			continue;
 		const auto dominantCulture = province.second->getDominantCulture();
 		if (dominantCulture.empty()) // Let's not drop anything if we don't know what should remain.
@@ -1568,6 +1568,8 @@ void V2::World::output(const mappers::VersionParser& versionParser) const
 	// verify countries got written
 	LOG(LogLevel::Info) << "-> Verifying All Countries Written";
 	verifyCountriesWritten();
+
+	outputV2Mod();
 }
 
 void V2::World::outputNeoCultures() const
@@ -1734,7 +1736,8 @@ void V2::World::outputProvinces() const
 	{
 		auto filename = province.second->getFilename();
 		auto lastSlash = filename.find_last_of('/');
-		if (lastSlash == std::string::npos) lastSlash = filename.find_last_of('\\');
+		if (lastSlash == std::string::npos)
+			lastSlash = filename.find_last_of('\\');
 		auto path = filename.substr(0, lastSlash);
 		if (!Utils::TryCreateFolder("output/" + theConfiguration.getOutputName() + "/history/provinces/" + path))
 			throw std::runtime_error("Could not create directory: output/" + theConfiguration.getOutputName() + "/history/provinces/" + path);
@@ -1901,4 +1904,16 @@ std::shared_ptr<V2::Country> V2::World::getCountry(const std::string& tag) const
 {
 	const auto& countryItr = countries.find(tag);
 	return (countryItr != countries.end()) ? countryItr->second : nullptr;
+}
+
+
+void V2::World::outputV2Mod() const
+{
+	if (!theConfiguration.getVic2ModName().empty())
+	{
+		LOG(LogLevel::Info) << "<- Copying " + theConfiguration.getVic2ModName() + " files";
+		const auto& mod = theConfiguration.getVic2ModPath() + "/" + theConfiguration.getVic2ModName() + "/map";
+		const auto& dest = "output/" + theConfiguration.getOutputName() + "/map";
+		std::filesystem::copy(mod, dest, std::filesystem::copy_options::recursive);
+	}
 }
