@@ -127,6 +127,7 @@ class World
 	void addReligionCulture();
 
 	void outputV2Mod() const;
+	void outProvLoc() const;
 
 	mappers::ProvinceMapper provinceMapper;
 	mappers::Continents continentsMapper;
