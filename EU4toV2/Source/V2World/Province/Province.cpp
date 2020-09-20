@@ -51,11 +51,11 @@ filename(std::move(_filename))
 		}
 	}
 
-	if (details.terrain.empty())
+	/*if (details.terrain.empty())
 	{
 		auto terrain = terrainDataMapper.getTerrainForID(provinceID);
 		if (terrain) details.terrain = *terrain;
-	}
+	}*/
 
 	auto potentialName = provinceNameParser.getProvinceName(provinceID);
 	if (potentialName) name = *potentialName;
