@@ -37,6 +37,11 @@ filename(std::move(_filename))
 	{
 		details = mappers::ProvinceDetails("blankMod/output/history/provinces/" + filename);
 	}
+	else if (const auto& mod = theConfiguration.getVic2ModName(); !mod.empty())
+	{
+		const auto& modPath = theConfiguration.getVic2ModPath() + "/" + mod;
+		details = mappers::ProvinceDetails(modPath + "/history/provinces/" + filename);	
+	}
 	else
 	{
 		details = mappers::ProvinceDetails(theConfiguration.getVic2Path() + "/history/provinces/" + filename);
