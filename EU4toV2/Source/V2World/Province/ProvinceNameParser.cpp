@@ -11,18 +11,6 @@ V2::ProvinceNameParser::ProvinceNameParser()
 	{
 		importProvinceLocalizations("./blankMod/output/localisation/text.csv");
 	}
-	else if (const auto& mod = theConfiguration.getVic2ModName(); !mod.empty())
-	{
-		const auto& modLocPath = theConfiguration.getVic2ModPath() + "/" + mod + "/localisation";
-		if (Utils::DoesFolderExist(modLocPath))
-		{
-			const auto& locFiles = Utils::GetAllFilesInFolderRecursive(modLocPath);
-			for (const auto& locFile: locFiles)
-			{
-				importProvinceLocalizations(modLocPath + "/" + locFile);
-			}
-		}
-	}
 	const auto& provLocPath = theConfiguration.getVic2Path() + "/localisation";
 	if (Utils::DoesFolderExist(provLocPath))
 	{
