@@ -68,6 +68,7 @@ namespace V2
 		void addCore(const std::string& newCore);
 		void addPopDemographic(const Demographic& d);
 		void replaceCores(const std::set<std::string>& cores) { details.cores = cores; }
+		void setStateID(int id) { stateID = id; }
 
 		[[nodiscard]] auto hasCore(const std::string& core) const { return details.cores.count(core) > 0; }
 		[[nodiscard]] auto getID() const { return provinceID; }
@@ -99,6 +100,7 @@ namespace V2
 		[[nodiscard]] std::optional<std::pair<int, std::vector<std::shared_ptr<Pop>>>> getPopsForOutput() const;
 		[[nodiscard]] std::vector<std::shared_ptr<Pop>> getPops(const std::string& type) const;
 		[[nodiscard]] std::pair<int, int>	getAvailableSoldierCapacity() const;
+		[[nodiscard]] int getStateID() const { return stateID; }
 
 		std::string getRegimentName(REGIMENTTYPE chosenType);
 		std::optional<std::shared_ptr<Factory>> addFactory(std::shared_ptr<Factory> factory);
@@ -157,6 +159,7 @@ namespace V2
 		std::string superRegion; // orientation issue.
 		std::map<REGIMENTTYPE, int> unitNameCount;
 		mappers::ProvinceDetails details;
+		int stateID;
 
 		struct pop_points
 		{

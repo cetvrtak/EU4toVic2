@@ -565,6 +565,12 @@
     <ClCompile Include="..\commonItems\Color.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
+    <ClCompile Include="Source\V2World\Events\Events.cpp">
+      <Filter>Vic2World\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\V2World\VanillaWorld\VanillaWorld.cpp">
+      <Filter>Vic2World\VanillaWorld</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration.h" />
@@ -1091,6 +1097,12 @@
     <ClInclude Include="..\commonItems\Color.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\V2World\Events\Events.h">
+      <Filter>Vic2World\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\V2World\VanillaWorld\VanillaWorld.h">
+      <Filter>Vic2World\VanillaWorld</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="EU4World">
@@ -1332,6 +1344,12 @@
     </Filter>
     <Filter Include="Mappers\AfricaReset">
       <UniqueIdentifier>{b28a005e-f675-484c-800a-bd321bfe49b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vic2World\Events">
+      <UniqueIdentifier>{92ece9b9-9524-4b72-a050-f85a4085d09f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vic2World\VanillaWorld">
+      <UniqueIdentifier>{d121c48f-d84f-4701-84eb-3a1a2f5a802e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
