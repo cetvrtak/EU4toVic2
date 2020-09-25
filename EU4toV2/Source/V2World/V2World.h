@@ -33,6 +33,7 @@
 #include "../Mappers/WarGoalMapper/WarGoalMapper.h"
 #include "Country/Country.h"
 #include "Diplomacy/Diplomacy.h"
+#include "Events/Events.h"
 #include "MappingChecker/MappingChecker.h"
 #include "Output/ModFile.h"
 #include "Province/Province.h"
@@ -71,6 +72,8 @@ class World
 	std::vector<War> wars;
 	std::vector<std::pair<std::string, EU4::HistoricalEntry>> historicalData; // HoI4 export dynasty+rulers
 	std::set<std::string> neoCultureLocalizations;									  // raw strings for output.
+	std::map<int, int> stateMap;
+	std::map<int, int> provinceMap;
 
 	[[nodiscard]] std::optional<std::string> determineProvinceOwnership(const std::set<int>& eu4ProvinceNumbers, const EU4::World& sourceWorld) const;
 	[[nodiscard]] std::shared_ptr<Province> getProvince(int provID) const;
@@ -78,6 +81,8 @@ class World
 	[[nodiscard]] unsigned int countCivilizedNations() const;
 	[[nodiscard]] std::shared_ptr<Country> getHreEmperor() const;
 	[[nodiscard]] std::string clipCountryFileName(const std::string& incoming) const;
+	[[nodiscard]] const auto& getStateMap() const { return stateMap; }
+	[[nodiscard]] const auto& getProvinceMap() const { return provinceMap; }
 
 	static std::optional<std::string> determineProvinceControllership(const std::set<int>& eu4ProvinceNumbers, const EU4::World& sourceWorld);
 	std::shared_ptr<Country> createOrLocateCountry(const std::string& V2Tag, const EU4::Country& sourceCountry);
@@ -130,6 +135,27 @@ class World
 	void convertCountryFlags();
 	void updateDeadNations();
 
+	void addStateMapping(int origID, int modID) { stateMap.insert(std::make_pair(origID, modID)); }
+	void addProvinceMapping(int origID, int modID) { provinceMap.insert(std::make_pair(origID, modID)); }
+	void outStateMap(std::string outFile) const;
+	void outProvinceMap(std::string outFile) const;
+	void outEvents() const;
+	void convertEvents();
+	void drawProvinceMap();
+	void drawStateMap();
+	void verifyMap(std::map<int, int> theMap) const;
+	void mapUnlocalized(const std::vector<int>& vanillaProvs,
+	 std::map<int, std::string> locProvs,
+	 std::ofstream& output);
+	void mapUnchanged(const std::vector<int>& vanillaProvs,
+	 const mappers::ProvinceMapper& vanillaMapper,
+	 const mappers::ProvinceMapper& modMapper,
+	 std::ofstream& output);
+	void mapLeftovers(const std::vector<int>& vanillaProvs,
+	 const mappers::ProvinceMapper& vanillaMapper,
+	 const mappers::ProvinceMapper& modMapper,
+	 std::ofstream& output);
+	
 	mappers::ProvinceMapper provinceMapper;
 	mappers::Continents continentsMapper;
 	mappers::CountryMappings countryMapper;
@@ -167,6 +193,7 @@ class World
 	Diplomacy diplomacy;
 	mappers::CountryFlags countryFlags;
 	mappers::UnionTagsMapper unionTagsMapper;
+	std::map<std::string, std::string> events;
 };
 
 std::ostream& operator<<(std::ostream& output, const std::vector<std::pair<std::string, EU4::HistoricalEntry>>& historicalData);
