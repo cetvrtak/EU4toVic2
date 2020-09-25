@@ -11,17 +11,22 @@ V2::ProvinceNameParser::ProvinceNameParser()
 	{
 		importProvinceLocalizations("./blankMod/output/localisation/text.csv");
 	}
-	else
+	const auto& provLocPath = theConfiguration.getVic2Path() + "/localisation";
+	if (commonItems::DoesFolderExist(provLocPath))
 	{
-		importProvinceLocalizations(theConfiguration.getVic2Path() + "/localisation/text.csv");
+		const auto& locFiles = commonItems::GetAllFilesInFolderRecursive(provLocPath);
+		for (const auto& locFile: locFiles)
+		{
+			importProvinceLocalizations(provLocPath + "/" + locFile);
+		}
 	}
 }
 
 V2::ProvinceNameParser::ProvinceNameParser(std::string folder)
 {
-	if (Utils::DoesFolderExist(folder))
+	if (commonItems::DoesFolderExist(folder))
 	{
-		const auto& locFiles = Utils::GetAllFilesInFolderRecursive(folder);
+		const auto& locFiles = commonItems::GetAllFilesInFolderRecursive(folder);
 		for (const auto& locFile: locFiles)
 		{
 			importProvinceLocalizations(folder + "/" + locFile);
@@ -43,7 +48,10 @@ void V2::ProvinceNameParser::importProvinceLocalizations(const std::string& file
 		const auto provID = stoi(line.substr(4, position - 4));
 		const auto name = line.substr(position + 1, line.find_first_of(';', position + 1) - position - 1);
 
-		provinceNames.insert(std::make_pair(provID, name));
+		if (provinceNames.find(provID) == provinceNames.end())
+		{
+			provinceNames.insert(std::make_pair(provID, name));
+		}
 	}
 	locFile.close();
 }
