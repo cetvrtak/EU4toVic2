@@ -20,12 +20,14 @@ namespace mappers
 	public:
 		ProvinceMapper();
 		explicit ProvinceMapper(std::istream& theStream, const Configuration& testConfiguration);
+		explicit ProvinceMapper(const std::string& file);
 
 		[[nodiscard]] std::vector<int> getVic2ProvinceNumbers(int eu4ProvinceNumber) const;
 		[[nodiscard]] std::vector<int> getEU4ProvinceNumbers(int vic2ProvinceNumber) const;
 		[[nodiscard]] bool isProvinceResettable(int vic2ProvinceNumber, const std::string& region) const;
 		[[nodiscard]] bool provinceIsInRegion(int province, const std::string& region) const;
 		[[nodiscard]] auto isValidProvince(const int province) const { return validProvinces.count(province) > 0; }
+		[[nodiscard]] const auto& getVic2ToEU4ProvinceMap() const { return vic2ToEU4ProvinceMap; }
 
 	private:
 		void registerKeys();
