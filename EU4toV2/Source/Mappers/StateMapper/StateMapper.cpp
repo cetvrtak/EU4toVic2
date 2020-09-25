@@ -1,5 +1,5 @@
 #include "StateMapper.h"
-#include "../../Configuration.h"
+#include "Configuration.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
@@ -31,15 +31,23 @@ mappers::StateMapper::StateMapper(std::istream& theStream)
 	clearRegisteredKeywords();
 }
 
+mappers::StateMapper::StateMapper(const std::string& filename)
+{
+	registerKeys();
+	parseFile(filename);
+	clearRegisteredKeywords();
+}
+
 void mappers::StateMapper::registerKeys()
 {
-	registerRegex("[a-zA-Z0-9_]+", [this](const std::string& unused, std::istream& theStream) 
+	registerRegex("[A-Z]{3}_[0-9]+", [this](const std::string& id, std::istream& theStream) 
 		{
 			const commonItems::intList provinceList(theStream);
 
 			std::set<int> provinces;
 			for (auto province : provinceList.getInts()) provinces.insert(province);
 			for (auto province : provinces) stateProvincesMap.insert(std::make_pair(province, provinces));
+			stateMap.insert(std::make_pair(id, provinces));
 		});
 }
 
