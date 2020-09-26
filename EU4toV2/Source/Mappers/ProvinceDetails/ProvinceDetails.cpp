@@ -32,6 +32,11 @@ void mappers::ProvinceDetails::registerKeys()
 			const commonItems::singleString coreStr(theStream);
 			cores.insert(coreStr.getString());
 		});
+	registerKeyword("trade_goods", [this](const std::string& unused, std::istream& theStream)
+		{
+			const commonItems::singleString rgoTypeStr(theStream);
+			rgoType = rgoTypeStr.getString();
+		});
 	registerKeyword("life_rating", [this](const std::string& unused, std::istream& theStream)
 		{
 			const commonItems::singleInt lifeRatingInt(theStream);
