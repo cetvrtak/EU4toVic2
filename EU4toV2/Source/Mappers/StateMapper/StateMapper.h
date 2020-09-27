@@ -15,7 +15,6 @@ namespace mappers
 		explicit StateMapper(std::string& filename);
 		
 		[[nodiscard]] std::set<int> getAllProvincesInState(int province) const;
-		[[nodiscard]] std::set<int> getProvincesByStateID(int stateID) const;
 		[[nodiscard]] const auto& getStateMap() const { return stateMap; }
 
 		std::string getStateID(int provID);

@@ -66,11 +66,3 @@ std::set<int> mappers::StateMapper::getAllProvincesInState(const int province) c
 	std::set<int> empty;
 	return empty;
 }
-
-std::set<int> mappers::StateMapper::getProvincesByStateID(const int stateID) const
-{
-	const auto& mapping = stateMap.find(stateID);
-	if (mapping != stateMap.end()) return mapping->second;
-	std::set<int> empty;
-	return empty;
-}

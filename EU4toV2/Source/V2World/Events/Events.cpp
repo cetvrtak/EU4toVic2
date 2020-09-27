@@ -2,7 +2,6 @@
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
 #include <regex>
-#include <functional>
 #include <fstream>
 
 V2::Events::Events()
