@@ -1577,8 +1577,7 @@ void V2::World::output(const mappers::VersionParser& versionParser) const
 	outputNeoCultures();
 	Log(LogLevel::Progress) << "99 %";
 
-	outputV2Mod();
-	outProvLoc();
+	copyModFiles();
 	outputStateMap(theConfiguration.getVic2ModPath() + "/" + theConfiguration.getVic2ModName() + "/map/region.txt",
 		 "output/" + theConfiguration.getOutputName() + "/region.txt");
 
@@ -1925,7 +1924,7 @@ std::shared_ptr<V2::Country> V2::World::getCountry(const std::string& tag) const
 }
 
 
-void V2::World::outputV2Mod() const
+void V2::World::copyModFiles() const
 {
 	if (!theConfiguration.getVic2ModName().empty())
 	{
@@ -1965,18 +1964,12 @@ void V2::World::outputV2Mod() const
 				std::filesystem::copy_file(mod + "/interface/" + file, output + "/interface/" + file);	
 			}
 		}
-	}
-}
-
-void V2::World::outProvLoc() const
-{
-	LOG(LogLevel::Info) << "<- Outputting province localisation";
-	std::ofstream output("output/" + theConfiguration.getOutputName() + "/localisation/00_provinces.csv");
-	if (!output.is_open())
-		Log(LogLevel::Warning) << "Could not create 00_provinces.csv";
-	for (const auto& province: provinceNameParser.getProvinceNames())
-	{
-		output << "PROV" << province.first << ";" << province.second << ";;;;;;;;;;;;;;;;;;;;;;x;;;;;;\n";
+		// localisation
+		const auto& localisationFiles = Utils::GetAllFilesInFolder(mod + "/localisation");
+		for (const auto& file: localisationFiles)
+		{
+			std::filesystem::copy_file(mod + "/localisation/" + file, output + "/localisation/" + file);
+		}
 	}
 }
 
