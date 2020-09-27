@@ -580,8 +580,17 @@ void V2::World::shuffleRgos()
 void V2::World::importDefaultPops()
 {
 	totalWorldPopulation = 0;
+	std::string popsFolder;
 
-	auto filenames = Utils::GetAllFilesInFolder("./blankMod/output/history/pops/1836.1.1/");
+	if (const auto& mod = theConfiguration.getVic2ModName(); !mod.empty())
+	{
+		popsFolder = theConfiguration.getVic2ModPath() + "/" + mod + "/history/pops/1836.1.1/";
+	}
+	else
+	{
+		popsFolder = "./blankMod/output/history/pops/1836.1.1/";
+	}
+	auto filenames = Utils::GetAllFilesInFolder(popsFolder);
 
 	LOG(LogLevel::Info) << "Parsing minority pops mappings";
 
@@ -594,9 +603,18 @@ void V2::World::importDefaultPops()
 void V2::World::importPopsFromFile(const std::string& filename, const mappers::MinorityPopMapper& minorityPopMapper)
 {
 	std::list<int> popProvinces;
+	std::string popsFolder;
 
-	// We are using our own defaults instead of vanilla source because it was modded with cultural minorities.
-	const mappers::PopMapper popMapper("./blankMod/output/history/pops/1836.1.1/" + filename);
+	if (const auto& mod = theConfiguration.getVic2ModName(); !mod.empty())
+	{
+		popsFolder = theConfiguration.getVic2ModPath() + "/" + mod + "/history/pops/1836.1.1/";
+	}
+	else
+	{
+		// We are using our own defaults instead of vanilla source because it was modded with cultural minorities.
+		popsFolder = "./blankMod/output/history/pops/1836.1.1/";
+	}
+	const mappers::PopMapper popMapper(popsFolder + filename);
 
 	for (const auto& provinceItr: popMapper.getProvincePopTypeMap())
 	{
