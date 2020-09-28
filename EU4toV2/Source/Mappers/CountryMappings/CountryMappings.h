@@ -34,6 +34,7 @@ namespace mappers
 		[[nodiscard]] std::optional<std::string> getCK2Title(const std::string& eu4Tag, const std::string& countryName, const std::set<std::string>& availableFlags) const;
 		[[nodiscard]] const auto& getCK2TitleMapper() const { return ck2titleMapper; }
 		[[nodiscard]] static bool tagIsAlphaDigitDigit(const std::string& tag);
+		[[nodiscard]] const auto& getV2TagToModTagMap() const { return v2TagToModTagMap; }
 
 		void createMappings(const EU4::World& srcWorld, const std::map<std::string, std::shared_ptr<V2::Country>>& vic2Countries, const ProvinceMapper& provinceMapper);
 
@@ -72,6 +73,7 @@ namespace mappers
 		std::map<std::string, std::string> eu4TagToV2TagMap;
 		std::map<std::string, std::string> v2TagToEU4TagMap;
 		std::set<std::string> availableFlags;
+		std::map<std::string, std::string> v2TagToModTagMap;
 
 		char generatedV2TagPrefix = 'X';
 		int generatedV2TagSuffix = 0;
