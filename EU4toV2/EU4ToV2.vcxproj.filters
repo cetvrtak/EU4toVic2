@@ -571,6 +571,12 @@
     <ClCompile Include="Source\V2World\VanillaWorld\VanillaWorld.cpp">
       <Filter>Vic2World\VanillaWorld</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Mappers\CountryFlags\CountryFlags.cpp">
+      <Filter>Mappers\CountryFlags</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\CountryFlags\CountryFlagsMapping.cpp">
+      <Filter>Mappers\CountryFlags</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration.h" />
@@ -1103,6 +1109,12 @@
     <ClInclude Include="Source\V2World\VanillaWorld\VanillaWorld.h">
       <Filter>Vic2World\VanillaWorld</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\CountryFlags\CountryFlags.h">
+      <Filter>Mappers\CountryFlags</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\CountryFlags\CountryFlagsMapping.h">
+      <Filter>Mappers\CountryFlags</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="EU4World">
@@ -1350,6 +1362,9 @@
     </Filter>
     <Filter Include="Vic2World\VanillaWorld">
       <UniqueIdentifier>{d121c48f-d84f-4701-84eb-3a1a2f5a802e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mappers\CountryFlags">
+      <UniqueIdentifier>{c2f5257a-dea3-40f3-9aa0-466dce08a547}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "../EU4World/Country/EU4Country.h"
 #include "../Mappers/Adjacency/AdjacencyMapper.h"
 #include "../Mappers/AfricaReset/AfricaResetMapper.h"
+#include "../Mappers/CountryFlags/CountryFlags.h"
 #include "../Mappers/CountryMappings/CountryMappings.h"
 #include "../Mappers/CulturalUnions/CulturalUnionMapper.h"
 #include "../Mappers/CultureGroups/CultureGroups.h"
@@ -157,6 +158,7 @@ class World
 	 const mappers::ProvinceMapper& modMapper,
 	 std::ofstream& output);
 	int getActualStateID(int provID, const std::map<int, std::set<int>>& theMap) const;
+	void convertCountryFlags();
 
 	std::shared_ptr<V2::State> getStateByID(int stateID) const;
 	
@@ -197,6 +199,7 @@ class World
 	Diplomacy diplomacy;
 	std::map<std::string, std::string> events;
 	VanillaWorld vanillaWorld;
+	mappers::CountryFlags countryFlags;
 };
 
 std::ostream& operator<<(std::ostream& output, const std::vector<std::pair<std::string, EU4::HistoricalEntry>>& historicalData);

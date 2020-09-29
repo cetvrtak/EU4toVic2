@@ -138,11 +138,15 @@ V2::World::World(const EU4::World& sourceWorld,
 	transcribeHistoricalData();
 	Log(LogLevel::Progress) << "70 %";
 
-	if (!theConfiguration.getOutputName().empty())
+	if (!theConfiguration.getVic2ModName().empty())
 	{
-		LOG(LogLevel::Debug) << "Converting events";
-		convertEvents();
+		LOG(LogLevel::Info) << "-> Converting country flags";
+		convertCountryFlags();
 		Log(LogLevel::Progress) << "71 %";
+
+		LOG(LogLevel::Info) << "-> Converting events";
+		convertEvents();
+		Log(LogLevel::Progress) << "72 %";
 	}
 
 	LOG(LogLevel::Info) << "---> Le Dump <---";
@@ -162,6 +166,22 @@ void V2::World::addReligionCulture()
 			cultureReligion += country.second->getReligion();
 		country.second->addAcceptedCulture(cultureReligion);
 		country.second->addCountryFlag("religi");
+	}
+}
+
+void V2::World::convertCountryFlags()
+{
+	const auto& theFlags = countryFlags.getFlags();
+	for (const auto& country: countries)
+	{
+		if (const auto& srcCountry = country.second->getSourceCountry(); srcCountry)
+		{
+			for (const auto& flag: srcCountry->getFlags())
+			{
+				if (const auto& flagMapping = theFlags.find(flag); flagMapping != theFlags.end())
+					country.second->addCountryFlag(flagMapping->second);
+			}
+		}
 	}
 }
 
