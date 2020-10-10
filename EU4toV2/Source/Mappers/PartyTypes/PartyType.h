@@ -15,11 +15,15 @@ namespace mappers
 		
 		void setName(const std::string& partyName) { name = partyName; }
 		void setIdeology(const std::string& partyIdeology) { ideology = partyIdeology; }
+		void setStartDate(const std::string& startDate) { start_date = date(startDate); }
+		void addPolicy(const std::string& policy, const std::string& position) { policies.insert(make_pair(policy, position)); }
 		
 		[[nodiscard]] const auto& getName() const { return name; }
 		[[nodiscard]] const auto& getIdeology() const { return ideology; }
 		[[nodiscard]] const auto& getStartDate() const { return start_date; }
 		[[nodiscard]] const auto& getEndDate() const { return end_date; }
+		[[nodiscard]] const auto& getPolicies() const { return policies; }
+		[[nodiscard]] const auto& getPolicyPosition(const std::string& policy) const { return policies.find(policy)->second; }
 
 		friend std::ostream& operator<<(std::ostream& output, const PartyType& partyDetails);
 
@@ -30,11 +34,7 @@ namespace mappers
 		date start_date;
 		date end_date;
 
-		std::string economic_policy;
-		std::string trade_policy;
-		std::string religious_policy;
-		std::string citizenship_policy;
-		std::string war_policy;
+		std::map<std::string, std::string> policies;
 	};
 }
 
