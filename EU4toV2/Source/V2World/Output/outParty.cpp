@@ -20,5 +20,6 @@ std::ostream& mappers::operator<<(std::ostream& output, const PartyType& partyDe
 	output << "\treligious_policy = " << partyDetails.religious_policy << '\n';
 	output << "\tcitizenship_policy = " << partyDetails.citizenship_policy << '\n';
 	output << "\twar_policy = " << partyDetails.war_policy << '\n';
+	output << "\tsocial_policy = " << partyDetails.social_policy << '\n';
 	return output;
 }

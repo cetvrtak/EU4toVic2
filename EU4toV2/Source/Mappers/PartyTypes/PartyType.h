@@ -15,11 +15,14 @@ namespace mappers
 		
 		void setName(const std::string& partyName) { name = partyName; }
 		void setIdeology(const std::string& partyIdeology) { ideology = partyIdeology; }
+		void setStartDate(const std::string& startDate) { start_date = date(startDate); }
+		void setSocialPolicy(const std::string& policy) { social_policy = policy; }
 		
 		[[nodiscard]] const auto& getName() const { return name; }
 		[[nodiscard]] const auto& getIdeology() const { return ideology; }
 		[[nodiscard]] const auto& getStartDate() const { return start_date; }
 		[[nodiscard]] const auto& getEndDate() const { return end_date; }
+		[[nodiscard]] const auto& getSocialPolicy() const { return social_policy; }
 
 		friend std::ostream& operator<<(std::ostream& output, const PartyType& partyDetails);
 
@@ -35,6 +38,7 @@ namespace mappers
 		std::string religious_policy;
 		std::string citizenship_policy;
 		std::string war_policy;
+		std::string social_policy;
 	};
 }
 

@@ -5,6 +5,7 @@
 #include "../Mappers/StateMapper/StateMapper.h"
 #include "../Mappers/TechGroups/TechGroupsMapper.h"
 #include "../Mappers/VersionParser/VersionParser.h"
+#include "Country/ModCommons.h"
 #include "Events/Events.h"
 #include "Flags/Flags.h"
 #include "Province/ProvinceNameParser.h"
@@ -147,6 +148,10 @@ V2::World::World(const EU4::World& sourceWorld,
 		LOG(LogLevel::Info) << "-> Converting events";
 		convertEvents();
 		Log(LogLevel::Progress) << "72 %";
+
+		//LOG(LogLevel::Info) << "-> Resetting country data";
+		//resetCountryData();
+		//Log(LogLevel::Progress) << "73 %";
 	}
 
 	LOG(LogLevel::Info) << "---> Le Dump <---";
@@ -1634,12 +1639,12 @@ void V2::World::output(const mappers::VersionParser& versionParser) const
 
 	if (!theConfiguration.getVic2ModName().empty())
 	{
+		LOG(LogLevel::Info) << "<- Outputting events";
+		outEvents();
+
 		copyModFiles();
 		outputStateMap(theConfiguration.getVic2ModPath() + "/" + theConfiguration.getVic2ModName() + "/map/region.txt",
 			 "output/" + theConfiguration.getOutputName() + "/region.txt");
-
-		LOG(LogLevel::Info) << "<- Outputting events";
-		outEvents();
 	}
 
 	// verify countries got written
@@ -1996,6 +2001,7 @@ void V2::World::copyModFiles() const
 		fs::copy_file(mod + "/common/pop_types.txt", output + "/common/pop_types.txt");
 		fs::copy_file(mod + "/common/technology.txt", output + "/common/technology.txt");
 		fs::copy_file(mod + "/common/event_modifiers.txt", output + "/common/event_modifiers.txt");
+		fs::copy_file(mod + "/common/issues.txt", output + "/common/issues.txt");
 
 		// common/countries
 		const auto& countriesFiles = Utils::GetAllFilesInFolder(mod + "/common/countries");

@@ -48,6 +48,11 @@ mappers::PartyType::PartyType(std::istream& theStream)
 			const commonItems::singleString warStr(theStream);
 			war_policy = warStr.getString();
 		});
+	registerKeyword("social_policy", [this](const std::string& language, std::istream& theStream)
+		{
+			const commonItems::singleString socialStr(theStream);
+			social_policy = socialStr.getString();
+		});
 	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
 
 	parseStream(theStream);
