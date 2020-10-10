@@ -10,6 +10,7 @@
 #include "../Reforms/UncivReforms.h"
 #include "../State/State.h"
 #include "CountryDetails.h"
+#include "ModCommons.h"
 #include <memory>
 #include <string>
 
@@ -107,6 +108,7 @@ class Country
 	bool addFactory(std::shared_ptr<Factory> factory);
 	Relation& getRelation(const std::string& target);
 	std::map<std::string, Relation>& getRelations() { return relations; }
+	void addPolicy(const std::string& partyName, const std::string& policy, const std::string& position);
 
 	[[nodiscard]] std::string getColonialRegion() const;
 	[[nodiscard]] virtual std::shared_ptr<EU4::Country> getSourceCountry() const { return srcCountry; }
@@ -132,6 +134,7 @@ class Country
 	[[nodiscard]] const auto& getEU4PrimaryCulture() const { return details.eu4PrimaryCulture; }
 	[[nodiscard]] const auto& getAcceptedCultures() const { return details.acceptedCultures; }
 	[[nodiscard]] const auto& getEU4AcceptedCultures() const { return details.eu4acceptedCultures; }
+	[[nodiscard]] const auto& getParties() const { return details.parties; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Country& country);
 	void outputCommons(std::ostream& output);
@@ -159,6 +162,7 @@ class Country
 	CountryDetails details;
 	Localisation localisation;
 	EU4::NationalSymbol nationalColors;
+	ModCommons modCommons;
 
 	[[nodiscard]] std::optional<std::string> getFileFromTag(const std::string& directoryPath, const std::string& tag) const;
 	void loadPartiesFromBlob(const mappers::PartyNameMapper& partyNameMapper, const mappers::PartyTypeMapper& partyTypeMapper);

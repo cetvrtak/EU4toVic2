@@ -14,6 +14,7 @@
 #include "../Mappers/Geography/Continents.h"
 #include "../Mappers/Geography/TerrainDataMapper.h"
 #include "../Mappers/GovernmentMapper/GovernmentMapper.h"
+#include "../Mappers/Issues/Issues.h"
 #include "../Mappers/LeaderTraits/LeaderTraitMapper.h"
 #include "../Mappers/MinorityPops/MinorityPopMapper.h"
 #include "../Mappers/NavalBases/NavalBaseMapper.h"
@@ -159,6 +160,8 @@ class World
 	 std::ofstream& output);
 	int getActualStateID(int provID, const std::map<int, std::set<int>>& theMap) const;
 	void convertCountryFlags();
+	void updateCountryDetails();
+	std::vector<std::string> getIssues(const std::string& issueCategory);
 
 	std::shared_ptr<V2::State> getStateByID(int stateID) const;
 	
@@ -200,6 +203,7 @@ class World
 	std::map<std::string, std::string> events;
 	VanillaWorld vanillaWorld;
 	mappers::CountryFlags countryFlags;
+	mappers::Issues issues;
 };
 
 std::ostream& operator<<(std::ostream& output, const std::vector<std::pair<std::string, EU4::HistoricalEntry>>& historicalData);
