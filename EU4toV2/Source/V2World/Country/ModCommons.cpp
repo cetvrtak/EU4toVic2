@@ -1,10 +1,9 @@
 #include "ModCommons.h"
+#include "../../Configuration.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
 
-V2::ModCommons::ModCommons(){};
-
-V2::ModCommons::ModCommons(const std::string& filePath)
+V2::ModCommons::ModCommons(const std::string& filename)
 {
 	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
 		auto color = commonItems::Color::Factory{}.getColor(theStream);
@@ -24,43 +23,17 @@ V2::ModCommons::ModCommons(const std::string& filePath)
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
-	parseFile(filePath);
+	const auto& file = determineFilePath(filename);
+	if (file)
+		parseFile(*file);
 	clearRegisteredKeywords();
 }
 
-void V2::ModCommons::setPartyDates()
+std::optional<std::string> V2::ModCommons::determineFilePath(const std::string& filename)
 {
-	bool conservativeSet = false, liberalSet = false, reactionarySet = false;
-
-	for (auto& party: parties)
-	{
-		if (party.getIdeology() == "conservative" && !conservativeSet)
-		{
-			party.setStartDate("1000.1.1");
-			conservativeSet = true;
-			continue;
-		}
-		if (party.getIdeology() == "liberal" && !liberalSet)
-		{
-			party.setStartDate("1680.1.1");
-			liberalSet = true;
-			continue;
-		}
-		if (party.getIdeology() == "reactionary" && !reactionarySet)
-		{
-			party.setStartDate("1790.1.1");
-			reactionarySet = true;
-		}
-	}
-}
-
-void V2::ModCommons::setPartyIssues(const mappers::PartyTypeMapper& partyBlob)
-{
-	for (auto& party: parties)
-	{
-		const auto& ideology = party.getIdeology();
-
-		if (party.getSocialPolicy().empty())
-			party.setSocialPolicy(partyBlob.getPartyTypeByIdeology(ideology)->getSocialPolicy());
-	}	
+	const auto& mod = theConfiguration.getVic2ModPath() + "/" + theConfiguration.getVic2ModName();
+	if (Utils::DoesFileExist(mod + "/common/countries/" + filename))
+		return mod + "/common/countries/" + filename;
+	else
+		return std::nullopt;
 }

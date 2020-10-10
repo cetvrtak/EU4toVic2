@@ -2,7 +2,6 @@
 #define MOD_COMMONS_H
 
 #include "../Party/Party.h"
-#include "../../Mappers/PartyTypes/PartyTypeMapper.h"
 #include "Color.h"
 #include "Parser.h"
 
@@ -11,12 +10,9 @@ namespace V2
 	class ModCommons: commonItems::parser
 	{
 	public:
-		ModCommons();
-		ModCommons(const std::string& filePath);
+		ModCommons(const std::string& filename);
 
-		void setCountryColors(const commonItems::Color& countryColors) { color = countryColors; }
-		void setPartyDates();
-		void setPartyIssues(const mappers::PartyTypeMapper& partyBlob);
+		std::optional<std::string> determineFilePath(const std::string& filename);
 
 		[[nodiscard]] const auto& getColor() const { return color; }
 		[[nodiscard]] const auto& getGraphicalCulture() const { return graphicalCulture; }
