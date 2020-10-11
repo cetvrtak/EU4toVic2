@@ -10,6 +10,7 @@ namespace V2
 	class ModCommons: commonItems::parser
 	{
 	public:
+		ModCommons() = default;
 		ModCommons(const std::string& filename);
 
 		std::optional<std::string> determineFilePath(const std::string& filename);

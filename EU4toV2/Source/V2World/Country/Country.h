@@ -10,6 +10,7 @@
 #include "../Reforms/UncivReforms.h"
 #include "../State/State.h"
 #include "CountryDetails.h"
+#include "ModCommons.h"
 #include <memory>
 #include <string>
 
@@ -159,6 +160,7 @@ class Country
 	CountryDetails details;
 	Localisation localisation;
 	EU4::NationalSymbol nationalColors;
+	ModCommons modCommons;
 
 	[[nodiscard]] std::optional<std::string> getFileFromTag(const std::string& directoryPath, const std::string& tag) const;
 	void loadPartiesFromBlob(const mappers::PartyNameMapper& partyNameMapper, const mappers::PartyTypeMapper& partyTypeMapper);
