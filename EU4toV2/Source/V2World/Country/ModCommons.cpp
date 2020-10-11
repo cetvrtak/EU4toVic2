@@ -27,6 +27,8 @@ V2::ModCommons::ModCommons(const std::string& filename)
 	if (file)
 		parseFile(*file);
 	clearRegisteredKeywords();
+
+	setPartyDates();
 }
 
 std::optional<std::string> V2::ModCommons::determineFilePath(const std::string& filename)
@@ -36,4 +38,30 @@ std::optional<std::string> V2::ModCommons::determineFilePath(const std::string& 
 		return mod + "/common/countries/" + filename;
 	else
 		return std::nullopt;
+}
+
+void V2::ModCommons::setPartyDates()
+{
+	bool conservativeSet = false, liberalSet = false, reactionarySet = false;
+
+	for (auto& party: parties)
+	{
+		if (party.getIdeology() == "conservative" && !conservativeSet)
+		{
+			party.setStartDate("1000.1.1");
+			conservativeSet = true;
+			continue;
+		}
+		if (party.getIdeology() == "liberal" && !liberalSet)
+		{
+			party.setStartDate("1680.1.1");
+			liberalSet = true;
+			continue;
+		}
+		if (party.getIdeology() == "reactionary" && !reactionarySet)
+		{
+			party.setStartDate("1790.1.1");
+			reactionarySet = true;
+		}
+	}
 }

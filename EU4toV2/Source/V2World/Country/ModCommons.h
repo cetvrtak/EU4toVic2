@@ -14,6 +14,7 @@ namespace V2
 		ModCommons(const std::string& filename);
 
 		std::optional<std::string> determineFilePath(const std::string& filename);
+		void setPartyDates();
 
 		[[nodiscard]] const auto& getColor() const { return color; }
 		[[nodiscard]] const auto& getGraphicalCulture() const { return graphicalCulture; }
