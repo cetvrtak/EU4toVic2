@@ -953,3 +953,11 @@ std::optional<std::string> V2::Country::getFileFromTag(const std::string& direct
 
 	return {};
 }
+
+void V2::Country::addPolicy(const std::string& partyName, const std::string& policy, const std::string& position)
+{
+	const auto& partyItr = std::find_if(details.parties.begin(), details.parties.end(), [partyName](const V2::Party& party){
+		return party.getName() == partyName;
+	});
+	partyItr->addPolicy(policy, position);
+}

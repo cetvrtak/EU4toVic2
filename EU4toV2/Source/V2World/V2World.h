@@ -160,6 +160,8 @@ class World
 	 std::ofstream& output);
 	int getActualStateID(int provID, const std::map<int, std::set<int>>& theMap) const;
 	void convertCountryFlags();
+	void updateCountryDetails();
+	std::vector<std::string> getIssues(const std::string& issueCategory);
 
 	std::shared_ptr<V2::State> getStateByID(int stateID) const;
 	

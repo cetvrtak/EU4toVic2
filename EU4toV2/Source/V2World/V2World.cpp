@@ -148,9 +148,9 @@ V2::World::World(const EU4::World& sourceWorld,
 		convertEvents();
 		Log(LogLevel::Progress) << "72 %";
 
-		//LOG(LogLevel::Info) << "-> Resetting country data";
-		//resetCountryData();
-		//Log(LogLevel::Progress) << "73 %";
+		LOG(LogLevel::Info) << "-> Update country details";
+		updateCountryDetails();
+		Log(LogLevel::Progress) << "73 %";
 	}
 
 	LOG(LogLevel::Info) << "---> Le Dump <---";
@@ -2449,4 +2449,34 @@ int V2::World::getActualStateID(int provID, const std::map<int, std::set<int>>& 
 				return mapping.first;
 		}
 	}
+}
+
+void V2::World::updateCountryDetails()
+{
+	mappers::PartyTypeMapper modPartyBlob("configurables/" + theConfiguration.getVic2ModName() + "/party_blobs.txt");
+
+	for (const auto& country: countries)
+	{
+		for (const auto& party: country.second->getParties()) //load parties from countryDetails
+		{
+			for (const auto& policy: getIssues("party_issues")) //common/issues.txt
+			{
+				if (const auto& policies = party.getPolicies(); policies.find(policy) == policies.end())
+				{
+					const auto& partyType = modPartyBlob.getPartyTypeByIdeology(party.getIdeology());
+					if (partyType)
+					{
+						const auto& defaultPosition = partyType->getPolicyPosition(policy);
+						country.second->addPolicy(party.getName(), policy, defaultPosition);
+					}
+				}
+			}
+		}
+	}
+}
+
+std::vector<std::string> V2::World::getIssues(const std::string& issueCategory)
+{
+	const auto& issuesItr = issues.getCategories().find(issueCategory);
+	return issuesItr->second;
 }

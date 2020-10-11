@@ -108,6 +108,7 @@ class Country
 	bool addFactory(std::shared_ptr<Factory> factory);
 	Relation& getRelation(const std::string& target);
 	std::map<std::string, Relation>& getRelations() { return relations; }
+	void addPolicy(const std::string& partyName, const std::string& policy, const std::string& position);
 
 	[[nodiscard]] std::string getColonialRegion() const;
 	[[nodiscard]] virtual std::shared_ptr<EU4::Country> getSourceCountry() const { return srcCountry; }
@@ -133,6 +134,7 @@ class Country
 	[[nodiscard]] const auto& getEU4PrimaryCulture() const { return details.eu4PrimaryCulture; }
 	[[nodiscard]] const auto& getAcceptedCultures() const { return details.acceptedCultures; }
 	[[nodiscard]] const auto& getEU4AcceptedCultures() const { return details.eu4acceptedCultures; }
+	[[nodiscard]] const auto& getParties() const { return details.parties; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Country& country);
 	void outputCommons(std::ostream& output);
