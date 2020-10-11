@@ -726,13 +726,11 @@ void V2::World::importPotentialCountry(const std::string& line, bool dynamicCoun
 	auto tag = line.substr(0, 3);
 
 	
-	if (countryMapper.getV2TagToModTagMap().find(tag) == countryMapper.getV2TagToModTagMap().end())
+	if (countryMapper.getV2TagToModTagMap().find(tag) == countryMapper.getV2TagToModTagMap().end()
+		&& potentialCountries.find(tag) == potentialCountries.end())
 	{
 		auto newCountry = std::make_shared<Country>(line, dynamicCountry, partyNameMapper, partyTypeMapper);
-		if (potentialCountries.find(tag) == potentialCountries.end())
-		{
-			potentialCountries.insert(std::make_pair(tag, newCountry));
-		}
+		potentialCountries.insert(std::make_pair(tag, newCountry));
 		if (dynamicCountry && dynamicCountries.find(tag) == dynamicCountries.end())
 		{
 			dynamicCountries.insert(std::make_pair(tag, newCountry));
