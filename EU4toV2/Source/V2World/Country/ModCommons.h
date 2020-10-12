@@ -22,7 +22,7 @@ namespace V2
 		[[nodiscard]] const auto& getUnitNames() const { return unitNames; }
 	
 	private:
-		commonItems::Color color;
+		std::string color;
 		std::string graphicalCulture;
 		std::vector<Party> parties;
 		std::string unitNames;

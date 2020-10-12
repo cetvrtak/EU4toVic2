@@ -6,7 +6,8 @@
 V2::ModCommons::ModCommons(const std::string& filename)
 {
 	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
-		auto color = commonItems::Color::Factory{}.getColor(theStream);
+		const commonItems::stringOfItem colorStr(theStream);
+		color = colorStr.getString();
 	});
 	registerKeyword("graphical_culture", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString graphicalCultureStr(theStream);

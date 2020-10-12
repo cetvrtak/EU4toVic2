@@ -117,15 +117,33 @@ std::ostream& V2::operator<<(std::ostream& output, const Country& country)
 
 void V2::Country::outputCommons(std::ostream& output)
 {
-	output << "graphical_culture = UsGC\n"; // default to US graphics
+	output << "graphical_culture = ";
+	auto graphicalCulture = modCommons.getGraphicalCulture();
+	if (graphicalCulture.empty())
+		graphicalCulture = details.graphicalCulture;
+	if (!graphicalCulture.empty())
+		output << graphicalCulture << '\n';
+	else
+		output << "UsGC\n"; // default to US graphics
+	
 	if (nationalColors.getMapColor())
 		output << "color " << *nationalColors.getMapColor() << "\n";
+	else if (!modCommons.getColor().empty())
+		output << "color " << modCommons.getColor() << '\n';
+	else if (!details.color.empty())
+		output << "color " << details.color << '\n';
 
 	auto parties = modCommons.getParties();
 	if (parties.empty())
 		parties = details.parties;
 	for (const auto& party: parties)
 		output << party;
+
+	auto unitNames = modCommons.getUnitNames();
+	if (unitNames.empty())
+		unitNames = details.unitNames;
+	if (!unitNames.empty())
+		output << "unit_names" << unitNames;
 }
 
 void V2::Country::outputOOB(std::ostream& output)
