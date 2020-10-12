@@ -688,12 +688,12 @@ void V2::World::importPotentialCountries()
 	dynamicCountries.clear();
 
 	std::ifstream v2CountriesInput;
-	std::set<std::string> countriesFiles;
-	countriesFiles.insert("./blankMod/output/common/countries.txt");
+	std::vector<std::string> countriesFiles;
 	if (const auto& mod = theConfiguration.getVic2ModName(); !mod.empty())
 	{
-		countriesFiles.insert(theConfiguration.getVic2ModPath() + "/" + mod  + "/common/countries.txt");
+		countriesFiles.push_back(theConfiguration.getVic2ModPath() + "/" + mod  + "/common/countries.txt");
 	}
+	countriesFiles.push_back("./blankMod/output/common/countries.txt");
 
 	for (const auto& countriesFile: countriesFiles)
 	{
@@ -1996,17 +1996,6 @@ void V2::World::copyModFiles() const
 		fs::copy_file(mod + "/common/technology.txt", output + "/common/technology.txt");
 		fs::copy_file(mod + "/common/event_modifiers.txt", output + "/common/event_modifiers.txt");
 		fs::copy_file(mod + "/common/issues.txt", output + "/common/issues.txt");
-
-		// common/countries
-		const auto& countriesFiles = Utils::GetAllFilesInFolder(mod + "/common/countries");
-		const auto& converterCountries = Utils::GetAllFilesInFolder(output + "/common/countries");
-		for (const auto& file: countriesFiles)
-		{
-			if (converterCountries.find(file) == converterCountries.end())
-			{
-				fs::copy_file(mod + "/common/countries/" + file, output + "/common/countries/" + file);
-			}
-		}
 
 		//	/map
 		fs::copy(mod + "/map", output + "/map", fs::copy_options::recursive);
