@@ -33,6 +33,7 @@
 #include "../Mappers/WarGoalMapper/WarGoalMapper.h"
 #include "Country/Country.h"
 #include "Country/CountryPopLogger.h"
+#include "Decisions/Decisions.h"
 #include "Diplomacy/Diplomacy.h"
 #include "MappingChecker/MappingChecker.h"
 #include "Output/ModFile.h"
@@ -163,6 +164,7 @@ class World
 	MappingChecker mappingChecker;
 	ModFile modFile;
 	Diplomacy diplomacy;
+	Decisions decisions;
 };
 
 std::ostream& operator<<(std::ostream& output, const std::vector<std::pair<std::string, EU4::HistoricalEntry>>& historicalData);
