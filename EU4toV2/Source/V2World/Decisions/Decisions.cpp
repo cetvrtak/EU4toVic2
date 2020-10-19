@@ -27,4 +27,5 @@ void V2::Decisions::registerKeys()
 		newDecision.setTitle(decisionTitle);
 		decisions.insert(make_pair(decisionTitle, newDecision));
 	});
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

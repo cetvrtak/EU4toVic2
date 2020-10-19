@@ -31,7 +31,7 @@ void V2::Decision::registerKeys()
 		const commonItems::stringOfItem effectStr(theStream);
 		effect = effectStr.getString();
 	});
-	registerKeyword("aiWillDo", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("ai_will_do", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::stringOfItem aiWillDoStr(theStream);
 		aiWillDo = aiWillDoStr.getString();
 	});
