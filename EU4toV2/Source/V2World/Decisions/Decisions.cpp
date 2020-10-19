@@ -3,18 +3,14 @@
 #include "OSCompatibilityLayer.h"
 #include "Log.h"
 
-V2::Decisions::Decisions()
+V2::Decisions::Decisions(const std::string& filename)
 {
-	const auto& decisionsFiles = commonItems::GetAllFilesInFolder("blankMod/output/decisions");
-	Log(LogLevel::Info) << "Loading decisions";
-	for (const auto& decisionsFile: decisionsFiles)
-	{
-		registerKeyword("political_decisions", [this](const std::string& unused, std::istream& theStream) {
-			Decisions newDecisions(theStream);
-		});
-		parseFile("blankMod/output/decisions/" + decisionsFile);
-		clearRegisteredKeywords();
-	}
+	registerKeyword("political_decisions", [this](const std::string& unused, std::istream& theStream) {
+		Decisions newDecisions(theStream);
+		decisions = newDecisions.getDecisions();
+	});
+	parseFile("blankMod/output/decisions/" + filename);
+	clearRegisteredKeywords();
 }
 
 V2::Decisions::Decisions(std::istream& theStream)

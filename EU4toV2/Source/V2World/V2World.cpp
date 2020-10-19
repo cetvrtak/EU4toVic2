@@ -136,6 +136,10 @@ V2::World::World(const EU4::World& sourceWorld,
 	transcribeHistoricalData();
 	Log(LogLevel::Progress) << "70 %";
 
+	LOG(LogLevel::Info) << "-> Updating Decisions";
+	importDecisions();
+	Log(LogLevel::Progress) << "71 %";
+
 	LOG(LogLevel::Info) << "---> Le Dump <---";
 	output(versionParser);
 
@@ -1893,3 +1897,14 @@ std::shared_ptr<V2::Country> V2::World::getCountry(const std::string& tag) const
 	const auto& countryItr = countries.find(tag);
 	return (countryItr != countries.end()) ? countryItr->second : nullptr;
 }
+
+void V2::World::importDecisions()
+{
+	const auto& decisionsFiles = commonItems::GetAllFilesInFolder("blankMod/output/decisions");
+	for (const auto& decisionsFile: decisionsFiles)
+	{
+		Decisions theDecisions(decisionsFile);
+		decisions.insert(make_pair(decisionsFile, std::move(theDecisions)));
+	}
+}
+

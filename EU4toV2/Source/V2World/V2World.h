@@ -127,6 +127,7 @@ class World
 	void modifyPrimaryAndAcceptedCultures();
 	void addAcceptedCultures(const EU4::Regions& eu4Regions);
 	void addReligionCulture();
+	void importDecisions();
 
 	mappers::ProvinceMapper provinceMapper;
 	mappers::Continents continentsMapper;
@@ -164,7 +165,7 @@ class World
 	MappingChecker mappingChecker;
 	ModFile modFile;
 	Diplomacy diplomacy;
-	Decisions decisions;
+	std::map<std::string, Decisions> decisions;
 };
 
 std::ostream& operator<<(std::ostream& output, const std::vector<std::pair<std::string, EU4::HistoricalEntry>>& historicalData);

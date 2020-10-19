@@ -9,9 +9,8 @@ class Decision: commonItems::parser
 {
   public:
 	Decision() = default;
-	Decision(std::istream& theStream);
+	explicit Decision(std::istream& theStream);
 
-	void registerKeys();
 	void setTitle(const std::string& decisionTitle) { title = decisionTitle; }
 
 	[[nodiscard]] const auto& getTitle() const { return title; }
@@ -23,6 +22,8 @@ class Decision: commonItems::parser
 	[[nodiscard]] const auto& getAiWillDo() const { return aiWillDo; }
 
   private:
+	void registerKeys();
+
 	std::string title;
 	std::string picture;
 	std::string news;

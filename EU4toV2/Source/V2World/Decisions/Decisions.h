@@ -9,14 +9,15 @@ namespace V2
 class Decisions: commonItems::parser
 {
   public:
-	Decisions();
-	Decisions(std::istream& theStream);
-
-	void registerKeys();
+	Decisions() = default;
+	explicit Decisions(const std::string& filename);
+	explicit Decisions(std::istream& theStream);
 
 	[[nodiscard]] const auto& getDecisions() const { return decisions; }
 
   private:
+	void registerKeys();
+
 	std::map<std::string, V2::Decision> decisions;
 };
 } // namespace V2
