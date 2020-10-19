@@ -11,19 +11,16 @@ class Taiping: commonItems::parser
 	Taiping() = default;
 	explicit Taiping(std::istream& theStream);
 
+	[[nodiscard]] const auto& getTagEffectMap() const { return tagEffectMap; }
+	[[nodiscard]] const auto& getNonCountrySpecificEffects() const { return nonCountrySpecificEffects; }
 	[[nodiscard]] const auto& getTag() const { return tag; }
-	[[nodiscard]] const auto& getHistory() const { return history; }
-	[[nodiscard]] const auto& getCountries() const { return countries; }
 	[[nodiscard]] const auto& getCountryCores() const { return countryCores; }
-	[[nodiscard]] const auto& getCore() const { return core; }
 
   private:
-  	std::vector<std::string> bodies;
+  	std::map<std::string, std::string> tagEffectMap;
+  	std::vector<std::string> nonCountrySpecificEffects;
+	std::vector<std::string> countryCores;
   	std::string tag;
-  	std::map<std::string, std::string> history;
-	std::map<std::string, std::map<std::string, std::string>> countries;
-	std::map<std::string, std::string> countryCores;
-	std::string core;
 };
 
 class Limit: commonItems::parser
