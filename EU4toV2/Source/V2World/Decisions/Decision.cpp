@@ -37,3 +37,11 @@ void V2::Decision::registerKeys()
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
+
+void V2::Decision::updateDecision(const std::string& section, const std::string& newText)
+{
+	if (section == "potential") potential = newText;
+	if (section == "allow") allow = newText;
+	if (section == "effect") effect = newText;
+	if (section == "aiWillDo") aiWillDo = newText;
+}

@@ -128,6 +128,8 @@ class World
 	void addAcceptedCultures(const EU4::Regions& eu4Regions);
 	void addReligionCulture();
 	void importDecisions();
+	void updateDecisions();
+	void outDecisions() const;
 
 	mappers::ProvinceMapper provinceMapper;
 	mappers::Continents continentsMapper;

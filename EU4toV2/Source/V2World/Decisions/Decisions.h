@@ -6,6 +6,8 @@
 
 namespace V2
 {
+class Country;
+
 class Decisions: commonItems::parser
 {
   public:
@@ -13,7 +15,11 @@ class Decisions: commonItems::parser
 	explicit Decisions(const std::string& filename);
 	explicit Decisions(std::istream& theStream);
 
+	void updateDecisions(const std::map<std::string, std::shared_ptr<Country>>& countries);
+
 	[[nodiscard]] const auto& getDecisions() const { return decisions; }
+	
+	friend std::ostream& operator<<(std::ostream& output, const Decisions& decisions);
 
   private:
 	void registerKeys();

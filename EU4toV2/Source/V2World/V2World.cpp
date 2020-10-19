@@ -138,6 +138,7 @@ V2::World::World(const EU4::World& sourceWorld,
 
 	LOG(LogLevel::Info) << "-> Updating Decisions";
 	importDecisions();
+	updateDecisions();
 	Log(LogLevel::Progress) << "71 %";
 
 	LOG(LogLevel::Info) << "---> Le Dump <---";
@@ -1559,6 +1560,9 @@ void V2::World::output(const mappers::VersionParser& versionParser) const
 	outputNeoCultures();
 	Log(LogLevel::Progress) << "99 %";
 
+	LOG(LogLevel::Info) << "<- Outputting decisions";
+	outDecisions();
+
 	// verify countries got written
 	LOG(LogLevel::Info) << "-> Verifying All Countries Written";
 	verifyCountriesWritten();
@@ -1908,3 +1912,19 @@ void V2::World::importDecisions()
 	}
 }
 
+void V2::World::updateDecisions()
+{
+	auto& converterUnions = decisions.find("converterUnions.txt")->second;
+	converterUnions.updateDecisions(countries);
+}
+
+void V2::World::outDecisions() const
+{
+	for (const auto& decisionsFile: decisions)
+	{
+		std::ofstream output("output/" + theConfiguration.getOutputName() + "/decisions/" + decisionsFile.first);
+		if (!output.is_open())
+			Log(LogLevel::Debug) << "Could not create " << decisionsFile.first;
+		output << decisionsFile.second;
+	}
+}
