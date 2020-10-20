@@ -492,4 +492,196 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 			(theDecision->second).updateDecision("potential", potential);
 		}
 	}
+
+	if (const auto& theDecision = decisions.find("form_southafrica"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_southafrica decision";
+	else
+	{
+		if (countries.find("SAF") == countries.end())
+			decisions.erase(theDecision);
+	}
+
+	if (const auto& theDecision = decisions.find("form_madagascar"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_madagascar decision";
+	else
+	{
+		if (countries.find("MAD") == countries.end())
+			decisions.erase(theDecision);
+	}
+
+	if (const auto& theDecision = decisions.find("mandate_of_heaven"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load mandate_of_heaven decision";
+	else
+	{
+		if (countries.find("CHI") == countries.end())
+			decisions.erase(theDecision);
+	}
+
+	if (const auto& theDecision = decisions.find("become_hyderabad"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load become_hyderabad decision";
+	else
+	{
+		if (countries.find("HYD") == countries.end() || countries.find("DEC") == countries.end())
+			decisions.erase(theDecision);
+	}
+
+	if (const auto& theDecision = decisions.find("become_slovenia"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load become_slovenia decision";
+	else
+	{
+		if (countries.find("SLO") == countries.end()
+			 || (countries.find("AQU") == countries.end() && countries.find("CRT") == countries.end()))
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tOR = {\n";
+			if (countries.find("AQU") != countries.end())
+				potential += "\t\t\t\ttag = AQU\n";
+			if (countries.find("CRT") != countries.end())
+				potential += "\t\t\t\ttag = CRT\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t\tis_culture_group = south_slavic\n";
+			potential += "\t\t\tNOT = { exists = SLO }\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("latin_empire_upgrade"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load latin_empire_upgrade decision";
+	else
+	{
+		if (countries.find("SPQ") == countries.end() || countries.find("LTN") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\ttag = LTN\n";
+			if (countries.find("BYZ") != countries.end())
+				potential += "\t\t\tNOT = { exists = BYZ }\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("become_longobardia"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load become_longobardia decision";
+	else
+	{
+		if (countries.find("LGB") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tprimary_culture = lombard\n";
+			potential += "\t\t\tNOT = { exists = LGB }\n";
+			if (countries.find("LOM") != countries.end())
+				potential += "\t\t\tNOT = { exists = LOM }\n";
+			potential += "\t\t}\n";
+			(theDecision->second).updateDecision("potential", potential);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("form_japan"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_japan decision";
+	else
+	{
+		if (countries.find("JAP") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string allow;
+			allow += "= {\n";
+			allow += "\t\t\twar = no\n";
+			allow += "\t\t\tprestige = 5\n";
+			allow += "\t\t\tJAP = {\n";
+			allow += "\t\t\t\tall_core = {\n";
+			allow += "\t\t\t\t\tOR = {\n";
+			allow += "\t\t\t\t\t\towned_by = THIS\n";
+			allow += "\t\t\t\t\t\tis_empty = yes\n";
+			if (countries.find("RYU") != countries.end())
+				allow += "\t\t\t\t\t\towned_by = RYU\n";
+			allow += "\t\t\t\t\t\towner = {\n";
+			allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+			allow += "\t\t\t\t\t\t\tprimary_culture = japanese\n";
+			allow += "\t\t\t\t\t\t}\n";
+			allow += "\t\t\t\t\t\towner = {\n";
+			allow += "\t\t\t\t\t\t\tNOT = { primary_culture = japanese }\n";
+			allow += "\t\t\t\t\t\t}\n";
+			allow += "\t\t\t\t\t}\n";
+			allow += "\t\t\t\t}\n";
+			allow += "\t\t\t}\n";
+			allow += "\t\t}\n";
+			(theDecision->second).updateDecision("allow", allow);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("form_the_undeads"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_the_undeads decision";
+	else
+	{
+		if (countries.find("UND") == countries.end() || countries.find("ZOM") == countries.end())
+			decisions.erase(theDecision);
+	}
+
+	if (const auto& theDecision = decisions.find("form_ireland"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_ireland decision";
+	else
+	{
+		if (countries.find("IRE") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tprimary_culture = irish\n";
+			potential += "\t\t\tNOT = {\n";
+			potential += "\t\t\t\texists = IRE\n";
+			if (countries.find("ENG") != countries.end())
+				potential += "\t\t\t\ttag = ENG\n";
+			if (countries.find("ENL") != countries.end())
+				potential += "\t\t\t\ttag = ENL\n";
+			if (countries.find("SCO") != countries.end())
+				potential += "\t\t\t\ttag = SCO\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+
+			std::string allow;
+			allow += "= {\n";
+			allow += "\t\t\twar = no\n";
+			allow += "\t\t\tprestige = 5\n";
+			allow += "\t\t\t263 = {\n";
+			allow += "\t\t\t\tOR = {\n";
+			allow += "\t\t\t\t\towned_by = THIS\n";
+			allow += "\t\t\t\t\towner = {\n";
+			allow += "\t\t\t\t\t\tin_sphere = THIS\n";
+			allow += "\t\t\t\t\t}\n";
+			allow += "\t\t\t\t}\n";
+			allow += "\t\t\t}\n";
+			allow += "\t\t\tIRE = {\n";
+			allow += "\t\t\t\tall_core = {\n";
+			allow += "\t\t\t\t\tNOT = { province_id = 263 }\n";
+			allow += "\t\t\t\t\tOR = {\n";
+			allow += "\t\t\t\t\t\towned_by = THIS\n";
+			allow += "\t\t\t\t\t\towner = {\n";
+			allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+			allow += "\t\t\t\t\t\t}\n";
+			if (countries.find("ENG") != countries.end())
+				allow += "\t\t\t\t\t\towned_by = ENG\n";
+			if (countries.find("ENL") != countries.end())
+				allow += "\t\t\t\t\t\towned_by = ENL\n";
+			if (countries.find("SCO") != countries.end())
+				allow += "\t\t\t\t\t\towned_by = SCO\n";
+			allow += "\t\t\t\t\t}\n";
+			allow += "\t\t\t\t}\n";
+			allow += "\t\t\t}\n";
+			allow += "\t\t}\n";
+			(theDecision->second).updateDecision("allow", allow);
+		}
+	}
 }
