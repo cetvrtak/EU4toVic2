@@ -1,5 +1,0 @@
-capital = 394
-civilized = yes
-government = absolute_monarchy
-primary_culture = wallonian
-religion = catholic

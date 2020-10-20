@@ -1,5 +1,0 @@
-capital = 2034
-civilized = no
-government = absolute_monarchy
-primary_culture = african_minor
-religion = shamanism

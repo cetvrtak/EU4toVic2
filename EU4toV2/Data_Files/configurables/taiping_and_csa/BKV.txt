@@ -1,6 +1,0 @@
-add_accepted_culture = zzz_religion_orthodox
-capital = 662
-civilized = yes
-primary_culture = romanian
-religion = orthodox
-remove_accepted_culture = zzz_religion_shamanism

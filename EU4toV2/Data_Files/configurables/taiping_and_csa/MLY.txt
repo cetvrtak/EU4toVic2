@@ -1,5 +1,0 @@
-capital = 1386
-civilized = yes
-government = absolute_monarchy
-primary_culture = malay
-religion = sunni

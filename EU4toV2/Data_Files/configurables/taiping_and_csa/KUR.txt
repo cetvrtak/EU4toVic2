@@ -1,5 +1,0 @@
-capital = 359
-civilized = yes
-government = absolute_monarchy
-primary_culture = latvian
-religion = protestant

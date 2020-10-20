@@ -1,5 +1,0 @@
-capital = 1835
-civilized = no
-government = absolute_monarchy
-primary_culture = sudanese
-religion = sunni

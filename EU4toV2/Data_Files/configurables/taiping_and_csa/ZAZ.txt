@@ -1,5 +1,0 @@
-capital = 976
-civilized = no
-government = presidential_dictatorship
-primary_culture = tatar
-religion = orthodox

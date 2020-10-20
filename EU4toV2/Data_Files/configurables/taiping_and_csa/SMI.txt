@@ -1,5 +1,0 @@
-capital = 336
-civilized = yes
-government = democracy
-primary_culture = sami
-religion = protestant

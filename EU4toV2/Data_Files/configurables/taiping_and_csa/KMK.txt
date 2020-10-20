@@ -1,6 +1,0 @@
-add_accepted_culture = zzz_religion_gelugpa
-capital = 1041
-civilized = yes
-primary_culture = mongol
-religion = gelugpa
-remove_accepted_culture = zzz_religion_shamanism

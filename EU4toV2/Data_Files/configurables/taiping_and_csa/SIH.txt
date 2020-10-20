@@ -1,5 +1,0 @@
-capital = 1061
-civilized = no
-government = absolute_monarchy
-primary_culture = tatar
-religion = sunni

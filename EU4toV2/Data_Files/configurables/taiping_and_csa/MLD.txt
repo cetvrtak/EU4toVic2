@@ -1,5 +1,0 @@
-capital = 1325
-civilized = no
-government = absolute_monarchy
-primary_culture = tamil
-religion = sunni

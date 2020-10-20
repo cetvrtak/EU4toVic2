@@ -1,5 +1,0 @@
-capital = 2067
-civilized = no
-government = absolute_monarchy
-primary_culture = chewa
-religion = shamanism

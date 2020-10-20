@@ -1,5 +1,0 @@
-add_accepted_culture = zzz_religion_mahayana
-capital = 1524
-primary_culture = nanfaren
-religion = mahayana
-remove_accepted_culture = zzz_religion_shamanism

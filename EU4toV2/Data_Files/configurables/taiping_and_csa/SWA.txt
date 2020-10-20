@@ -1,5 +1,0 @@
-capital = 2024
-civilized = no
-government = absolute_monarchy
-primary_culture = swahili
-religion = sunni

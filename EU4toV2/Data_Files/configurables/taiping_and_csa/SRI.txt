@@ -1,5 +1,0 @@
-capital = 1321
-civilized = yes
-government = absolute_monarchy
-primary_culture = tamil
-religion = mahayana

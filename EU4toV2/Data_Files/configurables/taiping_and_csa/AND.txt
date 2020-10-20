@@ -1,5 +1,0 @@
-capital = 1283
-civilized = no
-government = absolute_monarchy
-primary_culture = telegu
-religion = hindu

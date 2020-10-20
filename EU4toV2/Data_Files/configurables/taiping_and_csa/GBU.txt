@@ -1,5 +1,0 @@
-capital = 1878
-civilized = no
-government = absolute_monarchy
-primary_culture = dinka
-religion = sunni

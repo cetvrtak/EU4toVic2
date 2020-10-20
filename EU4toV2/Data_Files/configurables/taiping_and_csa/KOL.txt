@@ -1,5 +1,0 @@
-capital = 575
-civilized = yes
-government = theocracy
-primary_culture = north_german
-religion = protestant

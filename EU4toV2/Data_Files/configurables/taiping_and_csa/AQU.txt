@@ -1,5 +1,0 @@
-capital = 736
-civilized = yes
-government = theocracy
-primary_culture = north_italian
-religion = catholic

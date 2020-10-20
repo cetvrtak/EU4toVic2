@@ -1,5 +1,0 @@
-capital = 428
-civilized = yes
-government = absolute_monarchy
-primary_culture = french
-religion = catholic

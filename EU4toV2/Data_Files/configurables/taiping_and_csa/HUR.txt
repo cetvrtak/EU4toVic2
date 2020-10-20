@@ -1,5 +1,0 @@
-capital = 46
-civilized = no
-government = absolute_monarchy
-primary_culture = iroquoian
-religion = shamanism

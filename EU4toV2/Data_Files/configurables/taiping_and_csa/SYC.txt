@@ -1,6 +1,0 @@
-add_accepted_culture = zzz_religion_orthodox
-capital = 902
-civilized = yes
-primary_culture = assyrian
-religion = orthodox
-remove_accepted_culture = zzz_religion_shamanism

@@ -1,6 +1,0 @@
-add_accepted_culture = zzz_religion_catholic
-capital = 594
-civilized = yes
-primary_culture = south_german
-religion = catholic
-remove_accepted_culture = zzz_religion_shamanism

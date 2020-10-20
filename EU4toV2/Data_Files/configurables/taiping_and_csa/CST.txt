@@ -1,5 +1,0 @@
-capital = 489
-civilized = yes
-government = absolute_monarchy
-primary_culture = spanish
-religion = catholic

@@ -1,5 +1,0 @@
-capital = 139
-civilized = yes
-government = democracy
-primary_culture = nouvellien
-religion = catholic

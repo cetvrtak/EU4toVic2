@@ -683,8 +683,8 @@ void V2::World::convertCountries(const EU4::World& sourceWorld, const mappers::I
 	convertNationalValues();
 	LOG(LogLevel::Info) << "-> Converting Prestige";
 	convertPrestige();
-	LOG(LogLevel::Info) << "-> NOT Adding Potential Countries";
-	//addAllPotentialCountries();
+	LOG(LogLevel::Info) << "-> Adding Potential Countries";
+	addAllPotentialCountries();
 }
 
 void V2::World::initializeCountries(const EU4::World& sourceWorld, const mappers::IdeaEffectMapper& ideaEffectMapper)

@@ -1,6 +1,0 @@
-capital = 744
-civilized = yes
-government = theocracy
-primary_culture = undead
-religion = noreligion
-set_country_flag = precolonial

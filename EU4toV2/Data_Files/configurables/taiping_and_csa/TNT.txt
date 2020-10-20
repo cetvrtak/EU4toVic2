@@ -1,6 +1,0 @@
-add_accepted_culture = zzz_religion_gelugpa
-capital = 1469
-civilized = yes
-primary_culture = tatar
-religion = gelugpa
-remove_accepted_culture = zzz_religion_shamanism

@@ -1,5 +1,0 @@
-capital = 331
-civilized = yes
-government = absolute_monarchy
-primary_culture = swedish
-religion = protestant
