@@ -121,6 +121,11 @@ V2::World::World(const EU4::World& sourceWorld,
 	addUnions();
 	Log(LogLevel::Progress) << "66 %";
 
+	LOG(LogLevel::Info) << "-> Adding Essential Tags";
+	identifyEssentialTags();
+	addEssentialTags();
+	Log(LogLevel::Progress) << "66 %";
+
 	LOG(LogLevel::Info) << "-> Converting Armies and Navies";
 	convertArmies();
 	Log(LogLevel::Progress) << "67 %";
@@ -683,8 +688,6 @@ void V2::World::convertCountries(const EU4::World& sourceWorld, const mappers::I
 	convertNationalValues();
 	LOG(LogLevel::Info) << "-> Converting Prestige";
 	convertPrestige();
-	LOG(LogLevel::Info) << "-> Adding Potential Countries";
-	addAllPotentialCountries();
 }
 
 void V2::World::initializeCountries(const EU4::World& sourceWorld, const mappers::IdeaEffectMapper& ideaEffectMapper)
@@ -817,14 +820,16 @@ void V2::World::convertPrestige()
 	}
 }
 
-void V2::World::addAllPotentialCountries()
+void V2::World::addEssentialTags()
 {
-	// ALL potential countries should be output to the file, otherwise some things don't get initialized right when loading Vic2
-	for (const auto& potentialCountry: potentialCountries)
+	// Essential tags should be output to the file, otherwise some things don't get initialized right when loading Vic2
+	for (const auto& tag: essentialTags)
 	{
-		const auto& countryItr = countries.find(potentialCountry.first);
-		if (countryItr == countries.end())
+		const auto& countryItr = countries.find(tag);
+		const auto& potentialCountryItr = potentialCountries.find(tag);
+		if (countryItr == countries.end() && potentialCountryItr != potentialCountries.end())
 		{
+			const auto& potentialCountry = *potentialCountryItr;
 			// Note: This is a dead country.
 			potentialCountry.second->initFromHistory(unreleasablesMapper);
 			countries.insert(make_pair(potentialCountry.first, potentialCountry.second));
@@ -1929,5 +1934,86 @@ void V2::World::outDecisions() const
 		if (!output.is_open())
 			Log(LogLevel::Debug) << "Could not create " << decisionsFile.first;
 		output << decisionsFile.second;
+	}
+}
+
+void V2::World::identifyEssentialTags()
+{
+	// Province cores are essential
+	for (const auto& province: provinces)
+	{
+		for (const auto& core: province.second->getCores())
+		{
+			if (std::find(essentialTags.begin(), essentialTags.end(), core) == essentialTags.end())
+				essentialTags.push_back(core);
+		}
+	}
+
+	// Tags featuring in these decision...
+	const std::vector<std::string> regexes = {"(change_tag = )([A-Z]{3})", "(add_core = )([A-Z]{3})", "(secede_province = )([A-Z]{3})"};
+	const auto& decisionsTags = findInFiles("blankMod/output/decisions/", regexes, 2);
+	pushTagsToEssentials(decisionsTags);
+
+	// ...and event effects are essential
+	const auto& eventsTags = findInFiles("blankmod/output/events/", regexes, 2);
+	pushTagsToEssentials(eventsTags);
+
+	//  Vanilla tags
+	const std::vector<std::string> vanillaTagsRegex = {"([A-Z]{3})(\\s*=.*\")"};
+	const auto& vanillaTags = findInFile(theConfiguration.getVic2Path() + "/common/countries.txt", regexes, 1);
+	pushTagsToEssentials(vanillaTags);
+}
+
+std::vector<std::string> V2::World::findInFiles(std::string directory, std::vector<std::string> regexes, int captureGroup)
+{
+	if (!commonItems::DoesFolderExist(directory))
+		throw std::runtime_error("Folder " + directory + " does not exist");
+	std::vector<std::string> matches;
+	const auto& files = commonItems::GetAllFilesInFolder(directory);
+	for (const auto& file: files)
+	{
+		const auto& fullPath = directory + file;
+		const auto& newMatches = findInFile(fullPath, regexes, captureGroup);
+		matches.insert(std::end(matches), std::begin(newMatches), std::end(newMatches));
+	}
+	return matches;
+}
+
+std::vector<std::string> V2::World::findInFile(std::string file, std::vector<std::string> regexes, int captureGroup)
+{
+	if (!commonItems::DoesFileExist(file))
+		throw std::runtime_error(file + " does not exist");
+	std::vector<std::string> matches;
+
+	std::ifstream input(file);
+	if (!input.is_open())
+		Log(LogLevel::Warning) << "Could not open " + file + " for reading!";
+
+	std::ostringstream buffer;
+	buffer << input.rdbuf();
+	input.close();
+	const auto& inputString = buffer.str();
+
+	for (const auto& regexString: regexes)
+	{
+		const std::regex regexp(regexString);
+		std::sregex_iterator end;
+		std::sregex_iterator matchItr(inputString.begin(), inputString.end(), regexp);
+		while (matchItr != end)
+		{
+			if (const auto& tag = (*matchItr)[captureGroup].str(); std::find(matches.begin(), matches.end(), tag) == matches.end())
+				matches.push_back(tag);
+			++matchItr;
+		}
+	}
+	return matches;
+}
+
+void V2::World::pushTagsToEssentials(const std::vector<std::string> tags)
+{
+	for (const auto& tag: tags)
+	{
+		if (std::find(essentialTags.begin(), essentialTags.end(), tag) == essentialTags.end())
+			essentialTags.push_back(tag);
 	}
 }

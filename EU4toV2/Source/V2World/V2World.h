@@ -98,7 +98,7 @@ class World
 	void initializeCountries(const EU4::World& sourceWorld, const mappers::IdeaEffectMapper& ideaEffectMapper);
 	void convertNationalValues();
 	void convertPrestige();
-	void addAllPotentialCountries();
+	void addEssentialTags();
 	void setupColonies();
 	void setupStates();
 	void convertUncivReforms(const EU4::World& sourceWorld, const mappers::TechGroupsMapper& techGroupsMapper);
@@ -127,6 +127,11 @@ class World
 	void modifyPrimaryAndAcceptedCultures();
 	void addAcceptedCultures(const EU4::Regions& eu4Regions);
 	void addReligionCulture();
+
+	void identifyEssentialTags();
+	std::vector<std::string> findInFiles(std::string directory, std::vector<std::string> regexes, int captureGroup);
+	std::vector<std::string> findInFile(std::string file, std::vector<std::string> regexes, int captureGroup);
+	void pushTagsToEssentials(const std::vector<std::string> tags);
 	void importDecisions();
 	void updateDecisions();
 	void outDecisions() const;
@@ -167,6 +172,7 @@ class World
 	MappingChecker mappingChecker;
 	ModFile modFile;
 	Diplomacy diplomacy;
+	std::vector<std::string> essentialTags;
 	std::map<std::string, Decisions> decisions;
 };
 
