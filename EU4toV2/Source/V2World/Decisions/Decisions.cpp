@@ -213,4 +213,283 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t}\n";
 		(theDecision->second).updateDecision("effect", effect);
 	}
+
+	if (const auto& theDecision = decisions.find("form_china"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_china decision";
+	else
+	{
+		if (countries.find("CHI") == countries.end())
+			decisions.erase(theDecision);
+	}
+
+	if (const auto& theDecision = decisions.find("form_netherlands"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_netherlands decision";
+	else
+	{
+		if (countries.find("NET") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tprimary_culture = dutch\n";
+			potential += "\t\t\tNOT = {\n";
+			potential += "\t\t\t\texists = NET\n";
+			if (countries.find("FRA") != countries.end())
+				potential += "\t\t\t\ttag = FRA\n";
+			if (countries.find("SPQ") != countries.end())
+				potential += "\t\t\t\ttag = SPQ\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("form_belgium"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_belgium decision";
+	else
+	{
+		if (countries.find("BEL") == countries.end()
+			 || (countries.find("FLA") == countries.end() && countries.find("WLL") == countries.end()))
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tOR = {\n";
+			potential += "\t\t\t\tprimary_culture = flemish\n";
+			potential += "\t\t\t\tprimary_culture = wallonian\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t\tNOT = {\n";
+			potential += "\t\t\t\texists = BEL\n";
+			if (countries.find("LUX") != countries.end())
+				potential += "\t\t\t\ttag = LUX\n";
+			if (countries.find("SPQ") != countries.end())
+				potential += "\t\t\t\ttag = SPQ\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t\tOR = {\n";
+			if (countries.find("FLA") != countries.end())
+			{
+				potential += "\t\t\t\tAND = {\n";
+				potential += "\t\t\t\t\ttag = FLA\n";
+				if (countries.find("WLL") != countries.end())
+					potential += "\t\t\t\t\tWLL = { exists = no }\n";
+				potential += "\t\t\t\t}\n";
+			}
+			if (countries.find("WLL") != countries.end())
+			{
+				potential += "\t\t\t\tAND = {\n";
+				potential += "\t\t\t\t\ttag = WLL\n";
+				if (countries.find("FLA") != countries.end())
+					potential += "\t\t\t\t\tFLA = { exists = no }\n";
+				potential += "\t\t\t\t}\n";
+			}
+			potential += "\t\t\t}\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("form_spain"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_spain decision";
+	else
+	{
+		if (countries.find("SPA") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tOR = {\n";
+			potential += "\t\t\t\tprimary_culture = spanish\n";
+			potential += "\t\t\t\tprimary_culture = catalan\n";
+			potential += "\t\t\t\tprimary_culture = galician\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t\tNOT = {\n";
+			potential += "\t\t\t\texists = SPA\n";
+			if (countries.find("SPC") != countries.end())
+				potential += "\t\t\t\texists = SPC\n";
+			if (countries.find("CAT") != countries.end())
+				potential += "\t\t\t\ttag = CAT\n";
+			if (countries.find("SPQ") != countries.end())
+				potential += "\t\t\t\ttag = SPQ\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+
+			std::string allow;
+			allow += "= {\n";
+			allow += "\t\t\twar = no\n";
+			allow += "\t\t\tprestige = 5\n";
+			allow += "\t\t\tOR = {\n";
+			if (countries.find("SPC") != countries.end())
+			{
+				allow += "\t\t\t\tSPC = { #Carlist Spain\n";
+				allow += "\t\t\t\t\tall_core = {\n";
+				allow += "\t\t\t\t\t\tOR = {\n";
+				allow += "\t\t\t\t\t\t\towned_by = THIS\n";
+				allow += "\t\t\t\t\t\t\towner = {\n";
+				allow += "\t\t\t\t\t\t\t\tin_sphere = THIS\n";
+				allow += "\t\t\t\t\t\t\t}\n";
+				allow += "\t\t\t\t\t\t}\n";
+				allow += "\t\t\t\t\t}\n";
+				allow += "\t\t\t\t}\n";
+			}
+			allow += "\t\t\t\tSPA = { #Default Spain\n";
+			allow += "\t\t\t\t\tall_core = {\n";
+			allow += "\t\t\t\t\t\tOR = {\n";
+			allow += "\t\t\t\t\t\t\towned_by = THIS\n";
+			allow += "\t\t\t\t\t\t\towner = {\n";
+			allow += "\t\t\t\t\t\t\t\tin_sphere = THIS\n";
+			allow += "\t\t\t\t\t\t\t}\n";
+			allow += "\t\t\t\t\t\t}\n";
+			allow += "\t\t\t\t\t}\n";
+			allow += "\t\t\t\t}\n";
+			allow += "\t\t\t}\n";
+			allow += "\t\t}\n";
+			(theDecision->second).updateDecision("allow", allow);
+
+			std::string effect;
+			effect += "= {\n";
+			effect += "\t\t\tprestige = 10\n";
+			effect += "\t\t\tany_country = {\n";
+			effect += "\t\t\t\tlimit = {\n";
+			effect += "\t\t\t\t\tin_sphere = THIS\n";
+			effect += "\t\t\t\t\tNOT = {\n";
+			effect += "\t\t\t\t\t\ttag = THIS\n";
+			effect += "\t\t\t\t\t}\n";
+			effect += "\t\t\t\t\tcapital_scope = { continent = europe }\n";
+			effect += "\t\t\t\t\tOR = {\n";
+			effect += "\t\t\t\t\t\tprimary_culture = spanish\n";
+			effect += "\t\t\t\t\t\tprimary_culture = catalan\n";
+			effect += "\t\t\t\t\t\tprimary_culture = galician\n";
+			effect += "\t\t\t\t\t\tprimary_culture = basque\n";
+			effect += "\t\t\t\t\t}\n";
+			effect += "\t\t\t\t}\n";
+			effect += "\t\t\t\tannex_to = THIS\n";
+			effect += "\t\t\t}\n";
+			effect += "\t\t\tany_owned = {\n";
+			effect += "\t\t\t\tadd_core = SPA\n";
+			if (countries.find("SPC") != countries.end())
+				effect += "\t\t\t\tremove_core = SPC #Carlist Spain\n";
+			effect += "\t\t\t}\t\t\t\n";
+			effect += "\t\t\t\n";
+			effect += "\t\t\tchange_tag = SPA\n";
+			effect += "\t\t}\t\t\t\n";
+			(theDecision->second).updateDecision("effect", effect);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("form_ukraine"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_ukraine decision";
+	else
+	{
+		if (countries.find("UKR") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tprimary_culture = ukrainian\n";
+			potential += "\t\t\tNOT = {\n";
+			if (countries.find("RUT") != countries.end())
+				potential += "\t\t\t\texists = RUT\n";
+			potential += "\t\t\t\texists = UKR\n";
+			if (countries.find("RUS") != countries.end())
+				potential += "\t\t\t\ttag = RUS\n";
+			if (countries.find("SLA") != countries.end())
+				potential += "\t\t\t\ttag = SLA\n";
+			if (countries.find("CRI") != countries.end())
+				potential += "\t\t\t\ttag = CRI\n";
+			if (countries.find("SPQ") != countries.end())
+				potential += "\t\t\t\ttag = SPQ\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("form_philippines"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_philippines decision";
+	else
+	{
+		if (countries.find("PHI") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tNOT = {\n";
+			potential += "\t\t\t\texists = PHI\n";
+			if (countries.find("SPA") != countries.end())
+				potential += "\t\t\t\ttag = SPA\n";
+			if (countries.find("USA") != countries.end())
+				potential += "\t\t\t\ttag = USA\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t\tprimary_culture = filipino\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("form_malaya"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_malaya decision";
+	else
+	{
+		if (countries.find("MLY") == countries.end())
+			decisions.erase(theDecision);
+	}
+
+	if (const auto& theDecision = decisions.find("form_aztec"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_aztec decision";
+	else
+	{
+		if (countries.find("AZT") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tOR = {\n";
+			potential += "\t\t\t\tprimary_culture = nahua\n";
+			potential += "\t\t\t\tprimary_culture = zapotec\n";
+			potential += "\t\t\t\tprimary_culture = tarascan\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t\tNOT = {\n";
+			potential += "\t\t\t\texists = AZT\n";
+			if (countries.find("MEX") != countries.end())
+				potential += "\t\t\t\texists = MEX\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+		}
+	}
+
+	if (const auto& theDecision = decisions.find("form_usa"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_usa decision";
+	else
+	{
+		if (countries.find("USA") == countries.end())
+			decisions.erase(theDecision);
+		else
+		{
+			std::string potential;
+			potential += "= {\n";
+			potential += "\t\t\tOR = {\n";
+			potential += "\t\t\t\tprimary_culture = yankee\n";
+			potential += "\t\t\t\tprimary_culture = dixie\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t\tNOT = {\n";
+			potential += "\t\t\t\texists = USA\n";
+			if (countries.find("CSA") != countries.end())
+				potential += "\t\t\t\texists = CSA\n";
+			if (countries.find("TEX") != countries.end())
+				potential += "\t\t\t\ttag = TEX\n";
+			if (countries.find("CAL") != countries.end())
+				potential += "\t\t\t\ttag = CAL\n";
+			potential += "\t\t\t}\n";
+			potential += "\t\t}\t\n";
+			(theDecision->second).updateDecision("potential", potential);
+		}
+	}
 }
