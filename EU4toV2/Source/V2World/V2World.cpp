@@ -1767,16 +1767,12 @@ void V2::World::outputCountries() const
 			output << *country.second;
 			output.close();
 		}
-		// commons file
-		if (country.second->isDynamicCountry() || country.second->isNewCountry())
-		{
-			std::ofstream output("output/" + theConfiguration.getOutputName() + "/common/countries/" + country.second->getCommonCountryFile());
-			if (!output.is_open())
-				throw std::runtime_error(
-					 "Could not open output/" + theConfiguration.getOutputName() + "/common/countries/" + country.second->getCommonCountryFile());
-			country.second->outputCommons(output);
-			output.close();
-		}
+		std::ofstream commons("output/" + theConfiguration.getOutputName() + "/common/countries/" + country.second->getCommonCountryFile());
+		if (!commons.is_open())
+			throw std::runtime_error(
+				 "Could not open output/" + theConfiguration.getOutputName() + "/common/countries/" + country.second->getCommonCountryFile());
+		country.second->outputCommons(commons);
+		commons.close();
 		// OOB
 		std::ofstream output("output/" + theConfiguration.getOutputName() + "/history/units/" + country.first + "_OOB.txt");
 		if (!output.is_open())

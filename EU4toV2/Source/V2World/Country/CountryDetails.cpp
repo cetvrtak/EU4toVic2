@@ -7,9 +7,9 @@ V2::CountryDetails::CountryDetails(std::string _filename): filename(std::move(_f
 {
 	registerKeys();
 
-	if (commonItems::DoesFileExist("./blankMod/output/common/countries/" + filename))
+	if (commonItems::DoesFileExist("./countries/" + filename))
 	{
-		parseFile("./blankMod/output/common/countries/" + filename);
+		parseFile("./countries/" + filename);
 	}
 	else if (commonItems::DoesFileExist(theConfiguration.getVic2Path() + "/common/countries/" + filename))
 	{
