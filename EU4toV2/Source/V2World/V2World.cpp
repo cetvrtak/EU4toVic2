@@ -1968,11 +1968,11 @@ void V2::World::identifyEssentialTags()
 
 	//  Vanilla tags
 	const std::vector<std::string> vanillaTagsRegex = {"([A-Z]{3})(\\s*=.*\")"};
-	const auto& vanillaTags = findInFile(theConfiguration.getVic2Path() + "/common/countries.txt", regexes, 1);
+	const auto& vanillaTags = findInFile(theConfiguration.getVic2Path() + "/common/countries.txt", vanillaTagsRegex, 1);
 	pushTagsToEssentials(vanillaTags);
 }
 
-std::vector<std::string> V2::World::findInFiles(std::string directory, std::vector<std::string> regexes, int captureGroup)
+std::vector<std::string> V2::World::findInFiles(const std::string& directory, const std::vector<std::string>& regexes, int captureGroup)
 {
 	if (!commonItems::DoesFolderExist(directory))
 		throw std::runtime_error("Folder " + directory + " does not exist");
@@ -1987,7 +1987,7 @@ std::vector<std::string> V2::World::findInFiles(std::string directory, std::vect
 	return matches;
 }
 
-std::vector<std::string> V2::World::findInFile(std::string file, std::vector<std::string> regexes, int captureGroup)
+std::vector<std::string> V2::World::findInFile(const std::string& file, const std::vector<std::string>& regexes, int captureGroup)
 {
 	if (!commonItems::DoesFileExist(file))
 		throw std::runtime_error(file + " does not exist");
@@ -2017,7 +2017,7 @@ std::vector<std::string> V2::World::findInFile(std::string file, std::vector<std
 	return matches;
 }
 
-void V2::World::pushTagsToEssentials(const std::vector<std::string> tags)
+void V2::World::pushTagsToEssentials(const std::vector<std::string>& tags)
 {
 	for (const auto& tag: tags)
 	{

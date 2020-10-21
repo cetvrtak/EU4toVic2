@@ -129,9 +129,9 @@ class World
 	void addReligionCulture();
 
 	void identifyEssentialTags();
-	std::vector<std::string> findInFiles(std::string directory, std::vector<std::string> regexes, int captureGroup);
-	std::vector<std::string> findInFile(std::string file, std::vector<std::string> regexes, int captureGroup);
-	void pushTagsToEssentials(const std::vector<std::string> tags);
+	std::vector<std::string> findInFiles(const std::string& directory, const std::vector<std::string>& regexes, int captureGroup);
+	std::vector<std::string> findInFile(const std::string& file, const std::vector<std::string>& regexes, int captureGroup);
+	void pushTagsToEssentials(const std::vector<std::string>& tags);
 	void importDecisions();
 	void updateDecisions();
 	void outDecisions() const;
