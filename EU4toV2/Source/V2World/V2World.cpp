@@ -1926,6 +1926,8 @@ void V2::World::updateDecisions()
 	converterUnions.updateConveterUnions(countries);
 	auto& GoldenCenturyDecisions = decisions.find("1.28Decisions.txt")->second;
 	GoldenCenturyDecisions.update128Decisions(countries);
+	auto& ACW = decisions.find("ACW.txt")->second;
+	ACW.updateACW(countries);
 }
 
 void V2::World::outDecisions() const

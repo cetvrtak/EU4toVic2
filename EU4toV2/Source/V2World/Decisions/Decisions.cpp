@@ -1,9 +1,9 @@
 #include "Decisions.h"
-#include "Taiping.h"
 #include "../Country/Country.h"
-#include "ParserHelpers.h"
-#include "OSCompatibilityLayer.h"
 #include "Log.h"
+#include "OSCompatibilityLayer.h"
+#include "ParserHelpers.h"
+#include "Taiping.h"
 #include <fstream>
 
 V2::Decisions::Decisions(const std::string& filename)
@@ -37,12 +37,12 @@ void V2::Decisions::update128Decisions(const std::map<std::string, std::shared_p
 	if (const auto& theDecision = decisions.find("the_concession_to_the_travelers"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load the_concession_to_the_travelers decision";
 	else if (!x(countries, "GYP"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("create_rumelia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load create_rumelia decision";
 	else if (!x(countries, "RML") || !x(countries, "BUL"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -84,7 +84,7 @@ void V2::Decisions::update128Decisions(const std::map<std::string, std::shared_p
 	if (const auto& theDecision = decisions.find("independent_rumelia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load independent_rumelia decision";
 	else if (!x(countries, "RML"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string allow = "= {\n";
@@ -101,6 +101,405 @@ void V2::Decisions::update128Decisions(const std::map<std::string, std::shared_p
 		if (x(countries, "BUL"))
 			effect += "\t\t\tany_owned = { limit = { is_core = RML } remove_core = RML add_core = BUL }\n";
 		effect += "\t\t\tBUL = { inherit = THIS }\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+}
+
+void V2::Decisions::updateACW(const std::map<std::string, std::shared_ptr<Country>>& countries)
+{
+	if (const auto& theDecision = decisions.find("apply_for_USA_statehood"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load apply_for_USA_statehood decision";
+	else if (!x(countries, "USA") && !(x(countries, "TEX") || x(countries, "DES") || x(countries, "CAL") || x(countries, "LSK") || x(countries, "LOU")))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\texists = USA\n";
+		potential += "\t\t\tUSA = { government = democracy }\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "TEX"))
+			potential += "\t\t\t\ttag = TEX\n";
+		if (x(countries, "DES"))
+			potential += "\t\t\t\ttag = DES\n";
+		if (x(countries, "CAL"))
+			potential += "\t\t\t\ttag = CAL\n";
+		if (x(countries, "LSK"))
+			potential += "\t\t\t\ttag = LSK\n";
+		if (x(countries, "LOU"))
+			potential += "\t\t\t\ttag = LOU\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tis_vassal = no\n";
+		potential += "\t\t\t\tvassal_of = USA\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tpart_of_sphere = no\n";
+		potential += "\t\t\t\tin_sphere = USA\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tai = yes\n";
+		potential += "\t\t\tgovernment = democracy\n";
+		potential += "\t\t\tNOT = { has_country_flag = usstatehood_we_have_applied }\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("king_cotton"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load king_cotton decision";
+	else if (!x(countries, "CSA") || !x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("trail_of_tears"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load trail_of_tears decision";
+	else if (!x(countries, "USA") && !x(countries, "CSA"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "USA"))
+			potential += "\t\t\t\ttag = USA\n";
+		if (x(countries, "CSA"))
+			potential += "\t\t\t\ttag = CSA\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\thas_global_flag = marching_on_the_trail_of_tears\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tany_pop = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\thas_pop_culture = cherokee\n";
+		effect += "\t\t\t\t\tNOT = {\n";
+		effect += "\t\t\t\t\t\tlocation = {\n";
+		effect += "\t\t\t\t\t\t\tOR = {\n";
+		effect += "\t\t\t\t\t\t\t\tprovince_id = 130\n";
+		effect += "\t\t\t\t\t\t\t\tprovince_id = 131\n";
+		effect += "\t\t\t\t\t\t\t\tprovince_id = 129\n";
+		effect += "\t\t\t\t\t\t\t}\n";
+		effect += "\t\t\t\t\t\t}\n";
+		effect += "\t\t\t\t\t}\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\treduce_pop = 0.80\n";
+		effect += "\t\t\t\tconsciousness = 2\n";
+		effect += "\t\t\t\tmilitancy = -1\n";
+		effect += "\t\t\t\tmove_pop = 130\n";
+		effect += "\t\t\t}\n";
+		if (x(countries, "CHE"))
+		{
+			effect += "\t\t\t130 = {\t\t\n";
+			effect += "\t\t\t\tadd_core = CHE\t\t\n";
+			effect += "\t\t\t}\t\t\n";
+			effect += "\t\t\t131 = {\t\t\n";
+			effect += "\t\t\t\tadd_core = CHE\t\t\n";
+			effect += "\t\t\t}\t\t\n";
+			effect += "\t\t\t129 = {\t\t\n";
+			effect += "\t\t\t\tadd_core = CHE\t\t\n";
+			effect += "\t\t\t}\t\t\n";
+			effect += "\t\t\t145 = {\t\t\n";
+			effect += "\t\t\t\tremove_core = CHE\t\t\n";
+			effect += "\t\t\t}\t\t\n";
+			effect += "\t\t\t143 = {\t\t\n";
+			effect += "\t\t\t\tremove_core = CHE\t\t\n";
+			effect += "\t\t\t}\n";
+		}
+		effect += "\t\t\tadd_accepted_culture = cherokee\n";
+		effect += "\t\t\tset_global_flag = marching_on_the_trail_of_tears\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+
+	if (const auto& theDecision = decisions.find("custers_expedition"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load custers_expedition decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("enact_the_homestead_act"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load enact_the_homestead_act decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("bixby_letter"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load bixby_letter decision";
+	else if (!x(countries, "USA") || !x(countries, "CSA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("enact_anaconda_plan"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load enact_anaconda_plan decision";
+	else if (!x(countries, "USA") && !x(countries, "CSA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("shermans_march_to_the_sea"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load shermans_march_to_the_sea decision";
+	else if (!x(countries, "USA") && !x(countries, "CSA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("emancipation_proclamation"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load emancipation_proclamation decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\ttag = USA\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\thas_country_flag = emancipation\n";
+		potential += "\t\t\t\thas_country_flag = the_slavery_debate\n";
+		potential += "\t\t\t}\n";
+		if (x(countries, "CSA"))
+		{
+			potential += "\t\t\tOR = {\n";
+			potential += "\t\t\t\twar_with = CSA\n";
+			potential += "\t\t\t\tAND = {\n";
+			potential += "\t\t\t\t\tNOT = { exists = CSA }\n";
+			potential += "\t\t\t\t\thas_global_flag = american_civil_war_has_happened\n";
+			potential += "\t\t\t\t}\n";
+			potential += "\t\t\t}\n";
+		}
+		else
+			potential += "\t\t\thas_global_flag = american_civil_war_has_happened\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		if (x(countries, "CSA"))
+		{
+			allow += "\t\t\tOR = {\n";
+			allow += "\t\t\t\tCSA = { national_provinces_occupied = 0.40 }\n";
+			allow += "\t\t\t\tCSA = { exists = no }\n";
+			allow += "\t\t\t}\n";
+		}
+		allow += "\t\t\tprestige = 35\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("manifest_destiny"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load manifest_destiny decision";
+	else if (!x(countries, "USA") || !x(countries, "MEX"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tromanticism = 1\n";
+		allow += "\t\t\tstate_n_government = 1\n";
+		allow += "\t\t\tNOT = { truce_with = MEX }\n";
+		allow += "\t\t\tOR = {\n";
+		if (x(countries, "TEX"))
+			allow += "\t\t\t\tTEX = { exists = no }\n";
+		allow += "\t\t\t\tinvention = manifest_destiny\n";
+		allow += "\t\t\t\tany_owned_province = { is_core = MEX }\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tset_country_flag = hasmanifestdestiny\n";
+		effect += "\t\t\tMEX_85 = { add_core = USA } #California\n";
+		effect += "\t\t\tTEX_132 = { add_core = USA } #Texas\n";
+		effect += "\t\t\tMEX_103 = { add_core = USA } #New Mexico\n";
+		effect += "\t\t\tMEX_94 = { add_core = USA } #Nevada\n";
+		effect += "\t\t\t#MEX_97 = { add_core = USA } #Utah\n";
+		effect += "\t\t\tMEX_100 = { add_core = USA } #Arizona\n";
+		effect += "\t\t\tUSA_129 = { add_core = USA } #Oklahoma\n";
+		effect += "\t\t\tUSA_106 = { add_core = USA } #Colorado\n";
+		effect += "\t\t\tUSA_78 = { add_core = USA } #Washington\n";
+		effect += "\t\t\tUSA_81 = { add_core = USA } #Portland\n";
+		effect += "\t\t\tUSA_91 = { add_core = USA } #Idaho\n";
+		effect += "\t\t\trelation = { who = MEX value = -200 }\n";
+		effect += "\t\t\tdiplomatic_influence = { who = MEX value = -200 }\n";
+		effect += "\t\t\tleave_alliance = MEX\n";
+		effect += "\t\t\trandom_country = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\ttag = MEX\n";
+		effect += "\t\t\t\t\tvassal_of = THIS\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\tTHIS = { release_vassal = MEX }\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\trandom_country = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\tis_our_vassal = MEX\n";
+		effect += "\t\t\t\t\tNOT = { tag = THIS }\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\trelation = { who = THIS value = -200 }\n";
+		effect += "\t\t\t\tleave_alliance = THIS\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\trandom_country = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\ttag = MEX\n";
+		effect += "\t\t\t\t\tany_owned_province = {\n";
+		effect += "\t\t\t\t\t\tOR = {\n";
+		effect += "\t\t\t\t\t\t\tregion = MEX_85\n";
+		effect += "\t\t\t\t\t\t\tregion = TEX_132\n";
+		effect += "\t\t\t\t\t\t\tregion = MEX_103\n";
+		effect += "\t\t\t\t\t\t\tregion = MEX_94\n";
+		effect += "\t\t\t\t\t\t\tregion = MEX_97\n";
+		effect += "\t\t\t\t\t\t\tregion = MEX_100\n";
+		effect += "\t\t\t\t\t\t}\n";
+		effect += "\t\t\t\t\t}\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\tcountry_event = 44126\n";
+		effect += "\t\t\t}\n";
+		if (x(countries, "CAL") || x(countries, "TEX") || x(countries, "DES"))
+		{
+			effect += "\t\t\tany_country = {\n";
+			effect += "\t\t\t\tlimit = {\n";
+			effect += "\t\t\t\t\texists = yes\n";
+			effect += "\t\t\t\t\tOR = {\n";
+			if (x(countries, "CAL"))
+				effect += "\t\t\t\t\t\ttag = CAL\n";
+			if (x(countries, "TEX"))
+				effect += "\t\t\t\t\t\ttag = TEX\n";
+			if (x(countries, "DES"))
+				effect += "\t\t\t\t\t\ttag = DES\n";
+			effect += "\t\t\t\t\t}\n";
+			effect += "\t\t\t\t\tOR = {\n";
+			effect += "\t\t\t\t\t\tin_sphere = THIS\n";
+			effect += "\t\t\t\t\t\tpart_of_sphere = no\n";
+			effect += "\t\t\t\t\t}\n";
+			effect += "\t\t\t\t\tOR = {\n";
+			effect += "\t\t\t\t\t\tvassal_of = THIS\n";
+			effect += "\t\t\t\t\t\tis_vassal = no\n";
+			effect += "\t\t\t\t\t}\n";
+			effect += "\t\t\t\t}\n";
+			effect += "\t\t\t\tcountry_event = 98650\n";
+			effect += "\t\t\t}\n";
+		}
+		effect += "\t\t\tany_country = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\tis_greater_power = yes\n";
+		effect += "\t\t\t\t\tNOT = { tag = THIS }\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\tdiplomatic_influence = { who = MEX value = -100 }\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\tany_pop = {\n";
+		effect += "\t\t\t\tdominant_issue = {\n";
+		effect += "\t\t\t\t\tfactor = 0.05\n";
+		effect += "\t\t\t\t\tvalue = jingoism\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\tconsciousness = 2\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+
+	if (const auto& theDecision = decisions.find("gag_rule"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load gag_rule decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("clay_and_douglas_draft"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load clay_and_douglas_draft decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("corwin_amendment"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load corwin_amendment decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("fugitive_slave_act"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load fugitive_slave_act decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("nashville_convention"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load nashville_convention decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("ostend_manifesto"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load ostend_manifesto decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("kansas_nebraska_act"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load kansas_nebraska_act decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("wilmot_proviso"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load wilmot_proviso decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("form_kellys_irish_brigade"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_kellys_irish_brigade decision";
+	else if (!x(countries, "CSA") || !x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("raise_the_bonnie_blue_flag"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load raise_the_bonnie_blue_flag decision";
+	else if (!x(countries, "CSA") || !x(countries, "USA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("enact_radical_reconstruction"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load enact_radical_reconstruction decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\ttag = USA\n";
+		potential += "\t\t\twar = no\n";
+		potential += "\t\t\thas_global_flag = american_civil_war_has_happened\n";
+		potential += "\t\t\towns = 211\n";
+		potential += "\t\t\towns = 195\n";
+		potential += "\t\t\towns = 139\n";
+		potential += "\t\t\tNOT = {\n";
+		if (x(countries, "CSA"))
+			potential += "\t\t\t\texists = CSA\n";
+		potential += "\t\t\t\thas_global_flag = alt_american_civil_war_has_happened\n";
+		potential += "\t\t\t\thas_country_flag = has_used_radical_reconstruction\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("annex_hawaii"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load annex_hawaii decision";
+	else if (!x(countries, "HAW"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("alaskan_purchase"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load alaskan_purchase decision";
+	else if (!x(countries, "USA") || !x(countries, "RUS"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("webster_ashburton_treaty"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load webster_ashburton_treaty decision";
+	else if (!x(countries, "ENG") || !x(countries, "USA"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string effect = "= {\n";
+		effect += "\t\t\trelation = {\t\t\n";
+		effect += "\t\t\t\twho = USA\t\t\n";
+		effect += "\t\t\t\tvalue = 100\t\t\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\t250 = {\n";
+		effect += "\t\t\t\tremove_core = ENG\n";
+		if (x(countries, "MRU"))
+			effect += "\t\t\t\t#remove_core = MRU\n";
+		if (x(countries, "CAN"))
+			effect += "\t\t\t\tremove_core = CAN\n";
+		effect += "\t\t\t\tsecede_province = USA\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\tbadboy = -2\n";
+		effect += "\t\t\tprestige = 10\n";
+		effect += "\t\t\tUSA = { country_event = 44122 }\n";
+		effect += "\t\t\tset_country_flag = webster_ashburton_signed\n";
+		effect += "\t\t\t250 = {\t\t\t\t#Caribou\t\t\n";
+		if (x(countries, "CAN"))
+			effect += "\t\t\t\tremove_core = CAN\t\t\n";
+		effect += "\t\t\t}\t\t\n";
+		if (x(countries, "CAN"))
+			effect += "\t\t\t249 = {\t\t\t\t#Bangor\t\t\n";
+		effect += "\t\t\t\tremove_core = CAN\t\t\n";
+		effect += "\t\t\t}\n";
 		effect += "\t\t}\n";
 		(theDecision->second).updateDecision("effect", effect);
 	}
@@ -191,7 +590,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("mongol_khagan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load mongol_khagan decision";
 	else if (!x(countries, "KHA"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("taiping_and_csa"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load taiping_and_csa decision";
@@ -208,9 +607,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 		}
 		for (const auto& tag: taiping.getTagEffectMap())
 		{
-			if (!x(countries, tag.first)
-				 && std::find(heimaten.begin(), heimaten.end(), tag.first) == heimaten.end()
-				 && tag.first != "CHI")
+			if (!x(countries, tag.first) && std::find(heimaten.begin(), heimaten.end(), tag.first) == heimaten.end() && tag.first != "CHI")
 			{
 				effect += "\t\t\t" + tag.second + "\n";
 			}
@@ -220,7 +617,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 			effect += "\t\t\t" + coreEffect + "\n";
 		}
 
-		//Heimaten
+		// Heimaten
 		std::vector<std::string> coresToRemove = {"GEO", "ARM", "AZB"};
 		bool anythingToRemove = false;
 		for (const auto& tag: coresToRemove)
@@ -285,12 +682,12 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_china"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_china decision";
 	else if (!x(countries, "CHI"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_netherlands"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_netherlands decision";
 	else if (!x(countries, "NET"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -309,7 +706,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_belgium"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_belgium decision";
 	else if (!x(countries, "BEL") || (!x(countries, "FLA") && !x(countries, "WLL")))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -349,7 +746,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_spain"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_spain decision";
 	else if (!x(countries, "SPA"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -433,7 +830,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_ukraine"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_ukraine decision";
 	else if (!x(countries, "UKR"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -458,7 +855,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_philippines"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_philippines decision";
 	else if (!x(countries, "PHI"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -477,12 +874,12 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_malaya"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_malaya decision";
 	else if (!x(countries, "MLY"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_aztec"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_aztec decision";
 	else if (!x(countries, "AZT"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -503,7 +900,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_usa"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_usa decision";
 	else if (!x(countries, "USA"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -527,27 +924,27 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_southafrica"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_southafrica decision";
 	else if (!x(countries, "SAF"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_madagascar"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_madagascar decision";
 	else if (!x(countries, "MAD"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("mandate_of_heaven"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load mandate_of_heaven decision";
 	else if (!x(countries, "CHI"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("become_hyderabad"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load become_hyderabad decision";
 	else if (!x(countries, "HYD") || !x(countries, "DEC"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("become_slovenia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load become_slovenia decision";
 	else if (!x(countries, "SLO") || (!x(countries, "AQU") && !x(countries, "CRT")))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -566,7 +963,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("latin_empire_upgrade"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load latin_empire_upgrade decision";
 	else if (!x(countries, "SPQ") || !x(countries, "LTN"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -580,7 +977,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("become_longobardia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load become_longobardia decision";
 	else if (!x(countries, "LGB"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -595,7 +992,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_japan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_japan decision";
 	else if (!x(countries, "JAP"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string allow = "= {\n";
@@ -625,12 +1022,12 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_the_undeads"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_the_undeads decision";
 	else if (!x(countries, "UND") || !x(countries, "ZOM"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_ireland"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_ireland decision";
 	else if (!x(countries, "IRE"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -682,7 +1079,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_greece"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_greece decision";
 	else if (!x(countries, "GRE"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -737,7 +1134,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_turkestan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_turkestan decision";
 	else if (!x(countries, "TKS"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -802,7 +1199,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_occitania"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_occitania decision";
 	else if (!x(countries, "OCC"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -879,7 +1276,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_the_suebi"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_the_suebi decision";
 	else if (!x(countries, "SUE"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -931,7 +1328,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_visigothia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_visigothia decision";
 	else if (!x(countries, "VGO"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -979,7 +1376,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_siberia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_siberia decision";
 	else if (!x(countries, "SIB"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1023,12 +1420,12 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_indochina"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_indochina decision";
 	else if (!x(countries, "IDO"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_anglo_saxony"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_anglo_saxony decision";
 	else if (!x(countries, "AES"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1073,7 +1470,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_frankia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_frankia decision";
 	else if (!x(countries, "FRK"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1113,22 +1510,22 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_britannia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_britannia decision";
 	else if (!x(countries, "ENR"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_gallia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_gallia decision";
 	else if (!x(countries, "FRR"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_laessinia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_laessinia decision";
 	else if (!x(countries, "AUR"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_euskadi"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_euskadi decision";
 	else if (!x(countries, "BSQ") || (!x(countries, "NAV") && !x(countries, "GYN")))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1198,12 +1595,12 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_nepal"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_nepal decision";
 	else if (!x(countries, "NEP"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_persia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_persia decision";
 	else if (!x(countries, "PER"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1255,7 +1652,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_kurdistan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_kurdistan decision";
 	else if (!x(countries, "KDS"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1282,22 +1679,22 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("provincia_britannia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load provincia_britannia decision";
 	else if (!x(countries, "ENR") && !x(countries, "SPQ"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("provincia_gallia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load provincia_gallia decision";
 	else if (!x(countries, "FRR") && !x(countries, "SPQ"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("provincia_noricum"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load provincia_noricum decision";
 	else if (!x(countries, "AUR") && !x(countries, "SPQ"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_LVN"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_LVN decision";
 	else if (!x(countries, "LVN"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1392,7 +1789,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("vassal_LVN"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load vassal_LVN decision";
 	else if (!x(countries, "LVN"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1495,17 +1892,17 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("EGY_copt"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load EGY_copt decision";
 	else if (!x(countries, "CEG") || !x(countries, "EGY"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("EGY_not_copt"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load EGY_not_copt decision";
 	else if (!x(countries, "CEG") || !x(countries, "EGY"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_ITP"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_ITP decision";
 	else if (!x(countries, "ITP") || !x(countries, "PAP"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1615,7 +2012,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_SPQR"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_SPQR decision";
 	else if (!x(countries, "SPQ"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1698,7 +2095,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_yemen"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_yemen decision";
 	else if (!x(countries, "YEM"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1721,7 +2118,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_burma"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_burma decision";
 	else if (!x(countries, "BUR"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1783,7 +2180,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_shan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_shan decision";
 	else if (!x(countries, "SHA"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1816,7 +2213,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_libya"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_libya decision";
 	else if (!x(countries, "LBY") || (!x(countries, "TRI") && !x(countries, "CYR")))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1835,12 +2232,12 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("form_kenya"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_kenya decision";
 	else if (!x(countries, "KNY") || !x(countries, "SWA"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("moldavia_moldova"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load moldavia_moldova decision";
 	else if (!x(countries, "MDV") || !x(countries, "MOL"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1883,7 +2280,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("zapadoslavia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load zapadoslavia decision";
 	else if (!x(countries, "WSF") || (!x(countries, "PLC") && !x(countries, "POL") && !x(countries, "CZH")))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
@@ -1954,7 +2351,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("oy_vey"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load oy_vey decision";
 	else if (!x(countries, "ISR"))
-			decisions.erase(theDecision);
+		decisions.erase(theDecision);
 }
 
 bool V2::Decisions::x(const std::map<std::string, std::shared_ptr<Country>>& countries, const std::string& tag)
