@@ -20,6 +20,7 @@ class Decisions: commonItems::parser
 	void updateConveterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	void updateACW(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	void updateArabianFormation(const std::map<std::string, std::shared_ptr<Country>>& countries);
+	void updateConvAfricanPostColonial(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	bool x(const std::map<std::string, std::shared_ptr<Country>>& countries, const std::string& tag);
 
 	[[nodiscard]] const auto& getDecisions() const { return decisions; }

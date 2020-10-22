@@ -1930,6 +1930,8 @@ void V2::World::updateDecisions()
 	ACW.updateACW(countries);
 	auto& arabianFormation = decisions.find("arabian formation.txt")->second;
 	arabianFormation.updateArabianFormation(countries);
+	auto& africanPostColonial = decisions.find("convAfricanPostColonial.txt")->second;
+	africanPostColonial.updateConvAfricanPostColonial(countries);
 }
 
 void V2::World::outDecisions() const

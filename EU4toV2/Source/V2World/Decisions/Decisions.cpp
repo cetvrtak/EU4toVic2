@@ -568,6 +568,38 @@ void V2::Decisions::updateArabianFormation(const std::map<std::string, std::shar
 	}
 }
 
+void V2::Decisions::updateConvAfricanPostColonial(const std::map<std::string, std::shared_ptr<Country>>& countries)
+{
+	if (const auto& theDecision = decisions.find("african_post_colonialism"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load african_post_colonialism decision";
+	else
+	{
+		std::istringstream effectString(theDecision->second.getEffect());
+		Taiping africa(effectString);
+
+		std::string effect = "= {\n";
+		for (const auto& nonCountrySpecificEffect: africa.getNonCountrySpecificEffects())
+		{
+			effect += "\t\t\t" + nonCountrySpecificEffect + "\n";
+		}
+		for (const auto& tag: africa.getTagEffectMap())
+		{
+			if (x(countries, tag.first))
+			{
+				effect += "\t\t\t" + tag.second + "\n";
+			}
+		}
+		for (const auto& coreEffect: africa.getCountryCores())
+		{
+			effect += "\t\t\t" + coreEffect + "\n";
+		}
+
+		effect += "\t\t\tset_global_flag = der_postcolonialism_2\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+}
+
 void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries)
 {
 	if (const auto& theDecision = decisions.find("centralize_hre"); theDecision == decisions.end())
@@ -670,7 +702,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 		}
 		for (const auto& tag: taiping.getTagEffectMap())
 		{
-			if (!x(countries, tag.first) && std::find(heimaten.begin(), heimaten.end(), tag.first) == heimaten.end() && tag.first != "CHI")
+			if (x(countries, tag.first) && std::find(heimaten.begin(), heimaten.end(), tag.first) == heimaten.end() && tag.first != "CHI")
 			{
 				effect += "\t\t\t" + tag.second + "\n";
 			}
