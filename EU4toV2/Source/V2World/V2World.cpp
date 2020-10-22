@@ -1928,6 +1928,8 @@ void V2::World::updateDecisions()
 	GoldenCenturyDecisions.update128Decisions(countries);
 	auto& ACW = decisions.find("ACW.txt")->second;
 	ACW.updateACW(countries);
+	auto& arabianFormation = decisions.find("arabian formation.txt")->second;
+	arabianFormation.updateArabianFormation(countries);
 }
 
 void V2::World::outDecisions() const

@@ -505,6 +505,69 @@ void V2::Decisions::updateACW(const std::map<std::string, std::shared_ptr<Countr
 	}
 }
 
+void V2::Decisions::updateArabianFormation(const std::map<std::string, std::shared_ptr<Country>>& countries)
+{
+	if (const auto& theDecision = decisions.find("form_arabia"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_arabia decision";
+	else if (!x(countries, "ARA"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tARA = { exists = no }\n";
+		if (x(countries, "ALL"))
+			potential += "\t\t\tNOT = { tag = ALL }\n";
+		potential += "\t\t\tis_culture_group = arab\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\tOR = { \n";
+		allow += "\t\t\t\tAND = { \n";
+		allow += "\t\t\t\t\tis_greater_power = yes\n";
+		allow += "\t\t\t\t\tany_neighbor_country = {\n";
+		allow += "\t\t\t\t\t\tin_sphere = this\n";
+		allow += "\t\t\t\t\t\tis_culture_group = arab\n";
+		allow += "\t\t\t\t\t\trelation = { who = THIS value = 100 }\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		if (x(countries, "NEJ") || x(countries, "HDJ") || x(countries, "HAL"))
+		{
+			allow += "\t\t\t\tAND = {\n";
+			allow += "\t\t\t\t\tOR = {\n";
+			if (x(countries, "NEJ"))
+				allow += "\t\t\t\t\t\ttag = NEJ\n";
+			if (x(countries, "HDJ"))
+				allow += "\t\t\t\t\t\ttag = HDJ\n";
+			if (x(countries, "HAL"))
+				allow += "\t\t\t\t\t\ttag = HAL\n";
+			allow += "\t\t\t\t\t}\n";
+			if (x(countries, "NEJ"))
+			{
+				allow += "\t\t\t\t\tNEJ = { #Nejd\n";
+				allow += "\t\t\t\t\t\tall_core = { owned_by = THIS }\n";
+				allow += "\t\t\t\t\t}\n";
+			}
+			if (x(countries, "HDJ"))
+			{
+				allow += "\t\t\t\t\tHDJ = { #Hejaz\n";
+				allow += "\t\t\t\t\t\tall_core = { owned_by = THIS }\n";
+				allow += "\t\t\t\t\t}\n";
+			}
+			if (x(countries, "HAL"))
+			{
+				allow += "\t\t\t\t\tHAL = { #Hail Shammar\n";
+				allow += "\t\t\t\t\t\tall_core = { owned_by = THIS }\n";
+				allow += "\t\t\t\t\t}\n";
+			}
+			allow += "\t\t\t\t}\n";
+		}
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+}
+
 void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries)
 {
 	if (const auto& theDecision = decisions.find("centralize_hre"); theDecision == decisions.end())
