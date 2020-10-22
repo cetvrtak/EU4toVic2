@@ -5385,8 +5385,10 @@ political_decisions = {
 	}
 	become_slovenia = {
 		potential = {
-			tag = AQU
-			tag = CRT
+			OR = {
+				tag = AQU
+				tag = CRT
+			}
 			is_culture_group = south_slavic
 			NOT = { exists = SLO }
 		}	
@@ -6620,7 +6622,7 @@ political_decisions = {
 				add_accepted_culture = lombard
 				add_accepted_culture = north_italian
 				civilized = yes
-				religion = FROM
+				religion = ROOT
 			}
 		}
 		ai_will_do = {
