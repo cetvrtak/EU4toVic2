@@ -16,7 +16,9 @@ class Decisions: commonItems::parser
 	explicit Decisions(std::istream& theStream);
 
 	void registerKeys();
-	void updateDecisions(const std::map<std::string, std::shared_ptr<Country>>& countries);
+	void update128Decisions(const std::map<std::string, std::shared_ptr<Country>>& countries);
+	void updateConveterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries);
+	bool x(const std::map<std::string, std::shared_ptr<Country>>& countries, const std::string& tag);
 
 	[[nodiscard]] const auto& getDecisions() const { return decisions; }
 	

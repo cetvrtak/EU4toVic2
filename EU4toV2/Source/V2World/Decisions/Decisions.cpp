@@ -32,7 +32,81 @@ void V2::Decisions::registerKeys()
 	});
 }
 
-void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<Country>>& countries)
+void V2::Decisions::update128Decisions(const std::map<std::string, std::shared_ptr<Country>>& countries)
+{
+	if (const auto& theDecision = decisions.find("the_concession_to_the_travelers"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load the_concession_to_the_travelers decision";
+	else if (!x(countries, "GYP"))
+			decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("create_rumelia"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load create_rumelia decision";
+	else if (!x(countries, "RML") || !x(countries, "BUL"))
+			decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		if (x(countries, "TUR"))
+		{
+			potential += "\t\t\tOR = {\n";
+			potential += "\t\t\t\ttag = TUR\n";
+			potential += "\t\t\t\tAND = {\n";
+			potential += "\t\t\t\t\tNOT = { exists = TUR }\n";
+			potential += "\t\t\t\t\tis_greater_power = yes\n";
+			potential += "\t\t\t\t}\n";
+			potential += "\t\t\t}\n";
+		}
+		else
+			potential += "\t\t\tis_greater_power = yes\n";
+		potential += "\t\t\tNOT = { is_culture_group = south_slavic }\n";
+		potential += "\t\t\tNOT = { is_culture_group = greek }\n";
+		if (x(countries, "ALI"))
+			potential += "\t\t\tNOT = { tag = ALI } #Reasoning\n";
+		if (x(countries, "RME"))
+			potential += "\t\t\tNOT = { tag = RME }\n";
+		if (x(countries, "BYZ"))
+			potential += "\t\t\tNOT = { tag = BYZ }\n";
+		potential += "\t\t\texists = BUL\n";
+		if (x(countries, "YUG"))
+			potential += "\t\t\tNOT = { exists = YUG }\n";
+		potential += "\t\t\tNOT = { exists = RML }\n";
+		potential += "\t\t\tNOT = { has_global_flag = rumelia }\n";
+		potential += "\t\t\tTUR_809 = { owned_by = THIS }\n";
+		potential += "\t\t\twar = no\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tNOT = { accepted_culture = bulgarian }\n";
+		potential += "\t\t\t\thas_recently_lost_war = yes\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("independent_rumelia"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load independent_rumelia decision";
+	else if (!x(countries, "RML"))
+			decisions.erase(theDecision);
+	else
+	{
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		if (x(countries, "BUL"))
+			allow += "\t\t\tBUL = { war = no }\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tprestige = 10\n";
+		effect += "\t\t\tclr_global_flag = rumelia\n";
+		if (x(countries, "BUL"))
+			effect += "\t\t\tany_owned = { limit = { is_core = RML } remove_core = RML add_core = BUL }\n";
+		effect += "\t\t\tBUL = { inherit = THIS }\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+}
+
+void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries)
 {
 	if (const auto& theDecision = decisions.find("centralize_hre"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load centralize_hre decision";
@@ -51,15 +125,15 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\t\t\t\tcapital_scope = { continent = north_america }\n";
 		potential += "\t\t\t\t\t\tcapital_scope = { continent = south_america }\n";
 		potential += "\t\t\t\t\t\tcapital_scope = { continent = oceania }\n";
-		if (countries.find("FSA") != countries.end())
+		if (x(countries, "FSA"))
 			potential += "\t\t\t\t\t\t#tag = FSA\n";
-		if (countries.find("CSA") != countries.end())
+		if (x(countries, "CSA"))
 			potential += "\t\t\t\t\t\ttag = CSA\n";
-		if (countries.find("MGL") != countries.end())
+		if (x(countries, "MGL"))
 			potential += "\t\t\t\t\t\ttag = MGL\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\t\t\t\ttag = SPQ\n";
-		if (countries.find("SLA") != countries.end())
+		if (x(countries, "SLA"))
 			potential += "\t\t\t\t\t\ttag = SLA\n";
 		potential += "\t\t\t\t\t\ttag = HRE\n";
 		potential += "\t\t\t\t\t}\n";
@@ -80,19 +154,19 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tOR = {\n";
 		potential += "\t\t\t\tAND = {\n";
 		potential += "\t\t\t\t\tprimary_culture = south_italian\n";
-		if (countries.find("SCY") != countries.end())
+		if (x(countries, "SCY"))
 			potential += "\t\t\t\t\tNOT = { exists = SCY }\n";
-		if (countries.find("NAP") != countries.end())
+		if (x(countries, "NAP"))
 			potential += "\t\t\t\t\tNOT = { exists = NAP }\n";
 		potential += "\t\t\t\t}\n";
-		if (countries.find("NAP") != countries.end())
+		if (x(countries, "NAP"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\ttag = NAP\n";
 			potential += "\t\t\t\t\tNOT = { exists = SCY }\n";
 			potential += "\t\t\t\t}\n";
 		}
-		if (countries.find("SCY") != countries.end())
+		if (x(countries, "SCY"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\ttag = SCY\n";
@@ -100,15 +174,15 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 			potential += "\t\t\t\t}\n";
 		}
 		potential += "\t\t\t}\n";
-		if (countries.find("SIC") != countries.end())
+		if (x(countries, "SIC"))
 			potential += "\t\t\tNOT = { exists = SIC }\n";
-		if (countries.find("ITA") != countries.end())
+		if (x(countries, "ITA"))
 			potential += "\t\t\tNOT = { exists = ITA }\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\tNOT = { tag = SPQ }\n";
-		if (countries.find("BYZ") != countries.end())
+		if (x(countries, "BYZ"))
 			potential += "\t\t\tNOT = { tag = BYZ }\n";
-		if (countries.find("PAP") != countries.end())
+		if (x(countries, "PAP"))
 			potential += "\t\t\tNOT = { tag = PAP }\n";
 		potential += "\t\t}\n";
 		(theDecision->second).updateDecision("potential", potential);
@@ -116,7 +190,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("mongol_khagan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load mongol_khagan decision";
-	else if (countries.find("KHA") == countries.end())
+	else if (!x(countries, "KHA"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("taiping_and_csa"); theDecision == decisions.end())
@@ -134,7 +208,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		}
 		for (const auto& tag: taiping.getTagEffectMap())
 		{
-			if (countries.find(tag.first) != countries.end()
+			if (!x(countries, tag.first)
 				 && std::find(heimaten.begin(), heimaten.end(), tag.first) == heimaten.end()
 				 && tag.first != "CHI")
 			{
@@ -151,7 +225,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		bool anythingToRemove = false;
 		for (const auto& tag: coresToRemove)
 		{
-			if (countries.find(tag) != countries.end())
+			if (x(countries, tag))
 			{
 				anythingToRemove = true;
 				break;
@@ -161,7 +235,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		{
 			for (const auto& tag: heimaten)
 			{
-				if (countries.find(tag) == countries.end())
+				if (!x(countries, tag))
 					continue;
 				effect += "\t\t\t" + tag + " = {\n";
 				effect += "\t\t\t\tany_owned_province = {\n";
@@ -172,32 +246,32 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 				effect += "\t\t\t\t\t\t\tregion = RUS_1102 #Azerbaijan\n";
 				effect += "\t\t\t\t\t\t}\n";
 				effect += "\t\t\t\t\t}\n";
-				if (countries.find("GEO") != countries.end())
+				if (x(countries, "GEO"))
 					effect += "\t\t\t\t\tremove_core = GEO\n";
-				if (countries.find("ARM") != countries.end())
+				if (x(countries, "ARM"))
 					effect += "\t\t\t\t\tremove_core = ARM\n";
-				if (countries.find("AZB") != countries.end())
+				if (x(countries, "AZB"))
 					effect += "\t\t\t\t\tremove_core = AZB\n";
 				effect += "\t\t\t\t}\n";
 				effect += "\t\t\t}\n";
 			}
 		}
 
-		if (countries.find("CHI") != countries.end())
+		if (x(countries, "CHI"))
 		{
 			effect += "\t\t\tCHI = {\n";
 			effect += "\t\t\t\tany_owned_province = {\n";
 			effect += "\t\t\t\t\tlimit = {\n";
 			effect += "\t\t\t\t\t\tNOT = {\n";
-			if (countries.find("MGL") != countries.end())
+			if (x(countries, "MGL"))
 				effect += "\t\t\t\t\t\t\tis_core = MGL\n";
 			effect += "\t\t\t\t\t\t\tregion = CHI_2608 #Mongolia proper\n";
 			effect += "\t\t\t\t\t\t}\n";
 			effect += "\t\t\t\t\t}\n";
 			effect += "\t\t\t\t}\n";
-			if (countries.find("KHA") != countries.end())
+			if (x(countries, "KHA"))
 				effect += "\t\t\t\tremove_core = KHA\n";
-			if (countries.find("MGL") != countries.end())
+			if (x(countries, "MGL"))
 				effect += "\t\t\t\tremove_core = MGL\n";
 			effect += "\t\t\t\tadd_core = IMG\n";
 			effect += "\t\t\t}\n";
@@ -210,12 +284,12 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_china"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_china decision";
-	else if (countries.find("CHI") == countries.end())
+	else if (!x(countries, "CHI"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_netherlands"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_netherlands decision";
-	else if (countries.find("NET") == countries.end())
+	else if (!x(countries, "NET"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -223,9 +297,9 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tprimary_culture = dutch\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = NET\n";
-		if (countries.find("FRA") != countries.end())
+		if (x(countries, "FRA"))
 			potential += "\t\t\t\ttag = FRA\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\t\ttag = SPQ\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -234,8 +308,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_belgium"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_belgium decision";
-	else if (countries.find("BEL") == countries.end()
-			 || (countries.find("FLA") == countries.end() && countries.find("WLL") == countries.end()))
+	else if (!x(countries, "BEL") || (!x(countries, "FLA") && !x(countries, "WLL")))
 			decisions.erase(theDecision);
 	else
 	{
@@ -246,25 +319,25 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = BEL\n";
-		if (countries.find("LUX") != countries.end())
+		if (x(countries, "LUX"))
 			potential += "\t\t\t\ttag = LUX\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\t\ttag = SPQ\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tOR = {\n";
-		if (countries.find("FLA") != countries.end())
+		if (x(countries, "FLA"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\ttag = FLA\n";
-			if (countries.find("WLL") != countries.end())
+			if (x(countries, "WLL"))
 				potential += "\t\t\t\t\tWLL = { exists = no }\n";
 			potential += "\t\t\t\t}\n";
 		}
-		if (countries.find("WLL") != countries.end())
+		if (x(countries, "WLL"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\ttag = WLL\n";
-			if (countries.find("FLA") != countries.end())
+			if (x(countries, "FLA"))
 				potential += "\t\t\t\t\tFLA = { exists = no }\n";
 			potential += "\t\t\t\t}\n";
 		}
@@ -275,7 +348,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_spain"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_spain decision";
-	else if (countries.find("SPA") == countries.end())
+	else if (!x(countries, "SPA"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -287,11 +360,11 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = SPA\n";
-		if (countries.find("SPC") != countries.end())
+		if (x(countries, "SPC"))
 			potential += "\t\t\t\texists = SPC\n";
-		if (countries.find("CAT") != countries.end())
+		if (x(countries, "CAT"))
 			potential += "\t\t\t\ttag = CAT\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\t\ttag = SPQ\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -301,7 +374,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\twar = no\n";
 		allow += "\t\t\tprestige = 5\n";
 		allow += "\t\t\tOR = {\n";
-		if (countries.find("SPC") != countries.end())
+		if (x(countries, "SPC"))
 		{
 			allow += "\t\t\t\tSPC = { #Carlist Spain\n";
 			allow += "\t\t\t\t\tall_core = {\n";
@@ -348,7 +421,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t}\n";
 		effect += "\t\t\tany_owned = {\n";
 		effect += "\t\t\t\tadd_core = SPA\n";
-		if (countries.find("SPC") != countries.end())
+		if (x(countries, "SPC"))
 			effect += "\t\t\t\tremove_core = SPC #Carlist Spain\n";
 		effect += "\t\t\t}\t\t\t\n";
 		effect += "\t\t\t\n";
@@ -359,23 +432,23 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_ukraine"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_ukraine decision";
-	else if (countries.find("UKR") == countries.end())
+	else if (!x(countries, "UKR"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tprimary_culture = ukrainian\n";
 		potential += "\t\t\tNOT = {\n";
-		if (countries.find("RUT") != countries.end())
+		if (x(countries, "RUT"))
 			potential += "\t\t\t\texists = RUT\n";
 		potential += "\t\t\t\texists = UKR\n";
-		if (countries.find("RUS") != countries.end())
+		if (x(countries, "RUS"))
 			potential += "\t\t\t\ttag = RUS\n";
-		if (countries.find("SLA") != countries.end())
+		if (x(countries, "SLA"))
 			potential += "\t\t\t\ttag = SLA\n";
-		if (countries.find("CRI") != countries.end())
+		if (x(countries, "CRI"))
 			potential += "\t\t\t\ttag = CRI\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\t\ttag = SPQ\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -384,16 +457,16 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_philippines"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_philippines decision";
-	else if (countries.find("PHI") == countries.end())
+	else if (!x(countries, "PHI"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = PHI\n";
-		if (countries.find("SPA") != countries.end())
+		if (x(countries, "SPA"))
 			potential += "\t\t\t\ttag = SPA\n";
-		if (countries.find("USA") != countries.end())
+		if (x(countries, "USA"))
 			potential += "\t\t\t\ttag = USA\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tprimary_culture = filipino\n";
@@ -403,12 +476,12 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_malaya"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_malaya decision";
-	else if (countries.find("MLY") == countries.end())
+	else if (!x(countries, "MLY"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_aztec"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_aztec decision";
-	else if (countries.find("AZT") == countries.end())
+	else if (!x(countries, "AZT"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -420,7 +493,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = AZT\n";
-		if (countries.find("MEX") != countries.end())
+		if (x(countries, "MEX"))
 			potential += "\t\t\t\texists = MEX\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -429,7 +502,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_usa"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_usa decision";
-	else if (countries.find("USA") == countries.end())
+	else if (!x(countries, "USA"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -440,11 +513,11 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = USA\n";
-		if (countries.find("CSA") != countries.end())
+		if (x(countries, "CSA"))
 			potential += "\t\t\t\texists = CSA\n";
-		if (countries.find("TEX") != countries.end())
+		if (x(countries, "TEX"))
 			potential += "\t\t\t\ttag = TEX\n";
-		if (countries.find("CAL") != countries.end())
+		if (x(countries, "CAL"))
 			potential += "\t\t\t\ttag = CAL\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -453,36 +526,35 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_southafrica"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_southafrica decision";
-	else if (countries.find("SAF") == countries.end())
+	else if (!x(countries, "SAF"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_madagascar"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_madagascar decision";
-	else if (countries.find("MAD") == countries.end())
+	else if (!x(countries, "MAD"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("mandate_of_heaven"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load mandate_of_heaven decision";
-	else if (countries.find("CHI") == countries.end())
+	else if (!x(countries, "CHI"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("become_hyderabad"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load become_hyderabad decision";
-	else if (countries.find("HYD") == countries.end() || countries.find("DEC") == countries.end())
+	else if (!x(countries, "HYD") || !x(countries, "DEC"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("become_slovenia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load become_slovenia decision";
-	else if (countries.find("SLO") == countries.end()
-			 || (countries.find("AQU") == countries.end() && countries.find("CRT") == countries.end()))
+	else if (!x(countries, "SLO") || (!x(countries, "AQU") && !x(countries, "CRT")))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tOR = {\n";
-		if (countries.find("AQU") != countries.end())
+		if (x(countries, "AQU"))
 			potential += "\t\t\t\ttag = AQU\n";
-		if (countries.find("CRT") != countries.end())
+		if (x(countries, "CRT"))
 			potential += "\t\t\t\ttag = CRT\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tis_culture_group = south_slavic\n";
@@ -493,13 +565,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("latin_empire_upgrade"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load latin_empire_upgrade decision";
-	else if (countries.find("SPQ") == countries.end() || countries.find("LTN") == countries.end())
+	else if (!x(countries, "SPQ") || !x(countries, "LTN"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\ttag = LTN\n";
-		if (countries.find("BYZ") != countries.end())
+		if (x(countries, "BYZ"))
 			potential += "\t\t\tNOT = { exists = BYZ }\n";
 		potential += "\t\t}\t\n";
 		(theDecision->second).updateDecision("potential", potential);
@@ -507,14 +579,14 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("become_longobardia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load become_longobardia decision";
-	else if (countries.find("LGB") == countries.end())
+	else if (!x(countries, "LGB"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tprimary_culture = lombard\n";
 		potential += "\t\t\tNOT = { exists = LGB }\n";
-		if (countries.find("LOM") != countries.end())
+		if (x(countries, "LOM"))
 			potential += "\t\t\tNOT = { exists = LOM }\n";
 		potential += "\t\t}\n";
 		(theDecision->second).updateDecision("potential", potential);
@@ -522,7 +594,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_japan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_japan decision";
-	else if (countries.find("JAP") == countries.end())
+	else if (!x(countries, "JAP"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -534,7 +606,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\t\t\tOR = {\n";
 		allow += "\t\t\t\t\t\towned_by = THIS\n";
 		allow += "\t\t\t\t\t\tis_empty = yes\n";
-		if (countries.find("RYU") != countries.end())
+		if (x(countries, "RYU"))
 			allow += "\t\t\t\t\t\towned_by = RYU\n";
 		allow += "\t\t\t\t\t\towner = {\n";
 		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
@@ -552,12 +624,12 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_the_undeads"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_the_undeads decision";
-	else if (countries.find("UND") == countries.end() || countries.find("ZOM") == countries.end())
+	else if (!x(countries, "UND") || !x(countries, "ZOM"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_ireland"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_ireland decision";
-	else if (countries.find("IRE") == countries.end())
+	else if (!x(countries, "IRE"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -565,11 +637,11 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tprimary_culture = irish\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = IRE\n";
-		if (countries.find("ENG") != countries.end())
+		if (x(countries, "ENG"))
 			potential += "\t\t\t\ttag = ENG\n";
-		if (countries.find("ENL") != countries.end())
+		if (x(countries, "ENL"))
 			potential += "\t\t\t\ttag = ENL\n";
-		if (countries.find("SCO") != countries.end())
+		if (x(countries, "SCO"))
 			potential += "\t\t\t\ttag = SCO\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -594,11 +666,11 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\t\t\t\towner = {\n";
 		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
 		allow += "\t\t\t\t\t\t}\n";
-		if (countries.find("ENG") != countries.end())
+		if (x(countries, "ENG"))
 			allow += "\t\t\t\t\t\towned_by = ENG\n";
-		if (countries.find("ENL") != countries.end())
+		if (x(countries, "ENL"))
 			allow += "\t\t\t\t\t\towned_by = ENL\n";
-		if (countries.find("SCO") != countries.end())
+		if (x(countries, "SCO"))
 			allow += "\t\t\t\t\t\towned_by = SCO\n";
 		allow += "\t\t\t\t\t}\n";
 		allow += "\t\t\t\t}\n";
@@ -609,24 +681,24 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_greece"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_greece decision";
-	else if (countries.find("GRE") == countries.end())
+	else if (!x(countries, "GRE"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tprimary_culture = greek\n";
 		potential += "\t\t\tNOT = {\n";
-		if (countries.find("BYZ") != countries.end())
+		if (x(countries, "BYZ"))
 			potential += "\t\t\t\texists = BYZ\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\t\texists = SPQ\n";
-		if (countries.find("GRE") != countries.end())
+		if (x(countries, "GRE"))
 			potential += "\t\t\t\texists = GRE\n";
-		if (countries.find("TUR") != countries.end())
+		if (x(countries, "TUR"))
 			potential += "\t\t\t\ttag = TUR\n";
-		if (countries.find("ITA") != countries.end())
+		if (x(countries, "ITA"))
 			potential += "\t\t\t\ttag = ITA\n";
-		if (countries.find("MCD") != countries.end())
+		if (x(countries, "MCD"))
 			potential += "\t\t\t\ttag = MCD\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -651,9 +723,9 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\t\t\t\towner = {\n";
 		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
 		allow += "\t\t\t\t\t\t}\n";
-		if (countries.find("TUR") != countries.end())
+		if (x(countries, "TUR"))
 			allow += "\t\t\t\t\t\towned_by = TUR\n";
-		if (countries.find("MCD") != countries.end())
+		if (x(countries, "MCD"))
 			allow += "\t\t\t\t\t\towned_by = MCD\n";
 		allow += "\t\t\t\t\t}\n";
 		allow += "\t\t\t\t}\n";
@@ -664,7 +736,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_turkestan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_turkestan decision";
-	else if (countries.find("TKS") == countries.end())
+	else if (!x(countries, "TKS"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -678,19 +750,19 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = TKS\n";
-		if (countries.find("KAZ") != countries.end())
+		if (x(countries, "KAZ"))
 			potential += "\t\t\t\ttag = KAZ\n";
-		if (countries.find("XIN") != countries.end())
+		if (x(countries, "XIN"))
 			potential += "\t\t\t\ttag = XIN\n";
-		if (countries.find("PER") != countries.end())
+		if (x(countries, "PER"))
 			potential += "\t\t\t\ttag = PER\n";
-		if (countries.find("RUS") != countries.end())
+		if (x(countries, "RUS"))
 			potential += "\t\t\t\ttag = RUS\n";
-		if (countries.find("SLA") != countries.end())
+		if (x(countries, "SLA"))
 			potential += "\t\t\t\ttag = SLA\n";
-		if (countries.find("CHI") != countries.end())
+		if (x(countries, "CHI"))
 			potential += "\t\t\t\ttag = CHI\n";
-		if (countries.find("YUA") != countries.end())
+		if (x(countries, "YUA"))
 			potential += "\t\t\t\ttag = YUA\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -706,19 +778,19 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\t\t\t\towner = {\n";
 		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
 		allow += "\t\t\t\t\t\t}\n";
-		if (countries.find("KAZ") != countries.end())
+		if (x(countries, "KAZ"))
 			allow += "\t\t\t\t\t\towned_by = KAZ\n";
-		if (countries.find("XIN") != countries.end())
+		if (x(countries, "XIN"))
 			allow += "\t\t\t\t\t\towned_by = XIN\n";
-		if (countries.find("PER") != countries.end())
+		if (x(countries, "PER"))
 			allow += "\t\t\t\t\t\towned_by = PER\n";
-		if (countries.find("RUS") != countries.end())
+		if (x(countries, "RUS"))
 			allow += "\t\t\t\t\t\towned_by = RUS\n";
-		if (countries.find("SLA") != countries.end())
+		if (x(countries, "SLA"))
 			allow += "\t\t\t\t\t\towned_by = SLA\n";
-		if (countries.find("CHI") != countries.end())
+		if (x(countries, "CHI"))
 			allow += "\t\t\t\t\t\towned_by = CHI\n";
-		if (countries.find("YUA") != countries.end())
+		if (x(countries, "YUA"))
 			allow += "\t\t\t\t\t\towned_by = YUA\n";
 		allow += "\t\t\t\t\t}\n";
 		allow += "\t\t\t\t}\n";
@@ -729,7 +801,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_occitania"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_occitania decision";
-	else if (countries.find("OCC") == countries.end())
+	else if (!x(countries, "OCC"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -737,7 +809,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tprimary_culture = occitan\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = OCC\n";
-		if (countries.find("FRA") != countries.end())
+		if (x(countries, "FRA"))
 			potential += "\t\t\t\ttag = FRA\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -762,17 +834,17 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\t\t\t\towner = {\n";
 		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
 		allow += "\t\t\t\t\t\t}\n";
-		if (countries.find("FRA") != countries.end())
+		if (x(countries, "FRA"))
 			allow += "\t\t\t\t\t\towned_by = FRA\n";
-		if (countries.find("SPA") != countries.end())
+		if (x(countries, "SPA"))
 			allow += "\t\t\t\t\t\towned_by = SPA\n";
-		if (countries.find("CAT") != countries.end())
+		if (x(countries, "CAT"))
 			allow += "\t\t\t\t\t\towned_by = CAT\n";
-		if (countries.find("NAV") != countries.end())
+		if (x(countries, "NAV"))
 			allow += "\t\t\t\t\t\towned_by = NAV\n";
-		if (countries.find("PAP") != countries.end())
+		if (x(countries, "PAP"))
 			allow += "\t\t\t\t\t\towned_by = PAP\n";
-		if (countries.find("ITA") != countries.end())
+		if (x(countries, "ITA"))
 			allow += "\t\t\t\t\t\towned_by = ITA\n";
 		allow += "\t\t\t\t\t}\n";
 		allow += "\t\t\t\t}\n";
@@ -795,7 +867,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t}\n";
 		effect += "\t\t\tany_owned = {\n";
 		effect += "\t\t\t\tadd_core = OCC\n";
-		if (countries.find("FRA") != countries.end())
+		if (x(countries, "FRA"))
 			effect += "\t\t\t\tremove_core = FRA\n";
 		effect += "\t\t\t}\t\t\t\n";
 		effect += "\t\t\t\n";
@@ -806,7 +878,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_the_suebi"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_the_suebi decision";
-	else if (countries.find("SUE") == countries.end())
+	else if (!x(countries, "SUE"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -814,13 +886,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tprimary_culture = suebi\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = SUE\n";
-		if (countries.find("GLC") != countries.end())
+		if (x(countries, "GLC"))
 			potential += "\t\t\t\ttag = GLC\n";
-		if (countries.find("POR") != countries.end())
+		if (x(countries, "POR"))
 			potential += "\t\t\t\ttag = POR\n";
-		if (countries.find("SPA") != countries.end())
+		if (x(countries, "SPA"))
 			potential += "\t\t\t\ttag = SPA\n";
-		if (countries.find("SPC") != countries.end())
+		if (x(countries, "SPC"))
 			potential += "\t\t\t\ttag = SPC\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -841,13 +913,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t}\n";
 		effect += "\t\t\tany_owned = {\n";
 		effect += "\t\t\t\tadd_core = SUE\n";
-		if (countries.find("SPA") != countries.end())
+		if (x(countries, "SPA"))
 			effect += "\t\t\t\tremove_core = SPA\n";
-		if (countries.find("POR") != countries.end())
+		if (x(countries, "POR"))
 			effect += "\t\t\t\tremove_core = POR\n";
-		if (countries.find("GLC") != countries.end())
+		if (x(countries, "GLC"))
 			effect += "\t\t\t\tremove_core = GLC\n";
-		if (countries.find("SPC") != countries.end())
+		if (x(countries, "SPC"))
 			effect += "\t\t\t\tremove_core = SPC\n";
 		effect += "\t\t\t}\t\t\t\n";
 		effect += "\t\t\t\n";
@@ -858,7 +930,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_visigothia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_visigothia decision";
-	else if (countries.find("VGO") == countries.end())
+	else if (!x(countries, "VGO"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -866,11 +938,11 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tprimary_culture = visigothic\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = VGO\n";
-		if (countries.find("POR") != countries.end())
+		if (x(countries, "POR"))
 			potential += "\t\t\t\ttag = POR\n";
-		if (countries.find("SPA") != countries.end())
+		if (x(countries, "SPA"))
 			potential += "\t\t\t\ttag = SPA\n";
-		if (countries.find("SPC") != countries.end())
+		if (x(countries, "SPC"))
 			potential += "\t\t\t\ttag = SPC\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -891,11 +963,11 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t}\n";
 		effect += "\t\t\tany_owned = {\n";
 		effect += "\t\t\t\tadd_core = VGO\n";
-		if (countries.find("SPA") != countries.end())
+		if (x(countries, "SPA"))
 			effect += "\t\t\t\tremove_core = SPA\n";
-		if (countries.find("POR") != countries.end())
+		if (x(countries, "POR"))
 			effect += "\t\t\t\tremove_core = POR\n";
-		if (countries.find("SPC") != countries.end())
+		if (x(countries, "SPC"))
 			effect += "\t\t\t\tremove_core = SPC\n";
 		effect += "\t\t\t}\t\t\t\n";
 		effect += "\t\t\t\n";
@@ -906,7 +978,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_siberia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_siberia decision";
-	else if (countries.find("SIB") == countries.end())
+	else if (!x(countries, "SIB"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -914,9 +986,9 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tprimary_culture = siberian\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = SIB\n";
-		if (countries.find("RUS") != countries.end())
+		if (x(countries, "RUS"))
 			potential += "\t\t\t\ttag = RUS\n";
-		if (countries.find("SLA") != countries.end())
+		if (x(countries, "SLA"))
 			potential += "\t\t\t\ttag = SLA\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -937,9 +1009,9 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t}\n";
 		effect += "\t\t\tany_owned = {\n";
 		effect += "\t\t\t\tadd_core = SIB\n";
-		if (countries.find("RUS") != countries.end())
+		if (x(countries, "RUS"))
 			effect += "\t\t\t\tremove_core = RUS\n";
-		if (countries.find("SLA") != countries.end())
+		if (x(countries, "SLA"))
 			effect += "\t\t\t\tremove_core = SLA\n";
 		effect += "\t\t\t}\t\t\t\n";
 		effect += "\t\t\t\n";
@@ -950,12 +1022,12 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_indochina"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_indochina decision";
-	else if (countries.find("IDO") == countries.end())
+	else if (!x(countries, "IDO"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_anglo_saxony"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_anglo_saxony decision";
-	else if (countries.find("AES") == countries.end())
+	else if (!x(countries, "AES"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -963,9 +1035,9 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tprimary_culture = anglo_saxon\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = AES\n";
-		if (countries.find("ENG") != countries.end())
+		if (x(countries, "ENG"))
 			potential += "\t\t\t\ttag = ENG\n";
-		if (countries.find("ENL") != countries.end())
+		if (x(countries, "ENL"))
 			potential += "\t\t\t\ttag = ENL\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -987,9 +1059,9 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t}\n";
 		effect += "\t\t\tany_owned = {\n";
 		effect += "\t\t\t\tadd_core = AES\n";
-		if (countries.find("ENG") != countries.end())
+		if (x(countries, "ENG"))
 			effect += "\t\t\t\tremove_core = ENG\n";
-		if (countries.find("ENL") != countries.end())
+		if (x(countries, "ENL"))
 			effect += "\t\t\t\tremove_core = ENL\n";
 		effect += "\t\t\t}\t\t\t\n";
 		effect += "\t\t\t\n";
@@ -1000,7 +1072,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_frankia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_frankia decision";
-	else if (countries.find("FRK") == countries.end())
+	else if (!x(countries, "FRK"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -1008,7 +1080,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tprimary_culture = frankish\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = FRK\n";
-		if (countries.find("FRA") != countries.end())
+		if (x(countries, "FRA"))
 			potential += "\t\t\t\ttag = FRA\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -1029,7 +1101,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t}\n";
 		effect += "\t\t\tany_owned = {\n";
 		effect += "\t\t\t\tadd_core = FRK\n";
-		if (countries.find("FRA") != countries.end())
+		if (x(countries, "FRA"))
 			effect += "\t\t\t\tremove_core = FRA\n";
 		effect += "\t\t\t}\t\t\t\n";
 		effect += "\t\t\t\n";
@@ -1040,36 +1112,35 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_britannia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_britannia decision";
-	else if (countries.find("ENR") == countries.end())
+	else if (!x(countries, "ENR"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_gallia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_gallia decision";
-	else if (countries.find("FRR") == countries.end())
+	else if (!x(countries, "FRR"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_laessinia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_laessinia decision";
-	else if (countries.find("AUR") == countries.end())
+	else if (!x(countries, "AUR"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_euskadi"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_euskadi decision";
-	else if (countries.find("BSQ") == countries.end() ||
-			 (countries.find("NAV") == countries.end() && countries.find("GYN") == countries.end()))
+	else if (!x(countries, "BSQ") || (!x(countries, "NAV") && !x(countries, "GYN")))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tOR = {\n";
-		if (countries.find("NAV") != countries.end())
+		if (x(countries, "NAV"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\ttag = NAV\n";
 			potential += "\t\t\t\t\tgovernment = democracy\n";
 			potential += "\t\t\t\t}\n";
 		}
-		if (countries.find("GYN") != countries.end())
+		if (x(countries, "GYN"))
 		{
 			potential += "\t\t\t\tAND = { #Gascony, if Navarre doesn't exist\n";
 			potential += "\t\t\t\t\ttag = GYN\n";
@@ -1098,13 +1169,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\t\tall_core = {\n";
 		allow += "\t\t\t\t\tNOT = { province_id = 492 }\n";
 		allow += "\t\t\t\t\tOR = {\n";
-		if (countries.find("GYN") != countries.end())
+		if (x(countries, "GYN"))
 			allow += "\t\t\t\t\t\towned_by = GYN\n";
-		if (countries.find("NAV") != countries.end())
+		if (x(countries, "NAV"))
 			allow += "\t\t\t\t\t\towned_by = NAV\n";
-		if (countries.find("SPA") != countries.end())
+		if (x(countries, "SPA"))
 			allow += "\t\t\t\t\t\towned_by = SPA\n";
-		if (countries.find("FRA") != countries.end())
+		if (x(countries, "FRA"))
 			allow += "\t\t\t\t\t\towned_by = FRA\n";
 		allow += "\t\t\t\t\t}\n";
 		allow += "\t\t\t\t}\n";
@@ -1116,7 +1187,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\tprestige = 10\n";
 		effect += "\t\t\tany_owned = {\n";
 		effect += "\t\t\t\tadd_core = BSQ\n";
-		if (countries.find("SPA") != countries.end())
+		if (x(countries, "SPA"))
 			effect += "\t\t\t\tremove_core = SPA\n";
 		effect += "\t\t\t}\n";
 		effect += "\t\t\tchange_tag = BSQ\n";
@@ -1126,12 +1197,12 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_nepal"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_nepal decision";
-	else if (countries.find("NEP") == countries.end())
+	else if (!x(countries, "NEP"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_persia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_persia decision";
-	else if (countries.find("PER") == countries.end())
+	else if (!x(countries, "PER"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -1144,13 +1215,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = PER\n";
-		if (countries.find("ARA") != countries.end())
+		if (x(countries, "ARA"))
 			potential += "\t\t\t\ttag = ARA\n";
-		if (countries.find("MUG") != countries.end())
+		if (x(countries, "MUG"))
 			potential += "\t\t\t\ttag = MUG\n";
-		if (countries.find("TIM") != countries.end())
+		if (x(countries, "TIM"))
 			potential += "\t\t\t\ttag = TIM\n";
-		if (countries.find("ALL") != countries.end())
+		if (x(countries, "ALL"))
 			potential += "\t\t\t\ttag = ALL\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -1165,7 +1236,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t\t\tin_sphere = PER\n";
 		effect += "\t\t\t\t\tNOT = {\n";
 		effect += "\t\t\t\t\t\ttag = PER\n";
-		if (countries.find("TAJ") != countries.end())
+		if (x(countries, "TAJ"))
 			effect += "\t\t\t\t\t\ttag = TAJ #Tajikistan would be nonsense\n";
 		effect += "\t\t\t\t\t}\n";
 		effect += "\t\t\t\t\tOR = {\n";
@@ -1183,7 +1254,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_kurdistan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_kurdistan decision";
-	else if (countries.find("KDS") == countries.end())
+	else if (!x(countries, "KDS"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -1191,17 +1262,17 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tprimary_culture = kurdish\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = KDS\n";
-		if (countries.find("PER") != countries.end())
+		if (x(countries, "PER"))
 			potential += "\t\t\t\ttag = PER\n";
-		if (countries.find("ARA") != countries.end())
+		if (x(countries, "ARA"))
 			potential += "\t\t\t\ttag = ARA\n";
-		if (countries.find("TUR") != countries.end())
+		if (x(countries, "TUR"))
 			potential += "\t\t\t\ttag = TUR\n";
-		if (countries.find("IRQ") != countries.end())
+		if (x(countries, "IRQ"))
 			potential += "\t\t\t\ttag = IRQ\n";
-		if (countries.find("SYR") != countries.end())
+		if (x(countries, "SYR"))
 			potential += "\t\t\t\ttag = SYR\n";
-		if (countries.find("ALL") != countries.end())
+		if (x(countries, "ALL"))
 			potential += "\t\t\t\ttag = ALL\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -1210,50 +1281,50 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("provincia_britannia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load provincia_britannia decision";
-	else if (countries.find("ENR") == countries.end() && countries.find("SPQ") == countries.end())
+	else if (!x(countries, "ENR") && !x(countries, "SPQ"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("provincia_gallia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load provincia_gallia decision";
-	else if (countries.find("FRR") == countries.end() && countries.find("SPQ") == countries.end())
+	else if (!x(countries, "FRR") && !x(countries, "SPQ"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("provincia_noricum"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load provincia_noricum decision";
-	else if (countries.find("AUR") == countries.end() && countries.find("SPQ") == countries.end())
+	else if (!x(countries, "AUR") && !x(countries, "SPQ"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_LVN"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_LVN decision";
-	else if (countries.find("LVN") == countries.end())
+	else if (!x(countries, "LVN"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = LVN\n";
-		if (countries.find("ITA") != countries.end())
+		if (x(countries, "ITA"))
 			potential += "\t\t\t\ttag = ITA\n";
-		if (countries.find("ITP") != countries.end())
+		if (x(countries, "ITP"))
 			potential += "\t\t\t\ttag = ITP\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\t\ttag = SPQ\n";
-		if (countries.find("BYZ") != countries.end())
+		if (x(countries, "BYZ"))
 			potential += "\t\t\t\ttag = BYZ\n";
-		if (countries.find("LGB") != countries.end())
+		if (x(countries, "LGB"))
 			potential += "\t\t\t\ttag = LGB\n";
-		if (countries.find("PAP") != countries.end())
+		if (x(countries, "PAP"))
 			potential += "\t\t\t\ttag = PAP\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tOR = {\n";
-		if (countries.find("LOM") != countries.end())
+		if (x(countries, "LOM"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\tNOT = { exists = VEN }\n";
 			potential += "\t\t\t\t\ttag = LOM\n";
 			potential += "\t\t\t\t}\n";
 		}
-		if (countries.find("VEN") != countries.end())
+		if (x(countries, "VEN"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\tNOT = { exists = LOM }\n";
@@ -1261,9 +1332,9 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 			potential += "\t\t\t\t}\n";
 		}
 		potential += "\t\t\t\tAND = {\n";
-		if (countries.find("VEN") != countries.end())
+		if (x(countries, "VEN"))
 			potential += "\t\t\t\t\tNOT = { exists = VEN }\n";
-		if (countries.find("LOM") != countries.end())
+		if (x(countries, "LOM"))
 			potential += "\t\t\t\t\tNOT = { exists = LOM }\n";
 		potential += "\t\t\t\t\tOR = {\n";
 		potential += "\t\t\t\t\t\tcapital_scope = { state_id = 726 }\n";
@@ -1280,13 +1351,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\tis_independant = yes\n";
 		allow += "\t\t\tAUS_726 = { owned_by = THIS }\n";
 		allow += "\t\t\tAUS_729 = { owned_by = THIS }\n";
-		if (countries.find("LOM") != countries.end())
+		if (x(countries, "LOM"))
 		{
 			allow += "\t\t\tLOM = {\n";
 			allow += "\t\t\t\tall_core = { owned_by = THIS }\n";
 			allow += "\t\t\t}\n";
 		}
-		if (countries.find("VEN") != countries.end())
+		if (x(countries, "VEN"))
 		{
 			allow += "\t\t\tVEN = {\n";
 			allow += "\t\t\t\tall_core = { owned_by = THIS }\n";
@@ -1298,13 +1369,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\tprestige = 10\n";
 		effect += "\t\t\tAUS_726 = { add_core = LVN }\n";
 		effect += "\t\t\tAUS_729 = { add_core = LVN }\n";
-		if (countries.find("LOM") != countries.end())
+		if (x(countries, "LOM"))
 		{
 			effect += "\t\t\tLOM = {\n";
 			effect += "\t\t\t\tall_core = { add_core = LVN }\n";
 			effect += "\t\t\t}\n";
 		}
-		if (countries.find("VEN") != countries.end())
+		if (x(countries, "VEN"))
 		{
 			effect += "\t\t\tVEN = {\n";
 			effect += "\t\t\t\tall_core = { add_core = LVN }\n";
@@ -1320,30 +1391,30 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("vassal_LVN"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load vassal_LVN decision";
-	else if (countries.find("LVN") == countries.end())
+	else if (!x(countries, "LVN"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = LVN\n";
-		if (countries.find("ITA") != countries.end())
+		if (x(countries, "ITA"))
 			potential += "\t\t\t\ttag = ITA\n";
-		if (countries.find("ITP") != countries.end())
+		if (x(countries, "ITP"))
 			potential += "\t\t\t\ttag = ITP\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\t\ttag = SPQ\n";
-		if (countries.find("BYZ") != countries.end())
+		if (x(countries, "BYZ"))
 			potential += "\t\t\t\ttag = BYZ\n";
-		if (countries.find("LGB") != countries.end())
+		if (x(countries, "LGB"))
 			potential += "\t\t\t\ttag = LGB\n";
-		if (countries.find("PAP") != countries.end())
+		if (x(countries, "PAP"))
 			potential += "\t\t\t\ttag = PAP\n";
-		if (countries.find("ALI") != countries.end())
+		if (x(countries, "ALI"))
 			potential += "\t\t\t\ttag = ALI #Yeah...\n";
-		if (countries.find("VEN") != countries.end())
+		if (x(countries, "VEN"))
 			potential += "\t\t\t\texists = VEN\n";
-		if (countries.find("LOM") != countries.end())
+		if (x(countries, "LOM"))
 			potential += "\t\t\t\texists = LOM\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
@@ -1359,13 +1430,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\tOR = {\n";
 		potential += "\t\t\t\tAUS_726 = { owned_by = THIS }\n";
 		potential += "\t\t\t\tAUS_729 = { owned_by = THIS }\n";
-		if (countries.find("LOM") != countries.end())
+		if (x(countries, "LOM"))
 		{
 			potential += "\t\t\t\tLOM = {\n";
 			potential += "\t\t\t\t\tany_core = { owned_by = THIS }\n";
 			potential += "\t\t\t\t}\n";
 		}
-		if (countries.find("VEN") != countries.end())
+		if (x(countries, "VEN"))
 		{
 			potential += "\t\t\t\tVEN = {\n";
 			potential += "\t\t\t\t\tany_core = { owned_by = THIS }\n";
@@ -1380,13 +1451,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\tis_independant = yes\n";
 		allow += "\t\t\tAUS_726 = { owned_by = THIS }\n";
 		allow += "\t\t\tAUS_729 = { owned_by = THIS }\n";
-		if (countries.find("LOM") != countries.end())
+		if (x(countries, "LOM"))
 		{
 			allow += "\t\t\tLOM = {\n";
 			allow += "\t\t\t\tall_core = { owned_by = THIS }\n";
 			allow += "\t\t\t}\n";
 		}
-		if (countries.find("VEN") != countries.end())
+		if (x(countries, "VEN"))
 		{
 			allow += "\t\t\tVEN = {\n";
 			allow += "\t\t\t\tall_core = { owned_by = THIS }\n";
@@ -1399,13 +1470,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\tprestige = 10\n";
 		effect += "\t\t\tAUS_726 = { add_core = LVN secede_province = LVN }\n";
 		effect += "\t\t\tAUS_729 = { add_core = LVN secede_province = LVN }\n";
-		if (countries.find("LOM") != countries.end())
+		if (x(countries, "LOM"))
 		{
 			effect += "\t\t\tLOM = {\n";
 			effect += "\t\t\t\tall_core = { add_core = LVN secede_province = LVN }\n";
 			effect += "\t\t\t}\n";
 		}
-		if (countries.find("VEN") != countries.end())
+		if (x(countries, "VEN"))
 		{
 			effect += "\t\t\tVEN = {\n";
 			effect += "\t\t\t\tall_core = { add_core = LVN secede_province = LVN }\n";
@@ -1423,17 +1494,17 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("EGY_copt"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load EGY_copt decision";
-	else if (countries.find("CEG") == countries.end() || countries.find("EGY") == countries.end())
+	else if (!x(countries, "CEG") || !x(countries, "EGY"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("EGY_not_copt"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load EGY_not_copt decision";
-	else if (countries.find("CEG") == countries.end() || countries.find("EGY") == countries.end())
+	else if (!x(countries, "CEG") || !x(countries, "EGY"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("form_ITP"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_ITP decision";
-	else if (countries.find("ITP") == countries.end() || countries.find("PAP") == countries.end())
+	else if (!x(countries, "ITP") || !x(countries, "PAP"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -1441,10 +1512,10 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\ttag = PAP\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\thas_country_flag = post_colonial_country\n";
-		if (countries.find("ITA") != countries.end())
+		if (x(countries, "ITA"))
 			potential += "\t\t\t\texists = ITA\n";
 		potential += "\t\t\t}\n";
-		if (countries.find("SPQ") != countries.end())
+		if (x(countries, "SPQ"))
 			potential += "\t\t\tNOT = { tag = SPQ }\n";
 		potential += "\t\t}\n";
 		(theDecision->second).updateDecision("potential", potential);
@@ -1454,13 +1525,13 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\tnationalism_n_imperialism = 1\n";
 		allow += "\t\t\tis_greater_power = yes\n";
 		allow += "\t\t\twar = no\n";
-		if (countries.find("ITA") != countries.end())
+		if (x(countries, "ITA"))
 		{
 			allow += "\t\t\tITA = {\n";
 			allow += "\t\t\t\tall_core = {\n";
 			allow += "\t\t\t\t\tOR = {\n";
 			allow += "\t\t\t\t\t\towned_by = THIS\n";
-			if (countries.find("VEN") != countries.end())
+			if (x(countries, "VEN"))
 			{
 				allow += "\t\t\t\t\t\tAND = {\n";
 				allow += "\t\t\t\t\t\t\tis_core = VEN\n";
@@ -1469,7 +1540,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 				allow += "\t\t\t\t\t\t\t}\n";
 				allow += "\t\t\t\t\t\t}\n";
 			}
-			if (countries.find("LOM") != countries.end())
+			if (x(countries, "LOM"))
 			{
 				allow += "\t\t\t\t\t\tAND = {\n";
 				allow += "\t\t\t\t\t\t\tis_core = LOM\n";
@@ -1497,7 +1568,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		std::string effect = "= {\n";
 		effect += "\t\t\tprestige = 20\n";
 		effect += "\t\t\tall_core = { remove_core = THIS }\n";
-		if (countries.find("ITA") != countries.end())
+		if (x(countries, "ITA"))
 		{
 			effect += "\t\t\tITA = {\n";
 			effect += "\t\t\t\tall_core = {\n";
@@ -1523,11 +1594,11 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t\t\tNOT = { is_culture_group = italian }\n";
 		effect += "\t\t\t\t\tOR = {\n";
 		effect += "\t\t\t\t\t\thas_country_flag = objects_to_italy\n";
-		if (countries.find("FRA") != countries.end())
+		if (x(countries, "FRA"))
 			effect += "\t\t\t\t\t\ttag = FRA\n";
-		if (countries.find("AUS") != countries.end())
+		if (x(countries, "AUS"))
 			effect += "\t\t\t\t\t\ttag = AUS\n";
-		if (countries.find("KUK") != countries.end())
+		if (x(countries, "KUK"))
 			effect += "\t\t\t\t\t\ttag = KUK\n";
 		effect += "\t\t\t\t\t\tAND = {\n";
 		effect += "\t\t\t\t\t\t\tneighbour = ITP\n";
@@ -1543,39 +1614,39 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_SPQR"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_SPQR decision";
-	else if (countries.find("SPQ") == countries.end())
+	else if (!x(countries, "SPQ"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tOR = {\n";
-		if (countries.find("BYZ") != countries.end())
+		if (x(countries, "BYZ"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\ttag = BYZ\n";
-			if (countries.find("LTN") != countries.end())
+			if (x(countries, "LTN"))
 				potential += "\t\t\t\t\tNOT = { exists = LTN }\n";
-			if (countries.find("HRE") != countries.end())
+			if (x(countries, "HRE"))
 				potential += "\t\t\t\t\tNOT = { exists = HRE }\n";
 			potential += "\t\t\t\t}\n";
 		}
-		if (countries.find("LTN") != countries.end())
+		if (x(countries, "LTN"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\ttag = LTN\n";
-			if (countries.find("BYZ") != countries.end())
+			if (x(countries, "BYZ"))
 				potential += "\t\t\t\t\tNOT = { exists = BYZ }\n";
-			if (countries.find("HRE") != countries.end())
+			if (x(countries, "HRE"))
 				potential += "\t\t\t\t\tNOT = { exists = HRE }\n";
 			potential += "\t\t\t\t}\n";
 		}
-		if (countries.find("HRE") != countries.end())
+		if (x(countries, "HRE"))
 		{
 			potential += "\t\t\t\tAND = {\n";
 			potential += "\t\t\t\t\ttag = HRE\n";
-			if (countries.find("LTN") != countries.end())
+			if (x(countries, "LTN"))
 				potential += "\t\t\t\t\tNOT = { exists = LTN }\n";
-			if (countries.find("BYZ") != countries.end())
+			if (x(countries, "BYZ"))
 				potential += "\t\t\t\t\tNOT = { exists = BYZ }\n";
 			potential += "\t\t\t\t}\n";
 		}
@@ -1596,17 +1667,17 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\tall_core = { remove_core = THIS add_core = SPQ }\n";
 		effect += "\t\t\tany_owned = {\n";
 		effect += "\t\t\t\tadd_core = SPQ\n";
-		if (countries.find("BYZ") != countries.end())
+		if (x(countries, "BYZ"))
 			effect += "\t\t\t\tremove_core = BYZ\n";
-		if (countries.find("LTN") != countries.end())
+		if (x(countries, "LTN"))
 			effect += "\t\t\t\tremove_core = LTN\n";
-		if (countries.find("HRE") != countries.end())
+		if (x(countries, "HRE"))
 			effect += "\t\t\t\tremove_core = HRE\n";
-		if (countries.find("ITA") != countries.end())
+		if (x(countries, "ITA"))
 			effect += "\t\t\t\tremove_core = ITA\n";
-		if (countries.find("ITP") != countries.end())
+		if (x(countries, "ITP"))
 			effect += "\t\t\t\tremove_core = ITP\n";
-		if (countries.find("JER") != countries.end())
+		if (x(countries, "JER"))
 			effect += "\t\t\t\tremove_core = JER\n";
 		effect += "\t\t\t}\n";
 		effect += "\t\t\tchange_tag = SPQ\n";
@@ -1626,7 +1697,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_yemen"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_yemen decision";
-	else if (countries.find("YEM") == countries.end())
+	else if (!x(countries, "YEM"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -1638,9 +1709,9 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = YEM\n";
-		if (countries.find("ARA") != countries.end())
+		if (x(countries, "ARA"))
 			potential += "\t\t\t\ttag = ARA\n";
-		if (countries.find("ALL") != countries.end())
+		if (x(countries, "ALL"))
 			potential += "\t\t\t\ttag = ALL\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -1649,7 +1720,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_burma"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_burma decision";
-	else if (countries.find("BUR") == countries.end())
+	else if (!x(countries, "BUR"))
 			decisions.erase(theDecision);
 	else
 	{
@@ -1662,7 +1733,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
 		potential += "\t\t\t\texists = BUR\n";
-		if (countries.find("SHA") != countries.end())
+		if (x(countries, "SHA"))
 			potential += "\t\t\t\ttag = SHA\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t}\t\n";
@@ -1676,7 +1747,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\t\t\tOR = {\n";
 		allow += "\t\t\t\t\t\towned_by = THIS\n";
 		allow += "\t\t\t\t\t\towner = { in_sphere = THIS }\n";
-		if (countries.find("SHA") != countries.end())
+		if (x(countries, "SHA"))
 			allow += "\t\t\t\t\t\towned_by = SHA\n";
 		allow += "\t\t\t\t\t}\n";
 		allow += "\t\t\t\t}\n";
@@ -1692,7 +1763,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		effect += "\t\t\t\t\tin_sphere = BUR\n";
 		effect += "\t\t\t\t\tNOT = {\n";
 		effect += "\t\t\t\t\t\ttag = BUR\n";
-		if (countries.find("SHA") != countries.end())
+		if (x(countries, "SHA"))
 			effect += "\t\t\t\t\t\ttag = SHA\n";
 		effect += "\t\t\t\t\t}\n";
 		effect += "\t\t\t\t\tOR = {\n";
@@ -1711,14 +1782,14 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_shan"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_shan decision";
-	else if (countries.find("SHA") == countries.end())
+	else if (!x(countries, "SHA"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tprimary_culture = shan\n";
 		potential += "\t\t\tNOT = {\n";
-		if (countries.find("BUR") != countries.end())
+		if (x(countries, "BUR"))
 			potential += "\t\t\t\ttag = BUR\n";
 		potential += "\t\t\t\texists = SHA\n";
 		potential += "\t\t\t}\n";
@@ -1733,7 +1804,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		allow += "\t\t\t\t\tOR = {\n";
 		allow += "\t\t\t\t\t\towned_by = THIS\n";
 		allow += "\t\t\t\t\t\towner = { in_sphere = THIS }\n";
-		if (countries.find("BUR") != countries.end())
+		if (x(countries, "BUR"))
 			allow += "\t\t\t\t\t\towned_by = BUR\n";
 		allow += "\t\t\t\t\t}\n";
 		allow += "\t\t\t\t}\n";
@@ -1744,16 +1815,15 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_libya"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_libya decision";
-	else if (countries.find("LBY") == countries.end() ||
-			 (countries.find("TRI") == countries.end() && countries.find("CYR") == countries.end()))
+	else if (!x(countries, "LBY") || (!x(countries, "TRI") && !x(countries, "CYR")))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tOR = {\n";
-		if (countries.find("TRI") != countries.end())
+		if (x(countries, "TRI"))
 			potential += "\t\t\t\ttag = TRI\n";
-		if (countries.find("CYR") != countries.end())
+		if (x(countries, "CYR"))
 			potential += "\t\t\t\ttag = CYR\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = { exists = LBY }\n";
@@ -1764,17 +1834,17 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("form_kenya"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load form_kenya decision";
-	else if (countries.find("KNY") == countries.end() || countries.find("SWA") == countries.end())
+	else if (!x(countries, "KNY") || !x(countries, "SWA"))
 			decisions.erase(theDecision);
 
 	if (const auto& theDecision = decisions.find("moldavia_moldova"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load moldavia_moldova decision";
-	else if (countries.find("MDV") == countries.end() || countries.find("MOL") == countries.end())
+	else if (!x(countries, "MDV") || !x(countries, "MOL"))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
-		if (countries.find("ROM") != countries.end())
+		if (x(countries, "ROM"))
 			potential += "\t\t\texists = ROM\n";
 		potential += "\t\t\ttag = MOL\n";
 		potential += "\t\t\tOR = {\n";
@@ -1786,7 +1856,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		(theDecision->second).updateDecision("potential", potential);
 
 		std::string allow = "= {\n";
-		if (countries.find("ROM") != countries.end())
+		if (x(countries, "ROM"))
 			allow += "\t\t\texists = ROM\n";
 		else
 			allow += "\t\t\talways = yes\n";
@@ -1794,7 +1864,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 		std::string effect = "= {\n";
 		effect += "\t\t\tany_core = {\n";
-		if (countries.find("ROM") != countries.end())
+		if (x(countries, "ROM"))
 		{
 			effect += "\t\t\t\tlimit = {\n";
 			effect += "\t\t\t\t\tNOT = {\n";
@@ -1812,20 +1882,18 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("zapadoslavia"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load zapadoslavia decision";
-	else if (countries.find("WSF") == countries.end() ||
-			 (countries.find("PLC") == countries.end() && countries.find("POL") == countries.end() &&
-			  countries.find("CZH") == countries.end()))
+	else if (!x(countries, "WSF") || (!x(countries, "PLC") && !x(countries, "POL") && !x(countries, "CZH")))
 			decisions.erase(theDecision);
 	else
 	{
 		std::string potential = "= {\n";
 		potential += "\t\t\tis_greater_power = yes\n";
 		potential += "\t\t\tOR = {\n";
-		if (countries.find("PLC") != countries.end())
+		if (x(countries, "PLC"))
 			potential += "\t\t\t\ttag = PLC\n";
-		if (countries.find("POL") != countries.end())
+		if (x(countries, "POL"))
 			potential += "\t\t\t\ttag = POL\n";
-		if (countries.find("CZH") != countries.end())
+		if (x(countries, "CZH"))
 			potential += "\t\t\t\ttag = CZH\n";
 		potential += "\t\t\t}\n";
 		potential += "\t\t\tNOT = {\n";
@@ -1837,7 +1905,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 		std::string allow = "= {\n";
 		allow += "\t\t\twar = no\n";
 		allow += "\t\t\tnationalism_n_imperialism = 1\n";
-		if (countries.find("PLC") != countries.end())
+		if (x(countries, "PLC"))
 		{
 			allow += "\t\t\tPLC = {\n";
 			allow += "\t\t\t\tall_core = {\n";
@@ -1858,7 +1926,7 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 			allow += "\t\t\t\t}\n";
 			allow += "\t\t\t}\n";
 		}
-		if (countries.find("CZH") != countries.end())
+		if (x(countries, "CZH"))
 		{
 			allow += "\t\t\tCZH = {\n";
 			allow += "\t\t\t\tall_core = {\n";
@@ -1885,6 +1953,15 @@ void V2::Decisions::updateDecisions(const std::map<std::string, std::shared_ptr<
 
 	if (const auto& theDecision = decisions.find("oy_vey"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load oy_vey decision";
-	else if (countries.find("ISR") == countries.end())
+	else if (!x(countries, "ISR"))
 			decisions.erase(theDecision);
+}
+
+bool V2::Decisions::x(const std::map<std::string, std::shared_ptr<Country>>& countries, const std::string& tag)
+{
+	bool isTagEssential = false;
+	if (countries.find(tag) != countries.end())
+		isTagEssential = true;
+
+	return isTagEssential;
 }

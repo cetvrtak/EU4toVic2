@@ -1923,7 +1923,9 @@ void V2::World::importDecisions()
 void V2::World::updateDecisions()
 {
 	auto& converterUnions = decisions.find("converterUnions.txt")->second;
-	converterUnions.updateDecisions(countries);
+	converterUnions.updateConveterUnions(countries);
+	auto& GoldenCenturyDecisions = decisions.find("1.28Decisions.txt")->second;
+	GoldenCenturyDecisions.update128Decisions(countries);
 }
 
 void V2::World::outDecisions() const
@@ -1950,7 +1952,7 @@ void V2::World::identifyEssentialTags()
 	}
 
 	// Tags featuring in these decision...
-	const std::vector<std::string> regexes = {"(change_tag = )([A-Z]{3})", "(add_core = )([A-Z]{3})", "(secede_province = )([A-Z]{3})"};
+	const std::vector<std::string> regexes = {"(change_tag = )([A-Z]{3})", "(add_core = )([A-Z]{3})", "(secede_province = )([A-Z]{3})", "(release = )([A-Z]{3})"};
 	const auto& decisionsTags = findInFiles("blankMod/output/decisions/", regexes, 2);
 	pushTagsToEssentials(decisionsTags);
 
