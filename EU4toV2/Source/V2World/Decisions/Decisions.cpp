@@ -2352,6 +2352,7 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 			allow += "\t\t\texists = ROM\n";
 		else
 			allow += "\t\t\talways = yes\n";
+		allow += "\t\t}\n";
 		(theDecision->second).updateDecision("allow", allow);
 
 		std::string effect = "= {\n";
