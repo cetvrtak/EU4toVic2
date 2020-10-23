@@ -1287,7 +1287,7 @@ political_decisions = {
 	postcol_UCA = {
 		potential = {
 			NOT = {
-				tag = UCA
+				exists = UCA
 				tag = MEX
 			}
 			capital_scope = { is_core = UCA }
@@ -1337,7 +1337,6 @@ political_decisions = {
 			NOT = { tag = CLM }
 			NOT = { tag = PEU }
 			NOT = { tag = VNZ }
-			NOT = { tag = ECU }
 			capital_scope = { is_core = ECU }
 			NOT = { has_country_flag = precolonial }
 			NOT = { has_country_flag = postcol_1 }

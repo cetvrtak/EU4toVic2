@@ -1932,6 +1932,8 @@ void V2::World::updateDecisions()
 	arabianFormation.updateArabianFormation(countries);
 	auto& africanPostColonial = decisions.find("convAfricanPostColonial.txt")->second;
 	africanPostColonial.updateConvAfricanPostColonial(countries);
+	auto& converterPostCol = decisions.find("converterPostCol.txt")->second;
+	converterPostCol.updateConverterPostCol(countries);
 }
 
 void V2::World::outDecisions() const

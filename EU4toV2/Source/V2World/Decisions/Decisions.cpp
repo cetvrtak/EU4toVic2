@@ -600,6 +600,1722 @@ void V2::Decisions::updateConvAfricanPostColonial(const std::map<std::string, st
 	}
 }
 
+void V2::Decisions::updateConverterPostCol(const std::map<std::string, std::shared_ptr<Country>>& countries)
+{
+	if (const auto& theDecision = decisions.find("the_post_colonialism"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load the_post_colonialism decision";
+	else
+	{
+		std::istringstream effectString(theDecision->second.getEffect());
+		Taiping newWorld(effectString);
+
+		std::string effect = "= {\n";
+		for (const auto& nonCountrySpecificEffect: newWorld.getNonCountrySpecificEffects())
+		{
+			effect += "\t\t\t" + nonCountrySpecificEffect + "\n";
+		}
+		for (const auto& tag: newWorld.getTagEffectMap())
+		{
+			if (x(countries, tag.first))
+			{
+				effect += "\t\t\t" + tag.second + "\n";
+			}
+		}
+		for (const auto& coreEffect: newWorld.getCountryCores())
+		{
+			effect += "\t\t\t" + coreEffect + "\n";
+		}
+
+		effect += "\t\t\tset_global_flag = der_postcolonialism\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_LSK"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_LSK decision";
+	else if (!x(countries, "LSK"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = LSK\n";
+		if (x(countries, "CAN"))
+			potential += "\t\t\t\ttag = CAN\n";
+		if (x(countries, "COL"))
+			potential += "\t\t\t\ttag = COL\n";
+		if (x(countries, "USA"))
+			potential += "\t\t\t\ttag = USA\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tcapital_scope = { is_core = LSK }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_QUE"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_QUE decision";
+	else if (!x(countries, "QUE"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tprimary_culture = french\n";
+		potential += "\t\t\t\tprimary_culture = french_canadian\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = QUE\n";
+		if (x(countries, "CAN"))
+			potential += "\t\t\t\ttag = CAN\n";
+		if (x(countries, "COL"))
+			potential += "\t\t\t\ttag = COL\n";
+		if (x(countries, "NEW"))
+			potential += "\t\t\t\ttag = NEW\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tcapital_scope = { is_core = QUE }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tQUE = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "CAN"))
+			allow += "\t\t\t\t\t\towned_by = CAN\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_COL"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_COL decision";
+	else if (!x(countries, "COL"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tprimary_culture = british\n";
+		potential += "\t\t\t\tprimary_culture = english\n";
+		potential += "\t\t\t\tprimary_culture = anglo_canadian\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = COL\n";
+		if (x(countries, "CAN"))
+			potential += "\t\t\t\ttag = CAN\n";
+		if (x(countries, "NEW"))
+			potential += "\t\t\t\ttag = NEW\n";
+		if (x(countries, "QUE"))
+			potential += "\t\t\t\ttag = QUE\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tcapital_scope = { is_core = COL }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tCOL = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "CAN"))
+			allow += "\t\t\t\t\t\towned_by = CAN\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_NEW"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_NEW decision";
+	else if (!x(countries, "NEW"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tprimary_culture = british\n";
+		potential += "\t\t\t\tprimary_culture = english\n";
+		potential += "\t\t\t\tprimary_culture = anglo_canadian\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = NEW\n";
+		if (x(countries, "CAN"))
+			potential += "\t\t\t\ttag = CAN\n";
+		if (x(countries, "COL"))
+			potential += "\t\t\t\ttag = COL\n";
+		if (x(countries, "QUE"))
+			potential += "\t\t\t\ttag = QUE\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tcapital_scope = { is_core = NEW }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tNEW = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "CAN"))
+			allow += "\t\t\t\t\t\towned_by = CAN\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_CAN"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_CAN decision";
+	else if (!x(countries, "CAN"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("postcol_NEN"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_NEN decision";
+	else if (!x(countries, "NEN"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = NEN\n";
+		if (x(countries, "USA"))
+			potential += "\t\t\t\ttag = USA\n";
+		if (x(countries, "CAN"))
+			potential += "\t\t\t\ttag = CAN\n";
+		if (x(countries, "QUE"))
+			potential += "\t\t\t\ttag = QUE\n";
+		if (x(countries, "COL"))
+			potential += "\t\t\t\ttag = COL\n";
+		if (x(countries, "NEW"))
+			potential += "\t\t\t\ttag = NEW\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tprimary_culture = british\n";
+		potential += "\t\t\t\tprimary_culture = english\n";
+		potential += "\t\t\t\tprimary_culture = yankee\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tcapital_scope = { is_core = NEN }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tNEN = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "USA"))
+			allow += "\t\t\t\t\t\towned_by = USA\n";
+		if (x(countries, "CSA"))
+			allow += "\t\t\t\t\t\towned_by = CSA\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_MAN"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_MAN decision";
+	else if (!x(countries, "MAN"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = MAN\n";
+		if (x(countries, "USA"))
+			potential += "\t\t\t\ttag = USA\n";
+		if (x(countries, "NEN"))
+			potential += "\t\t\t\ttag = NEN\n";
+		if (x(countries, "CAN"))
+			potential += "\t\t\t\ttag = CAN\n";
+		if (x(countries, "QUE"))
+			potential += "\t\t\t\ttag = QUE\n";
+		if (x(countries, "COL"))
+			potential += "\t\t\t\ttag = COL\n";
+		if (x(countries, "NEW"))
+			potential += "\t\t\t\ttag = NEW\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tcapital_scope = { is_core = MAN }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tMAN = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "NEN"))
+			allow += "\t\t\t\t\t\towned_by = NEN\n";
+		if (x(countries, "USA"))
+			allow += "\t\t\t\t\t\towned_by = USA\n";
+		if (x(countries, "CSA"))
+			allow += "\t\t\t\t\t\towned_by = CSA\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_LOU"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_LOU decision";
+	else if (!x(countries, "LOU"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = LOU\n";
+		if (x(countries, "USA"))
+			potential += "\t\t\t\ttag = USA\n";
+		if (x(countries, "CSA"))
+			potential += "\t\t\t\ttag = CSA\n";
+		if (x(countries, "NEN"))
+			potential += "\t\t\t\ttag = NEN\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tcapital_scope = { is_core = LOU }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tLOU = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "USA"))
+			allow += "\t\t\t\t\t\towned_by = USA\n";
+		if (x(countries, "CSA"))
+			allow += "\t\t\t\t\t\towned_by = CSA\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tprestige = 10\n";
+		effect += "\t\t\tany_owned = {\n";
+		effect += "\t\t\t\tadd_core = LOU\n";
+		if (x(countries, "USA"))
+			effect += "\t\t\t\tremove_core = USA\n";
+		if (x(countries, "CSA"))
+			effect += "\t\t\t\tremove_core = CSA\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\tchange_tag = LOU\n";
+		effect += "\t\t\tcapital = 139 #New Orleans\n";
+		effect += "\t\t\tset_country_flag = postcol_1\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_TEX"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_TEX decision";
+	else if (!x(countries, "TEX"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = TEX }\n";
+		potential += "\t\t\tcapital_scope = { is_core = TEX }\n";
+		potential += "\t\t\tNOT = {\n";
+		if (x(countries, "USA"))
+			potential += "\t\t\t\ttag = USA\n";
+		if (x(countries, "MEX"))
+			potential += "\t\t\t\ttag = MEX\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_USA"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_USA decision";
+	else if (!x(countries, "USA"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = USA }\n";
+		potential += "\t\t\tcapital_scope = { is_core = USA }\n";
+		if (x(countries, "CAN"))
+			potential += "\t\t\tNOT = { tag = CAN }\n";
+		if (x(countries, "CSA"))
+			potential += "\t\t\tNOT = { tag = CSA }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_CAL"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_CAL decision";
+	else if (!x(countries, "CAL"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = CAL }\n";
+		potential += "\t\t\tcapital_scope = { is_core = CAL }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = {\n";
+		if (x(countries, "USA"))
+			potential += "\t\t\t\ttag = USA\n";
+		if (x(countries, "CAN"))
+			potential += "\t\t\t\ttag = CAN\n";
+		if (x(countries, "MEX"))
+			potential += "\t\t\t\ttag = MEX\n";
+		if (x(countries, "TEX"))
+			potential += "\t\t\t\ttag = TEX\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_CUB"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_CUB decision";
+	else if (!x(countries, "CUB"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("postcol_HAI"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_HAI decision";
+	else if (!x(countries, "HAI"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = HAI }\n";
+		if (x(countries, "DOM"))
+			potential += "\t\t\tNOT = { tag = DOM }\n";
+		potential += "\t\t\tcapital_scope = { is_core = HAI }\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tprimary_culture = french\n";
+		potential += "\t\t\t\tprimary_culture = americaine\n";
+		potential += "\t\t\t\tprimary_culture = afro_caribbean\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tprestige = 10\n";
+		if (x(countries, "DOM"))
+			effect += "\t\t\t2213 = { remove_core = DOM } # To avoid Haiti disappearing\n";
+		effect += "\t\t\tany_owned = {\n";
+		effect += "\t\t\t\tadd_core = HAI\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\tchange_tag = HAI\n";
+		effect += "\t\t\tcapital = 2213\n";
+		if (x(countries, "DOM"))
+			effect += "\t\t\trelease_vassal = DOM\n";
+		effect += "\t\t\tset_country_flag = postcol_1\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_DOM"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_DOM decision";
+	else if (!x(countries, "DOM"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = DOM }\n";
+		if (x(countries, "HAI"))
+			potential += "\t\t\tNOT = { tag = HAI }\n";
+		potential += "\t\t\tcapital_scope = { is_core = DOM }\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\tprimary_culture = french\n";
+		potential += "\t\t\t\tprimary_culture = americaine\n";
+		potential += "\t\t\t\tprimary_culture = afro_caribbean\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tprestige = 10\n";
+		if (x(countries, "HAI"))
+			effect += "\t\t\t2214 = { remove_core = HAI } #Same as for Haiti\n";
+		effect += "\t\t\tany_owned = {\n";
+		effect += "\t\t\t\tadd_core = DOM\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\tchange_tag = DOM\n";
+		effect += "\t\t\tcapital = 2214\n";
+		if (x(countries, "HAI"))
+			effect += "\t\t\trelease_vassal = HAI\n";
+		effect += "\t\t\tset_country_flag = postcol_1\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_COS"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_COS decision";
+	else if (!x(countries, "COS"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = COS }\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\tNOT = { tag = UCA }\n";
+		potential += "\t\t\t\tAND = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\t\ttag = UCA\n";
+		if (x(countries, "ELS"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = ELS }\n";
+		if (x(countries, "GUA"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = GUA }\n";
+		if (x(countries, "HON"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = HON }\n";
+		if (x(countries, "NIC"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = NIC }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		if (x(countries, "MEX"))
+			potential += "\t\t\tNOT = { tag = MEX }\n";
+		potential += "\t\t\tcapital_scope = { is_core = COS }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tCOS = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "MEX"))
+			allow += "\t\t\t\t\t\towned_by = MEX\n";
+		if (x(countries, "UCA"))
+			allow += "\t\t\t\t\t\towned_by = UCA\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_HON"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_HON decision";
+	else if (!x(countries, "HON"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = HON }\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\tNOT = { tag = UCA }\n";
+		potential += "\t\t\t\tAND = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\t\ttag = UCA\n";
+		if (x(countries, "COS"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = COS }\n";
+		if (x(countries, "ELS"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = ELS }\n";
+		if (x(countries, "GUA"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = GUA }\n";
+		if (x(countries, "NIC"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = NIC }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		if (x(countries, "MEX"))
+			potential += "\t\t\tNOT = { tag = MEX }\n";
+		potential += "\t\t\tcapital_scope = { is_core = HON }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tHON = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "MEX"))
+			allow += "\t\t\t\t\t\towned_by = MEX\n";
+		if (x(countries, "UCA"))
+			allow += "\t\t\t\t\t\towned_by = UCA\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_NIC"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_NIC decision";
+	else if (!x(countries, "NIC"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = NIC }\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\tNOT = { tag = UCA }\n";
+		potential += "\t\t\t\tAND = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\t\ttag = UCA\n";
+		if (x(countries, "COS"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = COS }\n";
+		if (x(countries, "ELS"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = ELS }\n";
+		if (x(countries, "GUA"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = GUA }\n";
+		if (x(countries, "HON"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = HON }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		if (x(countries, "MEX"))
+			potential += "\t\t\tNOT = { tag = MEX }\n";
+		potential += "\t\t\tcapital_scope = { is_core = NIC }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tNIC = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "MEX"))
+			allow += "\t\t\t\t\t\towned_by = MEX\n";
+		if (x(countries, "UCA"))
+			allow += "\t\t\t\t\t\towned_by = UCA\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_ELS"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_ELS decision";
+	else if (!x(countries, "ELS"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = ELS }\n";
+		if (x(countries, "HON"))
+			potential += "\t\t\tNOT = { tag = HON }\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\tNOT = { tag = UCA }\n";
+		potential += "\t\t\t\tAND = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\t\ttag = UCA\n";
+		if (x(countries, "COS"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = COS }\n";
+		if (x(countries, "GUA"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = GUA }\n";
+		if (x(countries, "HON"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = HON }\n";
+		if (x(countries, "NIC"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = NIC }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		if (x(countries, "MEX"))
+			potential += "\t\t\tNOT = { tag = MEX }\n";
+		potential += "\t\t\tcapital_scope = { is_core = ELS }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tELS = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "HON"))
+			allow += "\t\t\t\t\t\towned_by = HON\n";
+		if (x(countries, "MEX"))
+			allow += "\t\t\t\t\t\towned_by = MEX\n";
+		if (x(countries, "UCA"))
+			allow += "\t\t\t\t\t\towned_by = UCA\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_PNM"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_PNM decision";
+	else if (!x(countries, "PNM"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = PNM }\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\tNOT = { tag = UCA }\n";
+		if (x(countries, "MEX"))
+			potential += "\t\t\tNOT = { tag = MEX }\n";
+		potential += "\t\t\tcapital_scope = { is_core = PNM }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tPNM = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "MEX"))
+			allow += "\t\t\t\t\t\towned_by = MEX\n";
+		if (x(countries, "UCA"))
+			allow += "\t\t\t\t\t\towned_by = UCA\n";
+		if (x(countries, "CLM"))
+			allow += "\t\t\t\t\t\towned_by = CLM\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_GUA"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_GUA decision";
+	else if (!x(countries, "GUA"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = GUA }\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\tNOT = { tag = UCA }\n";
+		potential += "\t\t\t\tAND = {\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\t\t\ttag = UCA\n";
+		if (x(countries, "COS"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = COS }\n";
+		if (x(countries, "ELS"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = ELS }\n";
+		if (x(countries, "HON"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = HON }\n";
+		if (x(countries, "NIC"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = NIC }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		if (x(countries, "MEX"))
+			potential += "\t\t\tNOT = { tag = MEX }\n";
+		potential += "\t\t\tcapital_scope = { is_core = GUA }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tGUA = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "MEX"))
+			allow += "\t\t\t\t\t\towned_by = MEX\n";
+		if (x(countries, "UCA"))
+			allow += "\t\t\t\t\t\towned_by = UCA\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_UCA"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_UCA decision";
+	else if (!x(countries, "UCA"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = UCA\n";
+		if (x(countries, "MEX"))
+			potential += "\t\t\t\ttag = MEX\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tcapital_scope = { is_core = UCA }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tUCA = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "MEX"))
+			allow += "\t\t\t\t\t\towned_by = MEX\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_ECU"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_ECU decision";
+	else if (!x(countries, "ECU"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = ECU }\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "GCO"))
+			potential += "\t\t\t\tNOT = { tag = GCO }\n";
+		potential += "\t\t\t\tAND = {\n";
+		if (x(countries, "GCO"))
+			potential += "\t\t\t\t\ttag = GCO\n";
+		if (x(countries, "CLM"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = CLM }\n";
+		if (x(countries, "VNZ"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = VNZ }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		if (x(countries, "CLM"))
+			potential += "\t\t\tNOT = { tag = CLM }\n";
+		if (x(countries, "PEU"))
+			potential += "\t\t\tNOT = { tag = PEU }\n";
+		if (x(countries, "VNZ"))
+			potential += "\t\t\tNOT = { tag = VNZ }\n";
+		potential += "\t\t\tcapital_scope = { is_core = ECU }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tECU = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "GCO"))
+			allow += "\t\t\t\t\t\towned_by = GCO\n";
+		if (x(countries, "CLM"))
+			allow += "\t\t\t\t\t\towned_by = CLM\n";
+		if (x(countries, "PEU"))
+			allow += "\t\t\t\t\t\towned_by = PEU\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_MEX"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_MEX decision";
+	else if (!x(countries, "MEX"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = MEX }\n";
+		if (x(countries, "USA"))
+			potential += "\t\t\tNOT = { tag = USA }\n";
+		if (x(countries, "UCA"))
+			potential += "\t\t\tNOT = { tag = UCA }\n";
+		potential += "\t\t\tcapital_scope = { is_core = MEX }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tMEX = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "TEX"))
+			allow += "\t\t\t\t\t\towned_by = TEX\n";
+		if (x(countries, "USA"))
+			allow += "\t\t\t\t\t\towned_by = USA\n";
+		if (x(countries, "UCA"))
+			allow += "\t\t\t\t\t\towned_by = UCA\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_BRZ"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_BRZ decision";
+	else if (!x(countries, "BRZ"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = BRZ }\n";
+		if (x(countries, "URU"))
+			potential += "\t\t\tNOT = { tag = URU }\n";
+		potential += "\t\t\tcapital_scope = { is_core = BRZ }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_PEU"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_PEU decision";
+	else if (!x(countries, "PEU"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = PEU }\n";
+		if (x(countries, "GCO"))
+			potential += "\t\t\tNOT = { tag = GCO }\n";
+		if (x(countries, "ECU"))
+			potential += "\t\t\tNOT = { tag = ECU }\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "PBC"))
+			potential += "\t\t\t\tNOT = { tag = PBC }\n";
+		potential += "\t\t\t\tAND = {\n";
+		if (x(countries, "PBC"))
+			potential += "\t\t\t\t\ttag = PBC\n";
+		if (x(countries, "BOL"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = BOL }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		if (x(countries, "PBC"))
+			potential += "\t\t\tNOT = { tag = PBC }\n";
+		potential += "\t\t\tcapital_scope = { is_core = PEU }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tPEU = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "GCO"))
+			allow += "\t\t\t\t\t\towned_by = GCO\n";
+		if (x(countries, "CLM"))
+			allow += "\t\t\t\t\t\towned_by = CLM\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_ARG"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_ARG decision";
+	else if (!x(countries, "ARG"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = ARG }\n";
+		if (x(countries, "URU"))
+			potential += "\t\t\tNOT = { tag = URU }\n";
+		if (x(countries, "CHL"))
+			potential += "\t\t\tNOT = { tag = CHL }\n";
+		potential += "\t\t\tcapital_scope = { is_core = ARG }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tARG = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "PRG"))
+			allow += "\t\t\t\t\t\towned_by = PRG\n";
+		if (x(countries, "CHL"))
+			allow += "\t\t\t\t\t\towned_by = CHL\n";
+		if (x(countries, "URU"))
+			allow += "\t\t\t\t\t\towned_by = URU\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_PRG"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_PRG decision";
+	else if (!x(countries, "PRG"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = PRG }\n";
+		if (x(countries, "ARG"))
+			potential += "\t\t\tNOT = { tag = ARG }\n";
+		if (x(countries, "URU"))
+			potential += "\t\t\tNOT = { tag = URU }\n";
+		if (x(countries, "BOL"))
+			potential += "\t\t\tNOT = { tag = BOL }\n";
+		if (x(countries, "CHL"))
+			potential += "\t\t\tNOT = { tag = CHL }\n";
+		potential += "\t\t\tcapital_scope = { is_core = PRG }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tPRG = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "ARG"))
+			allow += "\t\t\t\t\t\towned_by = ARG\n";
+		if (x(countries, "CHL"))
+			allow += "\t\t\t\t\t\towned_by = CHL\n";
+		if (x(countries, "URU"))
+			allow += "\t\t\t\t\t\towned_by = URU\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_URU"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_URU decision";
+	else if (!x(countries, "URU"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = URU }\n";
+		if (x(countries, "ARG"))
+			potential += "\t\t\tNOT = { tag = ARG }\n";
+		if (x(countries, "PRG"))
+			potential += "\t\t\tNOT = { tag = PRG }\n";
+		if (x(countries, "BOL"))
+			potential += "\t\t\tNOT = { tag = BOL }\n";
+		if (x(countries, "CHL"))
+			potential += "\t\t\tNOT = { tag = CHL }\n";
+		potential += "\t\t\tcapital_scope = { is_core = URU }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tURU = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "PRG"))
+			allow += "\t\t\t\t\t\towned_by = PRG\n";
+		if (x(countries, "CHL"))
+			allow += "\t\t\t\t\t\towned_by = CHL\n";
+		if (x(countries, "ARG"))
+			allow += "\t\t\t\t\t\towned_by = ARG\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_CHL"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_CHL decision";
+	else if (!x(countries, "CHL"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = CHL }\n";
+		if (x(countries, "ARG"))
+			potential += "\t\t\tNOT = { tag = ARG }\n";
+		if (x(countries, "PEU"))
+			potential += "\t\t\tNOT = { tag = PEU }\n";
+		if (x(countries, "BOL"))
+			potential += "\t\t\tNOT = { tag = BOL }\n";
+		potential += "\t\t\tcapital_scope = { is_core = CHL }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tCHL_2322 = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "PRG"))
+			allow += "\t\t\t\t\t\towned_by = PRG\n";
+		if (x(countries, "BOL"))
+			allow += "\t\t\t\t\t\towned_by = BOL\n";
+		if (x(countries, "ARG"))
+			allow += "\t\t\t\t\t\towned_by = ARG\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t\tCHL_2327 = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "PRG"))
+			allow += "\t\t\t\t\t\towned_by = PRG\n";
+		if (x(countries, "BOL"))
+			allow += "\t\t\t\t\t\towned_by = BOL\n";
+		if (x(countries, "ARG"))
+			allow += "\t\t\t\t\t\towned_by = ARG\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t\tCHL_2332 = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "PRG"))
+			allow += "\t\t\t\t\t\towned_by = PRG\n";
+		if (x(countries, "BOL"))
+			allow += "\t\t\t\t\t\towned_by = BOL\n";
+		if (x(countries, "ARG"))
+			allow += "\t\t\t\t\t\towned_by = ARG\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_BOL"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_BOL decision";
+	else if (!x(countries, "BOL"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = BOL }\n";
+		if (x(countries, "ARG"))
+			potential += "\t\t\tNOT = { tag = ARG }\n";
+		if (x(countries, "BRZ"))
+			potential += "\t\t\tNOT = { tag = BRZ }\n";
+		if (x(countries, "BOL"))
+			potential += "\t\t\tNOT = { tag = BOL }\n";
+		if (x(countries, "CHL"))
+			potential += "\t\t\tNOT = { tag = CHL }\n";
+		if (x(countries, "PBC") && x(countries, "PEU"))
+		{
+			potential += "\t\t\tOR = {\n";
+			potential += "\t\t\t\tNOT = { tag = PBC }\n";
+			potential += "\t\t\t\tAND = {\n";
+			potential += "\t\t\t\t\ttag = PBC\n";
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = PEU }\n";
+			potential += "\t\t\t\t}\n";
+			potential += "\t\t\t}\n";
+		}
+		else if (x(countries, "PBC"))
+			potential += "\t\t\tNOT = { tag = PBC }\n";
+		potential += "\t\t\tcapital_scope = { is_core = BOL }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tBOL = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "CHL"))
+			allow += "\t\t\t\t\t\towned_by = CHL\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_CLM"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_CLM decision";
+	else if (!x(countries, "CLM"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = CLM }\n";
+		if (x(countries, "VNZ"))
+			potential += "\t\t\tNOT = { tag = VNZ }\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "GCO"))
+			potential += "\t\t\t\tNOT = { tag = GCO }\n";
+		if (x(countries, "GCO"))
+			potential += "\t\t\t\tAND = {\n";
+		potential += "\t\t\t\t\ttag = GCO\n";
+		if (x(countries, "ECU"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = ECU }\n";
+		if (x(countries, "VNZ"))
+			potential += "\t\t\t\t\tNOT = { is_possible_vassal = VNZ }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		if (x(countries, "ECU"))
+			potential += "\t\t\tNOT = { tag = ECU }\n";
+		potential += "\t\t\tcapital_scope = { is_core = CLM }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tCLM = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "GCO"))
+			allow += "\t\t\t\t\t\towned_by = GCO\n";
+		if (x(countries, "VNZ"))
+			allow += "\t\t\t\t\t\towned_by = VNZ\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_VNZ"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_VNZ decision";
+	else if (!x(countries, "VNZ"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = VNZ }\n";
+		if (x(countries, "GCO"))
+		{
+			potential += "\t\t\tOR = {\n";
+			potential += "\t\t\t\tNOT = { tag = GCO }\n";
+			potential += "\t\t\t\tAND = {\n";
+			potential += "\t\t\t\t\ttag = GCO\n";
+			if (x(countries, "ECU"))
+				potential += "\t\t\t\t\tNOT = { is_possible_vassal = ECU }\n";
+			if (x(countries, "CLM"))
+				potential += "\t\t\t\t\tNOT = { is_possible_vassal = CLM }\n";
+			potential += "\t\t\t\t}\n";
+			potential += "\t\t\t}\n";
+		}
+		if (x(countries, "CLM"))
+			potential += "\t\t\tNOT = { tag = CLM }\n";
+		if (x(countries, "ECU"))
+			potential += "\t\t\tNOT = { tag = ECU }\n";
+		if (x(countries, "BRZ"))
+			potential += "\t\t\tNOT = { tag = BRZ }\n";
+		potential += "\t\t\tcapital_scope = { is_core = VNZ }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_independant = yes\n";
+		allow += "\t\t\tVNZ = {\n";
+		allow += "\t\t\t\tall_core = {\n";
+		allow += "\t\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\t\tempty = yes\n";
+		allow += "\t\t\t\t\t\towner = {\n";
+		allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+		allow += "\t\t\t\t\t\t}\n";
+		if (x(countries, "GCO"))
+			allow += "\t\t\t\t\t\towned_by = GCO\n";
+		if (x(countries, "CLM"))
+			allow += "\t\t\t\t\t\towned_by = CLM\n";
+		allow += "\t\t\t\t\t}\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_AST"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_AST decision";
+	else if (!x(countries, "AST"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = { exists = AST }\n";
+		potential += "\t\t\tcapital_scope = { is_core = AST }\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		if (x(countries, "FIJ"))
+			potential += "\t\t\tNOT = { tag = FIJ }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_NZL"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_NZL decision";
+	else if (!x(countries, "NZL"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("postcol_GUY"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_GUY decision";
+	else if (!x(countries, "GUY"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = GUY\n";
+		if (x(countries, "GCO"))
+			potential += "\t\t\t\ttag = GCO\n";
+		if (x(countries, "BRZ"))
+			potential += "\t\t\t\ttag = BRZ\n";
+		if (x(countries, "VNZ"))
+			potential += "\t\t\t\ttag = VNZ\n";
+		if (x(countries, "SUR"))
+			potential += "\t\t\t\ttag = SUR\n";
+		if (x(countries, "CAY"))
+			potential += "\t\t\t\ttag = CAY\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tcapital_scope = {\n";
+		potential += "\t\t\t\tOR = {\n";
+		potential += "\t\t\t\t\tis_core = GUY\n";
+		if (x(countries, "SUR"))
+			potential += "\t\t\t\t\tis_core = SUR\n";
+		if (x(countries, "CAY"))
+			potential += "\t\t\t\t\tis_core = CAY\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_1 }\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("the_central_asia"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load the_central_asia decision";
+	else if (!x(countries, "TKS"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::istringstream effectString(theDecision->second.getEffect());
+		Taiping centralAsia(effectString);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tset_global_flag = the_central_asia\n";
+
+		for (const auto& nonCountrySpecificEffect: centralAsia.getNonCountrySpecificEffects())
+		{
+			effect += "\t\t\t" + nonCountrySpecificEffect + "\n";
+		}
+		for (const auto& tag: centralAsia.getTagEffectMap())
+		{
+			if (x(countries, tag.first))
+			{
+				effect += "\t\t\t" + tag.second + "\n";
+			}
+		}
+		for (const auto& coreEffect: centralAsia.getCountryCores())
+		{
+			effect += "\t\t\t" + coreEffect + "\n";
+		}
+
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+
+	if (const auto& theDecision = decisions.find("postcol_CRB"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load postcol_CRB decision";
+	else if (!x(countries, "CRB"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = CRB\n";
+		if (x(countries, "CUB"))
+			potential += "\t\t\t\ttag = CUB\n";
+		if (x(countries, "HAI"))
+			potential += "\t\t\t\ttag = HAI\n";
+		if (x(countries, "DOM"))
+			potential += "\t\t\t\ttag = DOM\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tcapital = 2236\n";
+		potential += "\t\t\t\tcapital = 2224\n";
+		potential += "\t\t\t\tcapital = 2229\n";
+		potential += "\t\t\t\tcapital = 2219\n";
+		potential += "\t\t\t\tcapital = 2220\n";
+		potential += "\t\t\t\tcapital = 2234\n";
+		potential += "\t\t\t\tcapital = 2235\n";
+		potential += "\t\t\t\tcapital = 2232\n";
+		potential += "\t\t\t\tcapital = 2230\n";
+		potential += "\t\t\t\tcapital = 2233\n";
+		potential += "\t\t\t\tcapital = 2225\n";
+		potential += "\t\t\t\tcapital = 2228\n";
+		potential += "\t\t\t\tcapital = 2227\n";
+		potential += "\t\t\t\tcapital = 2231\n";
+		potential += "\t\t\t\tcapital = 2409\n";
+		potential += "\t\t\t\tcapital = 2217\n";
+		potential += "\t\t\t\tcapital = 2218\n";
+		potential += "\t\t\t\tcapital = 2222\n";
+		potential += "\t\t\t\tcapital = 2223\n";
+		potential += "\t\t\t\tcapital = 2237\n";
+		potential += "\t\t\t\tcapital = 2238\n";
+		potential += "\t\t\t\tcapital = 2226\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("vassal_CRB"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load vassal_CRB decision";
+	else if (!x(countries, "CRB"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = CRB\n";
+		if (x(countries, "CUB"))
+			potential += "\t\t\t\ttag = CUB\n";
+		if (x(countries, "HAI"))
+			potential += "\t\t\t\ttag = HAI\n";
+		if (x(countries, "DOM"))
+			potential += "\t\t\t\ttag = DOM\n";
+		if (x(countries, "ALI"))
+			potential += "\t\t\t\ttag = ALI #Yeah...\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_country_flag = precolonial }\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\tcapital = 2236\n";
+		potential += "\t\t\t\tcapital = 2224\n";
+		potential += "\t\t\t\tcapital = 2229\n";
+		potential += "\t\t\t\tcapital = 2219\n";
+		potential += "\t\t\t\tcapital = 2220\n";
+		potential += "\t\t\t\tcapital = 2234\n";
+		potential += "\t\t\t\tcapital = 2235\n";
+		potential += "\t\t\t\tcapital = 2232\n";
+		potential += "\t\t\t\tcapital = 2230\n";
+		potential += "\t\t\t\tcapital = 2233\n";
+		potential += "\t\t\t\tcapital = 2225\n";
+		potential += "\t\t\t\tcapital = 2228\n";
+		potential += "\t\t\t\tcapital = 2227\n";
+		potential += "\t\t\t\tcapital = 2231\n";
+		potential += "\t\t\t\tcapital = 2409\n";
+		potential += "\t\t\t\tcapital = 2217\n";
+		potential += "\t\t\t\tcapital = 2218\n";
+		potential += "\t\t\t\tcapital = 2222\n";
+		potential += "\t\t\t\tcapital = 2223\n";
+		potential += "\t\t\t\tcapital = 2237\n";
+		potential += "\t\t\t\tcapital = 2238\n";
+		potential += "\t\t\t\tcapital = 2226\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\t2236 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2224 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2229 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2219 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2220 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2232 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2230 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2233 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2234 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2235 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2225 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2226 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2228 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2227 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2231 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2409 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2217 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2218 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2222 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2223 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2237 = { owned_by = THIS }\n";
+		potential += "\t\t\t\t2238 = { owned_by = THIS }\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("form_peru_bolivia"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_peru_bolivia decision";
+	else if (!x(countries, "PBC") || (!x(countries, "PEU") && !x(countries, "BOL")))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\thas_global_flag = der_postcolonialism\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "PEU"))
+			potential += "\t\t\t\ttag = PEU\n";
+		if (x(countries, "BOL"))
+			potential += "\t\t\t\ttag = BOL\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = PBC\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_country_flag = postcol_2 }\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string allow = "= {\n";
+		allow += "\t\t\twar = no\n";
+		allow += "\t\t\tis_greater_power = yes\n";
+		if (x(countries, "PEU"))
+		{
+			allow += "\t\t\tPEU = {\n";
+			allow += "\t\t\t\tall_core = {\n";
+			allow += "\t\t\t\t\towner = {\n";
+			allow += "\t\t\t\t\t\tOR = {\n";
+			allow += "\t\t\t\t\t\t\ttag = THIS\n";
+			allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+			allow += "\t\t\t\t\t\t\tvassal_of = THIS\n";
+			allow += "\t\t\t\t\t\t}\n";
+			allow += "\t\t\t\t\t}\n";
+			allow += "\t\t\t\t}\n";
+			allow += "\t\t\t}\n";
+		}
+		if (x(countries, "BOL"))
+		{
+			allow += "\t\t\tBOL = {\n";
+			allow += "\t\t\t\tall_core = {\n";
+			allow += "\t\t\t\t\towner = {\n";
+			allow += "\t\t\t\t\t\tOR = {\n";
+			allow += "\t\t\t\t\t\t\ttag = THIS\n";
+			allow += "\t\t\t\t\t\t\tin_sphere = THIS\n";
+			allow += "\t\t\t\t\t\t\tvassal_of = THIS\n";
+			allow += "\t\t\t\t\t\t}\n";
+			allow += "\t\t\t\t\t}\n";
+			allow += "\t\t\t\t}\n";
+			allow += "\t\t\t}\n";
+		}
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tprestige = 10\n";
+		effect += "\t\t\tany_country = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\tvassal_of = THIS\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\tannex_to = THIS\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\t\n";
+		if (x(countries, "PEU"))
+			effect += "\t\t\tPEU = { all_core = { add_core = PBC } }\n";
+		if (x(countries, "BOL"))
+			effect += "\t\t\tBOL = { all_core = { add_core = PBC } }\n";
+		effect += "\t\t\tany_country = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\tin_sphere = THIS\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\t\n";
+		effect += "\t\t\t\tany_owned = {\n";
+		effect += "\t\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\t\tis_core = PBC\n";
+		effect += "\t\t\t\t\t}\n";
+		effect += "\t\t\t\t\tsecede_province = THIS\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\n";
+		effect += "\t\t\t}\n";
+		effect += "\n";
+		effect += "\t\t\tchange_tag = PBC\n";
+		effect += "\t\t\tset_country_flag = postcol_2\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+}
+
 void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries)
 {
 	if (const auto& theDecision = decisions.find("centralize_hre"); theDecision == decisions.end())
