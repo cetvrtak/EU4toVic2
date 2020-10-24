@@ -2316,7 +2316,308 @@ void V2::Decisions::updateConverterPostCol(const std::map<std::string, std::shar
 	}
 }
 
-void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries)
+void V2::Decisions::updateConverterProvinceRenaming(const std::map<std::string, std::shared_ptr<Country>>& countries)
+{
+	if (const auto& theDecision = decisions.find("greek_830"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load greek_830 decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tculture = greek\n";
+		potential += "\t\t\t\tis_culture_group = italian\n";
+		potential += "\t\t\t\tis_culture_group = romantic\n";
+		if (x(countries, "SPQ"))
+			potential += "\t\t\t\ttag = SPQ\n";
+		if (x(countries, "BYZ"))
+			potential += "\t\t\t\ttag = BYZ\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_global_flag = 830_be_greek }\n";
+		potential += "\t\t\t830 = { #Dedeagatch\n";
+		potential += "\t\t\t\tOR = {\n";
+		potential += "\t\t\t\t\towned_by = THIS\n";
+		potential += "\t\t\t\t\towner = { in_sphere = THIS }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("greek_thrace"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load greek_thrace decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tculture = greek\n";
+		potential += "\t\t\t\tis_culture_group = italian\n";
+		potential += "\t\t\t\tis_culture_group = romantic\n";
+		if (x(countries, "SPQ"))
+			potential += "\t\t\t\ttag = SPQ\n";
+		if (x(countries, "BYZ"))
+			potential += "\t\t\t\ttag = BYZ\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_global_flag = thrace_be_greek }\n";
+		potential += "\t\t\tTUR_1860 = { #Thrace\n";
+		potential += "\t\t\t\tOR = {\n";
+		potential += "\t\t\t\t\towned_by = THIS\n";
+		potential += "\t\t\t\t\towner = { in_sphere = THIS }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("teuton_thrace"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load teuton_thrace decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tculture = greek\n";
+		potential += "\t\t\t\tis_culture_group = italian\n";
+		if (x(countries, "SPQ"))
+			potential += "\t\t\t\ttag = SPQ\n";
+		if (x(countries, "BYZ"))
+			potential += "\t\t\t\ttag = BYZ\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_global_flag = thrace_be_teuton }\n";
+		potential += "\t\t\tTUR_1860 = { #Thrace\n";
+		potential += "\t\t\t\tOR = {\n";
+		potential += "\t\t\t\t\towned_by = THIS\n";
+		potential += "\t\t\t\t\towner = { in_sphere = THIS }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("greek_hudav"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load greek_hudav decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tculture = greek\n";
+		potential += "\t\t\t\tis_culture_group = italian\n";
+		potential += "\t\t\t\tis_culture_group = romantic\n";
+		if (x(countries, "SPQ"))
+			potential += "\t\t\t\ttag = SPQ\n";
+		if (x(countries, "BYZ"))
+			potential += "\t\t\t\ttag = BYZ\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_global_flag = hudav_be_greek }\n";
+		potential += "\t\t\tTUR_863 = { #Hudavendigar\n";
+		potential += "\t\t\t\tOR = {\n";
+		potential += "\t\t\t\t\towned_by = THIS\n";
+		potential += "\t\t\t\t\towner = { in_sphere = THIS }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("greek_aydin"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load greek_aydin decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tculture = greek\n";
+		potential += "\t\t\t\tis_culture_group = italian\n";
+		potential += "\t\t\t\tis_culture_group = romantic\n";
+		if (x(countries, "SPQ"))
+			potential += "\t\t\t\ttag = SPQ\n";
+		if (x(countries, "BYZ"))
+			potential += "\t\t\t\ttag = BYZ\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_global_flag = aydin_be_greek }\n";
+		potential += "\t\t\tTUR_869 = { #Aydin\n";
+		potential += "\t\t\t\tOR = {\n";
+		potential += "\t\t\t\t\towned_by = THIS\n";
+		potential += "\t\t\t\t\towner = { in_sphere = THIS }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("greek_konya"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load greek_konya decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tculture = greek\n";
+		potential += "\t\t\t\tis_culture_group = italian\n";
+		potential += "\t\t\t\tis_culture_group = romantic\n";
+		if (x(countries, "SPQ"))
+			potential += "\t\t\t\ttag = SPQ\n";
+		if (x(countries, "BYZ"))
+			potential += "\t\t\t\ttag = BYZ\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_global_flag = konya_be_greek }\n";
+		potential += "\t\t\tTUR_873 = { #Konya\n";
+		potential += "\t\t\t\tOR = {\n";
+		potential += "\t\t\t\t\towned_by = THIS\n";
+		potential += "\t\t\t\t\towner = { in_sphere = THIS }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("greek_ankara"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load greek_ankara decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tculture = greek\n";
+		potential += "\t\t\t\tis_culture_group = italian\n";
+		potential += "\t\t\t\tis_culture_group = romantic\n";
+		if (x(countries, "SPQ"))
+			potential += "\t\t\t\ttag = SPQ\n";
+		if (x(countries, "BYZ"))
+			potential += "\t\t\t\ttag = BYZ\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_global_flag = ankara_be_greek }\n";
+		if (x(countries, "PAP"))
+			potential += "\t\t\tNOT = { tag = PAP }\n";
+		potential += "\t\t\tTUR_876 = { #Ankara\n";
+		potential += "\t\t\t\tOR = {\n";
+		potential += "\t\t\t\t\towned_by = THIS\n";
+		potential += "\t\t\t\t\towner = { in_sphere = THIS }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("turk_ankara"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load turk_ankara decision";
+	else
+	{
+		std::string allow = "= {\n";
+		if (x(countries, "EGY"))
+			allow += "\t\t\tNOT = { tag = EGY }\n";
+		allow += "\t\t\tTUR_876 = { #Ankara\n";
+		allow += "\t\t\t\tOR = {\n";
+		allow += "\t\t\t\t\towned_by = THIS\n";
+		allow += "\t\t\t\t\towner = { in_sphere = THIS }\n";
+		if (x(countries, "EGY"))
+			allow += "\t\t\t\t\towner = EGY\n";
+		allow += "\t\t\t\t}\n";
+		allow += "\t\t\t}\n";
+		allow += "\t\t}\n";
+		(theDecision->second).updateDecision("allow", allow);
+	}
+
+	if (const auto& theDecision = decisions.find("greek_trabzon"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load greek_trabzon decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		potential += "\t\t\t\tculture = greek\n";
+		potential += "\t\t\t\tis_culture_group = italian\n";
+		potential += "\t\t\t\tis_culture_group = romantic\n";
+		if (x(countries, "SPQ"))
+			potential += "\t\t\t\ttag = SPQ\n";
+		if (x(countries, "BYZ"))
+			potential += "\t\t\t\ttag = BYZ\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = { has_global_flag = trabzon_be_greek }\n";
+		potential += "\t\t\tTUR_884 = { #Trabzon\n";
+		potential += "\t\t\t\tOR = {\n";
+		potential += "\t\t\t\t\towned_by = THIS\n";
+		potential += "\t\t\t\t\towner = { in_sphere = THIS }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("haiti_2214"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load haiti_2214 decision";
+	else
+	{
+		std::string potential = "= {\n";
+		if (x(countries, "HAI"))
+			potential += "\t\t\ttag = HAI\n";
+		potential += "\t\t\tNOT = { year = 1837 }\n";
+		potential += "\t\t\tNOT = { has_global_flag = 2214_changed }\t\n";
+		potential += "\t\t\thas_global_flag = DOM_independence\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("japanese_names_in_korea"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load japanese_names_in_korea decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\tOR = {\n";
+		if (x(countries, "JAP"))
+			potential += "\t\t\ttag = JAP\n";
+		potential += "\t\t\tprimary_culture = japanese\n";
+		potential += "\t\t}\n";
+		potential += "\t\towns = 1627\n";
+		potential += "\t\towns = 1632\n";
+		potential += "\t\towns = 1619\n";
+		potential += "\t\towns = 1624\n";
+		potential += "\t\tNOT = {\n";
+		potential += "\t\t\thas_global_flag = japan_has_renamed_korea\n";
+		potential += "\t\t}\n";
+		potential += "\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("restore_korea"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load restore_korea decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\tOR = {\n";
+		if (x(countries, "KOR"))
+			potential += "\t\t\ttag = KOR\n";
+		potential += "\t\t\tprimary_culture = korean\n";
+		potential += "\t\t}\n";
+		potential += "\t\tOR = {\n";
+		potential += "\t\t\thas_global_flag = japan_has_renamed_korea\n";
+		potential += "\t\t\thas_global_flag = china_has_renamed_korea\n";
+		potential += "\t\t}\n";
+		potential += "\t\towns = 1627\n";
+		potential += "\t\towns = 1632\n";
+		potential += "\t\towns = 1619\n";
+		potential += "\t\towns = 1624\n";
+		potential += "\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("chinese_names_in_korea"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load chinese_names_in_korea decision";
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\tOR = {\n";
+		if (x(countries, "CHI"))
+			potential += "\t\t\ttag = CHI\n";
+		potential += "\t\t\tprimary_culture = beifaren\n";
+		potential += "\t\t\tprimary_culture = nanfaren\n";
+		potential += "\t\t\tprimary_culture = manchu\n";
+		potential += "\t\t}\n";
+		potential += "\t\tNOT = { has_global_flag = china_has_renamed_korea }\n";
+		potential += "\t\towns = 1627\n";
+		potential += "\t\towns = 1632\n";
+		potential += "\t\towns = 1619\n";
+		potential += "\t\towns = 1624\n";
+		potential += "\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+}
+
+void V2::Decisions::updateConverterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries)
 {
 	if (const auto& theDecision = decisions.find("centralize_hre"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load centralize_hre decision";
@@ -4163,6 +4464,165 @@ void V2::Decisions::updateConveterUnions(const std::map<std::string, std::shared
 	if (const auto& theDecision = decisions.find("oy_vey"); theDecision == decisions.end())
 		Log(LogLevel::Warning) << "Could not load oy_vey decision";
 	else if (!x(countries, "ISR"))
+		decisions.erase(theDecision);
+}
+
+void V2::Decisions::updateItaly(const std::map<std::string, std::shared_ptr<Country>>& countries)
+{
+	if (const auto& theDecision = decisions.find("cavours_diplomacy"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load cavours_diplomacy decision";
+	else if ((!x(countries, "ITA") && !x(countries, "SAR") && !x(countries, "SVY"))
+			 || !x(countries, "FRA"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "ITA"))
+		{
+			potential += "\t\t\t\tAND = { \n";
+			potential += "\t\t\t\t\ttag = ITA\n";
+			if (x(countries, "SAR"))
+				potential += "\t\t\t\t\tNOT = { exists = SAR }\n";
+			if (x(countries, "SVY"))
+				potential += "\t\t\t\t\tNOT = { exists = SVY }\n";
+			potential += "\t\t\t\t}\n";
+		}
+		if (x(countries, "SAR"))
+		{
+			potential += "\t\t\t\tAND = { \n";
+			potential += "\t\t\t\t\ttag = SAR\n";
+			if (x(countries, "ITA"))
+				potential += "\t\t\t\t\tNOT = { exists = ITA }\n";
+			if (x(countries, "SVY"))
+				potential += "\t\t\t\t\tNOT = { exists = SVY }\n";
+			potential += "\t\t\t\t}\n";
+		}
+		if (x(countries, "SVY"))
+		{
+			potential += "\t\t\t\tAND = {\n";
+			potential += "\t\t\t\t\ttag = SVY\n";
+			if (x(countries, "ITA"))
+				potential += "\t\t\t\t\tNOT = { exists = ITA }\n";
+			if (x(countries, "SAR"))
+				potential += "\t\t\t\t\tNOT = { exists = SAR }\n";
+			potential += "\t\t\t\t}\n";
+		}
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\thas_country_flag = cavour_has_done_his\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\towns = 465\n";
+		potential += "\t\t\towns = 466\n";
+		potential += "\t\t\towns = 472\n";
+		potential += "\t\t\tFRA = {\n";
+		potential += "\t\t\t\texists = yes\n";
+		potential += "\t\t\t\tis_greater_power = yes\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tprestige = 20\n";
+		effect += "\t\t\tbadboy = -10\n";
+		effect += "\t\t\trelation = {\n";
+		effect += "\t\t\t\twho = FRA\n";
+		effect += "\t\t\t\tvalue = 50\n";
+		effect += "\t\t\t}\n";
+		if (x(countries, "SAR"))
+		{
+			effect += "\t\t\t726 = {\n";
+			effect += "\t\t\t\tadd_core = SAR\n";
+			effect += "\t\t\t}\n";
+			effect += "\t\t\t727 = {\n";
+			effect += "\t\t\t\tadd_core = SAR\n";
+			effect += "\t\t\t}\n";
+			effect += "\t\t\t728 = {\n";
+			effect += "\t\t\t\tadd_core = SAR\n";
+			effect += "\t\t\t}\n";
+		}
+		effect += "\t\t\t465 = {\n";
+		if (x(countries, "ITA"))
+			effect += "\t\t\t\tremove_core = ITA\n";
+		if (x(countries, "SAR"))
+			effect += "\t\t\t\tremove_core = SAR\n";
+		effect += "\t\t\t\tadd_core = FRA\n";
+		effect += "\t\t\t\tsecede_province = FRA\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\t466 = {\n";
+		if (x(countries, "ITA"))
+			effect += "\t\t\t\tremove_core = ITA\n";
+		if (x(countries, "SAR"))
+			effect += "\t\t\t\tremove_core = SAR\n";
+		effect += "\t\t\t\tadd_core = FRA\n";
+		effect += "\t\t\t\tsecede_province = FRA\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\t472 = {\n";
+		if (x(countries, "ITA"))
+			effect += "\t\t\t\tremove_core = ITA\n";
+		if (x(countries, "SAR"))
+			effect += "\t\t\t\tremove_core = SAR\n";
+		effect += "\t\t\t\tadd_core = FRA\n";
+		effect += "\t\t\t\tsecede_province = FRA\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\tset_country_flag = cavour_has_done_his\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+
+	if (const auto& theDecision = decisions.find("award_order_of_st_francis"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load award_order_of_st_francis decision";
+	else if (!x(countries, "SIC") && !x(countries, "NAP"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tOR = {\n";
+		if (x(countries, "SIC"))
+			potential += "\t\t\t\ttag = SIC\n";
+		potential += "\t\t\t\tAND = {\n";
+		if (x(countries, "NAP"))
+			potential += "\t\t\t\t\ttag = NAP\n";
+		if (x(countries, "SIC"))
+			potential += "\t\t\t\t\tNOT = { exists = SIC }\n";
+		potential += "\t\t\t\t}\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t\tgovernment = absolute_monarchy\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\thas_country_flag = order_awarded\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\n";
+		(theDecision->second).updateDecision("potential", potential);
+	}
+
+	if (const auto& theDecision = decisions.find("statuto_albertino"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load statuto_albertino decision";
+	else if (!x(countries, "SAR") && !x(countries, "SVY"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("build_vittoriano"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load build_vittoriano decision";
+	else if (!x(countries, "ITA") && !x(countries, "PAP") && !x(countries, "ITP"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("the_case_of_edgardo_mortara"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load the_case_of_edgardo_mortara decision";
+	else if (!x(countries, "PAP") && !x(countries, "ITP"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("the_first_vatican_council"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load the_first_vatican_council decision";
+	else if (!x(countries, "PAP") && !x(countries, "ITP"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("law_of_guarantees"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load law_of_guarantees decision";
+	else if (!x(countries, "ITA") && !x(countries, "ITP"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("italia_irredenta"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load italia_irredenta decision";
+	else if (!x(countries, "ITA") && !x(countries, "ITP"))
 		decisions.erase(theDecision);
 }
 

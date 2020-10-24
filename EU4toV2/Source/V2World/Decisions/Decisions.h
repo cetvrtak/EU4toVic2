@@ -17,11 +17,13 @@ class Decisions: commonItems::parser
 
 	void registerKeys();
 	void update128Decisions(const std::map<std::string, std::shared_ptr<Country>>& countries);
-	void updateConveterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries);
+	void updateConverterUnions(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	void updateACW(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	void updateArabianFormation(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	void updateConvAfricanPostColonial(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	void updateConverterPostCol(const std::map<std::string, std::shared_ptr<Country>>& countries);
+	void updateConverterProvinceRenaming(const std::map<std::string, std::shared_ptr<Country>>& countries);
+	void updateItaly(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	bool x(const std::map<std::string, std::shared_ptr<Country>>& countries, const std::string& tag);
 
 	[[nodiscard]] const auto& getDecisions() const { return decisions; }

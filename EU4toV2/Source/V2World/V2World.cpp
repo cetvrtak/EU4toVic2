@@ -1923,7 +1923,7 @@ void V2::World::importDecisions()
 void V2::World::updateDecisions()
 {
 	auto& converterUnions = decisions.find("converterUnions.txt")->second;
-	converterUnions.updateConveterUnions(countries);
+	converterUnions.updateConverterUnions(countries);
 	auto& GoldenCenturyDecisions = decisions.find("1.28Decisions.txt")->second;
 	GoldenCenturyDecisions.update128Decisions(countries);
 	auto& ACW = decisions.find("ACW.txt")->second;
@@ -1934,6 +1934,10 @@ void V2::World::updateDecisions()
 	africanPostColonial.updateConvAfricanPostColonial(countries);
 	auto& converterPostCol = decisions.find("converterPostCol.txt")->second;
 	converterPostCol.updateConverterPostCol(countries);
+	auto& converterProvinceRenaming = decisions.find("converterProvinceRenaming.txt")->second;
+	converterProvinceRenaming.updateConverterProvinceRenaming(countries);
+	auto& italy = decisions.find("Italy.txt")->second;
+	italy.updateItaly(countries);
 }
 
 void V2::World::outDecisions() const
