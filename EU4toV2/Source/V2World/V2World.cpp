@@ -898,7 +898,7 @@ void V2::World::addAllPotentialCountries()
 		if (countryItr == countries.end())
 		{
 			// Note: This is a dead country.
-			potentialCountry.second->initFromHistory(unreleasablesMapper);
+			potentialCountry.second->initFromHistory(unreleasablesMapper, partyNameMapper, partyTypeMapper);
 			countries.insert(make_pair(potentialCountry.first, potentialCountry.second));
 		}
 	}
@@ -2446,6 +2446,7 @@ void V2::World::updateCountryDetails()
 
 	for (const auto& country: countries)
 	{
+		//Parties
 		for (const auto& party: country.second->getParties()) //load parties from countryDetails
 		{
 			for (const auto& policy: getIssues("party_issues")) //common/issues.txt
@@ -2460,6 +2461,18 @@ void V2::World::updateCountryDetails()
 					}
 				}
 			}
+		}
+
+		//Reforms
+		std::map<std::string, std::string> theReforms;
+		if (country.second->isCivilized())
+			theReforms = modReforms.getReforms();
+		else
+			theReforms = modReforms.getUncivReforms();
+
+		for (const auto& modReform: theReforms)
+		{
+			country.second->setReformPosition(modReform.first, modReform.second);
 		}
 	}
 }
