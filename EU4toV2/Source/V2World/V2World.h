@@ -78,6 +78,7 @@ class World
 	std::set<std::string> neoCultureLocalizations;									  // raw strings for output.
 	std::map<int, int> stateMap;
 	std::map<int, int> provinceMap;
+	std::vector<std::string> reassignedTags;
 
 	[[nodiscard]] std::optional<std::string> determineProvinceOwnership(const std::vector<int>& eu4ProvinceNumbers, const EU4::World& sourceWorld) const;
 	[[nodiscard]] std::shared_ptr<Province> getProvince(int provID) const;
@@ -164,6 +165,8 @@ class World
 	void convertCountryFlags();
 	void updateCountryDetails();
 	std::vector<std::string> getIssues(const std::string& issueCategory);
+	void identifyReassignedTags();
+	bool isTagReassigned(const std::string& tag) const;
 
 	std::shared_ptr<V2::State> getStateByID(int stateID) const;
 	

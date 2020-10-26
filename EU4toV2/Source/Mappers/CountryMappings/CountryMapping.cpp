@@ -23,6 +23,16 @@ mappers::CountryMapping::CountryMapping(std::istream& theStream)
 		modTag = v2str.getString();
 		std::transform(modTag.begin(), modTag.end(), modTag.begin(), ::toupper);
 	});
+	registerKeyword("old", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString oldStr(theStream);
+		oldTag = oldStr.getString();
+		std::transform(oldTag.begin(), oldTag.end(), oldTag.begin(), ::toupper);
+	});
+	registerKeyword("new", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString newStr(theStream);
+		newTag = newStr.getString();
+		std::transform(newTag.begin(), newTag.end(), newTag.begin(), ::toupper);
+	});
 	registerKeyword("reform", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString reformStr(theStream);
 		reforms.insert(reformStr.getString());
