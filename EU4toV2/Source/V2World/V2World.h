@@ -167,6 +167,7 @@ class World
 	std::vector<std::string> getIssues(const std::string& issueCategory);
 	void identifyReassignedTags();
 	bool isTagReassigned(const std::string& tag) const;
+	void updateFlags() const;
 
 	std::shared_ptr<V2::State> getStateByID(int stateID) const;
 	
