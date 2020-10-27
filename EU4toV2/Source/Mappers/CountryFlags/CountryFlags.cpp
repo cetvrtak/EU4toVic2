@@ -14,6 +14,6 @@ void mappers::CountryFlags::registerKeys()
 	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
 		const CountryFlagsMapping newMapping(theStream);
 		if (!newMapping.getEU4Flag().empty())
-			flags.insert(std::make_pair(newMapping.getEU4Flag(), newMapping.getV2Flag()));
+			flags.insert(std::make_pair(newMapping.getEU4Flag(), newMapping.getV2Flags()));
 	});
 }

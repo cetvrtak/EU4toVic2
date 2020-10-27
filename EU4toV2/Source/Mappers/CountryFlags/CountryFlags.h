@@ -15,9 +15,7 @@ namespace mappers
 		[[nodiscard]] const auto& getFlags() const { return flags; }
 	
 	private:
-		std::string eu4Flag;
-		std::string v2Flag;
-		std::map<std::string, std::string> flags;
+		std::map<std::string, std::vector<std::string>> flags;
 	};
 }
 

@@ -16,6 +16,6 @@ void mappers::CountryFlagsMapping::registerKeys()
 	});
 	registerKeyword("v2", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString _v2Flag(theStream);
-		v2Flag = _v2Flag.getString();
+		v2Flags.push_back(_v2Flag.getString());
 	});
 }

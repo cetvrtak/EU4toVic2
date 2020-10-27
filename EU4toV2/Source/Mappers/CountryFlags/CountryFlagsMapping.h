@@ -13,11 +13,11 @@ namespace mappers
 		void registerKeys();
 
 		[[nodiscard]] const auto& getEU4Flag() const { return eu4Flag; }
-		[[nodiscard]] const auto& getV2Flag() const { return v2Flag; }
+		[[nodiscard]] const auto& getV2Flags() const { return v2Flags; }
 	
 	private:
 		std::string eu4Flag;
-		std::string v2Flag;
+		std::vector<std::string> v2Flags;
 	};
 }
 

@@ -185,7 +185,12 @@ void V2::World::convertCountryFlags()
 			for (const auto& flag: srcCountry->getFlags())
 			{
 				if (const auto& flagMapping = theFlags.find(flag); flagMapping != theFlags.end())
-					country.second->addCountryFlag(flagMapping->second);
+				{
+					for (const auto& v2Flag: flagMapping->second)
+					{
+						country.second->addCountryFlag(v2Flag);
+					}
+				}
 			}
 		}
 	}
