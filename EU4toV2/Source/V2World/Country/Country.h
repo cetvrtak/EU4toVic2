@@ -139,6 +139,7 @@ class Country
 	[[nodiscard]] const auto& getEU4AcceptedCultures() const { return details.eu4acceptedCultures; }
 	[[nodiscard]] const auto& getParties() const { return details.parties; }
 	[[nodiscard]] const auto& getModReforms() const { return modReforms; }
+	[[nodiscard]] const auto& isReleasableVassal() const { return details.isReleasableVassal; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Country& country);
 	void outputCommons(std::ostream& output);

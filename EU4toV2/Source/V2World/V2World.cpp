@@ -1653,6 +1653,12 @@ void V2::World::output(const mappers::VersionParser& versionParser) const
 
 		LOG(LogLevel::Info) << "<- Updating flags";
 		updateFlags();
+
+		if (theConfiguration.getVic2ModName() == "HPM")
+		{
+			outputGTFO(countries);
+			outputReturnCores(countries);
+		}
 	}
 
 	// verify countries got written
