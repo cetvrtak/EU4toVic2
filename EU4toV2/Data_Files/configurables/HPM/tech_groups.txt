@@ -41,7 +41,7 @@ western = {
 	# Odd
 	ostrogothic
 	# Slave
-	afro_norse afro_american afro_caribbean afro_italian afro_caribeno afro_brazilian afro_antillean
+	afro_norse afro_american afro_caribbean afro_italian afro_caribeno afro_brazilian afro_antillean kreol
 	# Animals
 	polar_bears horse cat dog_culture duck_culture dragon_culture elephant_culture hedgehog_culture
 	}
@@ -58,11 +58,11 @@ eastern = {
 	# South Slavic
 	slovene novisvet juzhno crni bosniak croat macedonian serb bulgarian albanian
 	# East Slavic
-	novvymir yuzhny smugly russian ukrainian byelorussian ukrainian western_slavic ugric
+	alaskan novvymir yuzhny smugly russian ukrainian byelorussian ukrainian western_slavic ugric
 	# Carpathian
 	ujvilag delian fekete hungarian lumenoua sudic negru aromanian romanian
 	# Greek-ish
-	neokosmi notios mavro greek magnagreek georgian armenian yenidun guney esmer north_caucasian alan
+	neokosmi notios mavro greek magnagreek georgian armenian yenidun guney esmer north_caucasian dagestani chechen circassian alan
 	# Slave
 	afro_slavic afro_carpathian afro_greek
 	}
@@ -156,7 +156,7 @@ sub_saharan = {
 	# Malian
 	songhai mande bambara dyula
 	# southwest coast
-	akan ewe fon edo yoruba ibo mossi tiv kru 
+	akan ewe fon edo yoruba ibo mossi tiv kru western_nigritic gur
 	}
 }
 
@@ -166,7 +166,7 @@ north_american = {
 	# Metis
 	metis
 	# North american
-	siouan iroquoian cherokee sonoran eskaleut central_algonquian na_dene penutian plains_algonquian eastern_algonquian muskogean caddoan native_american_minor
+	siouan iroquoian dakota cherokee pueblo inuit cree navajo sonoran eskaleut central_algonquian na_dene penutian plains_algonquian eastern_algonquian muskogean caddoan native_american_minor
 	}
 }
 
@@ -192,7 +192,7 @@ andean = {
 	westernization = 1
 	cultures = {
 	# South american
-	chibchan maranon quechua aimara amazonian tupi je guarani patagonian araucanian chacoan 
+	chibchan maranon quechua aimara amazonian tupinamba je guarani patagonian araucanian chacoan 
 	# Uh 
 	noculture dummy
 	}
