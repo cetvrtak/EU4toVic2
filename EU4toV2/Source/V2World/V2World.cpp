@@ -1928,6 +1928,17 @@ void V2::World::modifyDefines() const
 	std::ostringstream incomingDefines, incomingBookmarks;
 
 	// Edit starting date in defines + adjust GP count if needed
+	if (const auto& modName = theConfiguration.getVic2ModName(); !modName.empty())
+	{
+		const auto& mod = "configurables/" + modName;
+		const auto& output = "output/" + theConfiguration.getOutputName();
+
+		bool definesRemoved = fs::remove(output + "/common/defines.lua");
+		if (definesRemoved)
+			fs::copy_file(mod + "/common/defines.lua", output + "/common/defines.lua");
+		else
+			throw std::runtime_error("Could not replace defines.lua");
+	}
 	std::ifstream defines_lua("output/" + theConfiguration.getOutputName() + "/common/defines.lua");
 	incomingDefines << defines_lua.rdbuf();
 	defines_lua.close();
@@ -2058,6 +2069,9 @@ void V2::World::copyModFiles() const
 		fs::copy_file(mod + "/common/technology.txt", output + "/common/technology.txt");
 		fs::copy_file(mod + "/common/event_modifiers.txt", output + "/common/event_modifiers.txt");
 		fs::copy_file(mod + "/common/issues.txt", output + "/common/issues.txt");
+		fs::copy_file(mod + "/common/buildings.txt", output + "/common/buildings.txt");
+		fs::copy_file(mod + "/common/cb_types.txt", output + "/common/cb_types.txt");
+		fs::copy_file(mod + "/common/ideologies.txt", output + "/common/ideologies.txt");
 
 		//	/map
 		fs::copy(mod + "/map", output + "/map", fs::copy_options::recursive);
