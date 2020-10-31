@@ -445,6 +445,7 @@ link = { vic2 = afro_american eu4 = great_lakes_colonial }
 link = { vic2 = afro_american eu4 = guinean_colonial eu4 = madagascan_colonial eu4 = maroon eu4 = nigerian_colonial eu4 = nilotic_colonial eu4 = soudanese_colonial eu4 = southern_african_colonial }
 
 # Sahelian - wolof, fulbe, hausa, kanuri, tuareg, baguirmi
+link = { vic2 = east_kwa eu4 = kanuri provinceid = 2283 } # Bedde
 link = { vic2 = maures eu4 = tuareg region = cap_verde_area } #Mauritanian Tuaregs
 link = { vic2 = wolof eu4 = senegambian eu4 = jolof }
 link = { vic2 = fulbe eu4 = fulani }
@@ -479,6 +480,7 @@ link = { vic2 = nuba eu4 = nubian provinceid = 2800 } # South Sudan
 link = { vic2 = nuer eu4 = nubian provinceid = 1217 } # South Sudan
 link = { vic2 = fur eu4 = nubian region = darfur_central_sahara_area }
 link = { vic2 = beja eu4 = nubian region = red_sea_coast_area }
+link = { vic2 = forest_bantu eu4 = sawabantu provinceid = 1165 } # Gabon
 link = { vic2 = fang eu4 = sawabantu } # Cameroon, Gabon, EG
 link = { vic2 = fur eu4 = foora }
 link = { vic2 = nuba eu4 = nuba }
@@ -498,21 +500,27 @@ link = { vic2 = oromo eu4 = ethiopian eu4 = oromo }
 link = { vic2 = afar eu4 = afar }
 
 # The Congo - bakongo, luba, lunda, mbundu
-link = { vic2 = mongo eu4 = kuba } # DRC
+link = { vic2 = mongo eu4 = kuba eu4 = yaka provinceid = 1797 } # Northern Congo Basin
+link = { vic2 = kuba eu4 = kuba eu4 = yaka }
+link = { vic2 = kavango eu4 = kongolese eu4 = bakongo provinceid = 1170 provinceid = 2949 }
 link = { vic2 = bakongo eu4 = kongolese eu4 = bakongo }
-link = { vic2 = luba eu4 = luba eu4 = kuba } # DRC
-link = { vic2 = lunda eu4 = lunda eu4 = yaka eu4 = mbangala eu4 = chokwe } # DRC, Angola, Zambia
+link = { vic2 = south_forest_bantu eu4 = luba region = katanga_area }
+link = { vic2 = luba eu4 = luba } # DRC
+link = { vic2 = lunda eu4 = lunda eu4 = mbangala } # DRC, Angola, Zambia
+link = { vic2 = chokwe eu4 = chokwe }
 link = { vic2 = ovimbundu eu4 = mbundu } # Angola
 
 # East Africa - swahili, malagasy
 link = { vic2 = sukuma eu4 = takama provinceid = 4061 } # Tanzania
 link = { vic2 = rundi eu4 = rwandan provinceid = 4070 } # Burundi
-link = { vic2 = swahili eu4 = swahili eu4 = chimwini eu4 = chwezi eu4 = kimgao eu4 = kimwani eu4 = kingwana eu4 = kiunguja eu4 = swahili_colonial }
+link = { vic2 = swahili eu4 = swahili eu4 = chimwini eu4 = chwezi eu4 = kimgao eu4 = kimwani eu4 = kiunguja eu4 = swahili_colonial }
+link = { vic2 = kingwana eu4 = kingwana }
 link = { vic2 = kikuyu eu4 = bantu eu4 = bantu_colonial eu4 = kikuyu } # Kenya
 link = { vic2 = maasai eu4 = masaba } # Tanzania
 link = { vic2 = unyamwezi eu4 = takama } # Tanzania
 link = { vic2 = ruanda eu4 = rwandan } # Rwanda
 link = { vic2 = baganda eu4 = ganda } # Uganda
+link = { vic2 = kilombero eu4 = madagasque provinceid = 4020 } # Comoros
 link = { vic2 = malagasy eu4 = madagasque eu4 = madagascan eu4 = vazimba eu4 = vezu }
 
 # South Africa - khoisan, shona, sena, makua
@@ -525,8 +533,10 @@ link = { vic2 = khoisan eu4 = khoisan eu4 = bantu }
 link = { vic2 = xhosa eu4 = xhosa }
 link = { vic2 = zulu eu4 = zulu }
 link = { vic2 = nguni eu4 = nguni } # South Africa
+link = { vic2 = southern_bantu eu4 = shona provinceid = 1184 provinceid = 1190 } # Zimbabwe, Zumbo
 link = { vic2 = shona eu4 = shona }
-link = { vic2 = sena eu4 = nyasa }
+link = { vic2 = sena eu4 = nyasa provinceid = 4039 } # Lundu
+link = { vic2 = nyasa eu4 = nyasa } # Lundu
 link = { vic2 = makua eu4 = makua }
 link = { vic2 = yao eu4 = bena } # Mozambique
 link = { vic2 = african_minor eu4 = bemba eu4 = kanouri }
