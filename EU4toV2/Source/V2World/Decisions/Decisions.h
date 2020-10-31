@@ -24,6 +24,7 @@ class Decisions: commonItems::parser
 	void updateConverterPostCol(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	void updateConverterProvinceRenaming(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	void updateItaly(const std::map<std::string, std::shared_ptr<Country>>& countries);
+	void updateNationalUnification(const std::map<std::string, std::shared_ptr<Country>>& countries);
 	bool x(const std::map<std::string, std::shared_ptr<Country>>& countries, const std::string& tag);
 
 	[[nodiscard]] const auto& getDecisions() const { return decisions; }

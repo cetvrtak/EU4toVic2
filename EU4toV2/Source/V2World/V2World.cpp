@@ -1938,6 +1938,8 @@ void V2::World::updateDecisions()
 	converterProvinceRenaming.updateConverterProvinceRenaming(countries);
 	auto& italy = decisions.find("Italy.txt")->second;
 	italy.updateItaly(countries);
+	auto& nationalUnification = decisions.find("NationalUnification.txt")->second;
+	nationalUnification.updateNationalUnification(countries);
 }
 
 void V2::World::outDecisions() const

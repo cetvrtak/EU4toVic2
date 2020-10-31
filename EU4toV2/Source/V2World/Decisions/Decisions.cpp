@@ -4626,6 +4626,203 @@ void V2::Decisions::updateItaly(const std::map<std::string, std::shared_ptr<Coun
 		decisions.erase(theDecision);
 }
 
+void V2::Decisions::updateNationalUnification(const std::map<std::string, std::shared_ptr<Country>>& countries)
+{
+	if (const auto& theDecision = decisions.find("form_scandinavia"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_scandinavia decision";
+	else if (!x(countries, "SCA"))
+		decisions.erase(theDecision);
+
+	if (const auto& theDecision = decisions.find("form_south_german_confederation"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load form_south_german_confederation decision";
+	else if (!x(countries, "SGF") || !x(countries, "GER"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		potential += "\t\t\tis_greater_power = yes\n";
+		potential += "\t\t\tprimary_culture = south_german\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\thas_country_flag = union_is_hre\n";
+		potential += "\t\t\t\thas_country_flag = post_colonial_country\n";
+		if (x(countries, "SGF"))
+			potential += "\t\t\t\texists = SGF\n";
+		potential += "\t\t\t\texists = GER\n";
+		if (x(countries, "HRE"))
+			potential += "\t\t\t\ttag = HRE\n";
+		if (x(countries, "DNB"))
+			potential += "\t\t\t\t#tag = DNB\n";
+		if (x(countries, "AUS"))
+		{
+			potential += "\t\t\t\tAND = {\n";
+			potential += "\t\t\t\t\ttag = AUS\n";
+			potential += "\t\t\t\t\tNOT = { has_country_flag = austrian_greater_germany }\n";
+			potential += "\t\t\t\t}\n";
+		}
+		if (x(countries, "KUK"))
+		{
+			potential += "\t\t\t\tAND = {\n";
+			potential += "\t\t\t\t\ttag = KUK\n";
+			potential += "\t\t\t\t\tNOT = { has_country_flag = austrian_greater_germany }\n";
+			potential += "\t\t\t\t}\n";
+		}
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tclr_country_flag = crown_from_the_gutter\n";
+		effect += "\t\t\tclr_country_flag = secondary_union_formation\n";
+		effect += "\t\t\tprestige = 10\n";
+		effect += "\t\t\tFRA_412 = { add_core = GER }\n";
+		if (x(countries, "KUK"))
+		{
+			effect += "\t\t\trandom_owned = {\n";
+			effect += "\t\t\t\tlimit = { owner = { tag = KUK } }\n";
+			if (x(countries, "HUN"))
+				effect += "\t\t\t\tHUN = { all_core = { remove_core = KUK } }\n";
+			if (x(countries, "CRO"))
+				effect += "\t\t\t\tCRO = { all_core = { remove_core = KUK } }\n";
+			effect += "\t\t\t\towner = { remove_accepted_culture = hungarian }\n";
+			effect += "\t\t\t}\n";
+		}
+		effect += "\t\t\tall_core = { add_core = SGF }\n";
+		effect += "\t\t\tany_owned = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\tNOT = { is_core = THIS }\n";
+		effect += "\t\t\t\t\tany_core = {\n";
+		effect += "\t\t\t\t\t\texists = no\n";
+		effect += "\t\t\t\t\t\tprimary_culture = south_german\n";
+		effect += "\t\t\t\t\t\thas_country_flag = wants_to_unify\n";
+		effect += "\t\t\t\t\t\tNOT = { has_country_flag = post_colonial_country }\n";
+		effect += "\t\t\t\t\t}\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\tadd_core = SGF\n";
+		effect += "\t\t\t}\n";
+		if (x(countries, "KUK"))
+		{
+			effect += "\t\t\trandom_owned = {\n";
+			effect += "\t\t\t\tlimit = { owner = { tag = KUK } }\n";
+			effect += "\t\t\t\towner = {\n";
+			effect += "\t\t\t\t\tall_core = {\n";
+			effect += "\t\t\t\t\t\tremove_core = KUK\n";
+			if (x(countries, "AUS"))
+				effect += "\t\t\t\t\t\tadd_core = AUS\n";
+			effect += "\t\t\t\t\t}\n";
+			effect += "\t\t\t\t}\n";
+			effect += "\t\t\t}\n";
+		}
+		effect += "\t\t\tchange_tag = SGF\n";
+		effect += "\t\t\tany_country = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\tprimary_culture = south_german\n";
+		effect += "\t\t\t\t\tin_sphere = THIS\n";
+		effect += "\t\t\t\t\tNOT = {\n";
+		effect += "\t\t\t\t\t\thas_country_flag = post_colonial_country\n";
+		effect += "\t\t\t\t\t\ttag = THIS\n";
+		if (x(countries, "KUK"))
+			effect += "\t\t\t\t\t\ttag = KUK\n";
+		if (x(countries, "AUS"))
+			effect += "\t\t\t\t\t\ttag = AUS\n";
+		if (x(countries, "DNB"))
+			effect += "\t\t\t\t\t\t#tag = DNB\n";
+		if (x(countries, "BAN"))
+			effect += "\t\t\t\t\t\ttag = BAN\n";
+		effect += "\t\t\t\t\t}\n";
+		effect += "\t\t\t\t\tOR = {\n";
+		effect += "\t\t\t\t\t\tis_vassal = no\n";
+		effect += "\t\t\t\t\t\tvassal_of = THIS\n";
+		effect += "\t\t\t\t\t}\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\tcountry_event = 11106\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+
+	if (const auto& theDecision = decisions.find("austrian_form_south_german_confederation"); theDecision == decisions.end())
+		Log(LogLevel::Warning) << "Could not load austrian_form_south_german_confederation decision";
+	else if ((!x(countries, "AUS") && !x(countries, "KUK"))
+			 || !x(countries, "SGF") || !x(countries, "GER"))
+		decisions.erase(theDecision);
+	else
+	{
+		std::string potential = "= {\n";
+		if (x(countries, "AUS"))
+		{
+			potential += "\t\t\tOR = {\n";
+			potential += "\t\t\t\tAND = {\n";
+			potential += "\t\t\t\t\ttag = AUS\n";
+			potential += "\t\t\t\t\tany_owned_province = {\n";
+			potential += "\t\t\t\t\t\tNOT = { \n";
+			potential += "\t\t\t\t\t\t\tOR = {\n";
+			potential += "\t\t\t\t\t\t\t\tis_core = AUS\n";
+			potential += "\t\t\t\t\t\t\t\tis_core = GER\n";
+			potential += "\t\t\t\t\t\t\t\tis_colonial = yes\n";
+			potential += "\t\t\t\t\t\t\t}\n";
+			potential += "\t\t\t\t\t\t}\n";
+			potential += "\t\t\t\t\t}\n";
+			potential += "\t\t\t\t}\n";
+			potential += "\t\t\t\ttag = KUK\n";
+			potential += "\t\t\t}\n";
+		}
+		else
+			potential += "\t\t\ttag = KUK\n";
+		potential += "\t\t\tis_greater_power = yes\n";
+		potential += "\t\t\tprimary_culture = south_german\n";
+		potential += "\t\t\tNOT = {\n";
+		potential += "\t\t\t\texists = GER\n";
+		potential += "\t\t\t\texists = SGF\n";
+		potential += "\t\t\t\thas_country_flag = austrian_greater_germany\n";
+		potential += "\t\t\t\thas_country_flag = union_is_hre\n";
+		potential += "\t\t\t}\n";
+		potential += "\t\t}\t\n";
+		(theDecision->second).updateDecision("potential", potential);
+
+		std::string effect = "= {\n";
+		effect += "\t\t\tprestige = 10\n";
+		effect += "\t\t\tFRA_412 = { add_core = GER }\n";
+		effect += "\t\t\tany_country = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\tOR = {\n";
+		if (x(countries, "WUR"))
+			effect += "\t\t\t\t\t\ttag = WUR\n";
+		if (x(countries, "BAD"))
+			effect += "\t\t\t\t\t\ttag = BAD\n";
+		if (x(countries, "BAV"))
+			effect += "\t\t\t\t\t\ttag = BAV\n";
+		effect += "\t\t\t\t\t}\n";
+		effect += "\t\t\t\t\tin_sphere = THIS\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\tannex_to = THIS\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\tany_owned = {\n";
+		effect += "\t\t\t\tlimit = {\n";
+		effect += "\t\t\t\t\tOR = {\n";
+		effect += "\t\t\t\t\t\tculture = south_german\n";
+		effect += "\t\t\t\t\t\tprovince_id = 412\n";
+		effect += "\t\t\t\t\t}\n";
+		effect += "\t\t\t\t\tis_core = GER\n";
+		effect += "\t\t\t\t\tNOT = {\n";
+		if (x(countries, "AUS"))
+			effect += "\t\t\t\t\t\tis_core = AUS\n";
+		if (x(countries, "KUK"))
+			effect += "\t\t\t\t\t\tis_core = KUK\n";
+		effect += "\t\t\t\t\t}\n";
+		effect += "\t\t\t\t\tNOT = { has_country_flag = post_colonial_country }\n";
+		effect += "\t\t\t\t}\n";
+		effect += "\t\t\t\tadd_core = SGF\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t\trelease_vassal = SGF\n";
+		effect += "\t\t\tdiplomatic_influence = {\n";
+		effect += "\t\t\t\twho = SGF\n";
+		effect += "\t\t\t\tvalue = 300\n";
+		effect += "\t\t\t}\n";
+		effect += "\t\t}\n";
+		(theDecision->second).updateDecision("effect", effect);
+	}
+}
+
 bool V2::Decisions::x(const std::map<std::string, std::shared_ptr<Country>>& countries, const std::string& tag)
 {
 	bool isTagEssential = false;
