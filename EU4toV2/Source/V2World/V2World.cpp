@@ -2073,6 +2073,9 @@ void V2::World::copyModFiles() const
 		fs::copy_file(mod + "/common/cb_types.txt", output + "/common/cb_types.txt");
 		fs::copy_file(mod + "/common/ideologies.txt", output + "/common/ideologies.txt");
 
+		fs::remove(output + "/common/rebel_types.txt");
+		fs::copy_file(mod + "/common/rebel_types.txt", output + "/common/rebel_types.txt");
+
 		//	/map
 		fs::copy(mod + "/map", output + "/map", fs::copy_options::recursive);
 
@@ -2152,6 +2155,14 @@ void V2::World::copyModFiles() const
 			//}
 			fs::copy_file("configurables/" + theConfiguration.getVic2ModName() + "/events/" + file,
 							output + "/events/" + file);
+		}
+
+		// poptypes
+		const auto& poptypesFiles = Utils::GetAllFilesInFolder(mod + "/poptypes");
+		Utils::TryCreateFolder(output + "/poptypes");
+		for (const auto& file: poptypesFiles)
+		{
+			fs::copy_file(mod + "/poptypes/" + file, output + "/poptypes/" + file);
 		}
 	}
 }
