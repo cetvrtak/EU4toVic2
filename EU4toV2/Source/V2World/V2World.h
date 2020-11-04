@@ -31,6 +31,7 @@
 #include "../Mappers/StartingTechMapper/StartingTechMapper.h"
 #include "../Mappers/StateMapper/StateMapper.h"
 #include "../Mappers/TechSchools/TechSchoolMapper.h"
+#include "../Mappers/Technologies/Technologies.h"
 #include "../Mappers/Unreleasables/Unreleasables.h"
 #include "../Mappers/WarGoalMapper/WarGoalMapper.h"
 #include "Country/Country.h"
@@ -170,6 +171,7 @@ class World
 	void updateFlags() const;
 	void outputGTFO(std::map<std::string, std::shared_ptr<Country>> countries) const;
 	void outputReturnCores(std::map<std::string, std::shared_ptr<V2::Country>> countries) const;
+	void outputTechnologies() const;
 
 	std::shared_ptr<V2::State> getStateByID(int stateID) const;
 	
@@ -213,6 +215,7 @@ class World
 	mappers::CountryFlags countryFlags;
 	mappers::Issues issues;
 	mappers::ModReforms modReforms;
+	mappers::Technologies technologies;
 };
 
 std::ostream& operator<<(std::ostream& output, const std::vector<std::pair<std::string, EU4::HistoricalEntry>>& historicalData);

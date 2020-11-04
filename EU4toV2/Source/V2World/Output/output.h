@@ -18,6 +18,7 @@
 #include "../War/War.h"
 #include "ModFile.h"
 #include "../../Mappers/VersionParser/VersionParser.h"
+#include "../../Mappers/Technologies/Technology.h"
 
 namespace V2
 {
@@ -45,6 +46,7 @@ namespace mappers
 	std::ostream& operator<<(std::ostream& output, const CultureGroups& cultureGroupsMapper);
 	std::ostream& operator<<(std::ostream& output, const CultureGroup& cultureGroup);
 	std::ostream& operator<<(std::ostream& output, const Culture& culture);
-}
+	std::ostream& operator<<(std::ostream& output, const Technology& technology);
+	}
 
 #endif // OUTPUT_H
