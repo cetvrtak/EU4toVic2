@@ -2632,8 +2632,6 @@ void V2::World::updateFlags() const
 
 void V2::World::outputTechnologies() const
 {
-	std::string commentArea;
-
 	for (const auto& category: technologies.getCategories())
 	{
 		std::ofstream output("output/" + theConfiguration.getOutputName() + "/technologies/" + category.first);
@@ -2641,11 +2639,8 @@ void V2::World::outputTechnologies() const
 			throw std::runtime_error("Could not open " + category.first + " for writing");
 		for (const auto& technology: category.second)
 		{
-			if (technology.getArea() != commentArea)
-			{
-				commentArea = technology.getArea();
-				output << "#" << commentArea << "\n";
-			}
+			if (technology.getLevel() == 1)
+				output << "#" << technology.getArea() << "\n";
 			output << technology;
 		}
 		output.close();

@@ -14,6 +14,7 @@ mappers::Technologies::Technologies()
 	}
 	clearRegisteredKeywords();
 
+	setTechLevels();
 	updateTechs();
 }
 
@@ -37,6 +38,27 @@ void mappers::Technologies::updateTechs()
 		{
 			if (const auto& mapItr = techYearMap.find(tech.getName()); mapItr != techYearMap.end())
 				tech.setYear(mapItr->second);
+		}
+	}
+}
+
+void mappers::Technologies::setTechLevels()
+{
+	for (auto& category: categories)
+	{
+		std::string group;
+		int i = 1;
+
+		for (auto& tech: category.second)
+		{
+			if (tech.getArea() == group)
+				i++;
+			else
+			{
+				group = tech.getArea();
+				i = 1;
+			}
+			tech.setLevel(i);
 		}
 	}
 }
