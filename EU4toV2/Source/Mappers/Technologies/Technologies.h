@@ -2,21 +2,23 @@
 #define TECHNOLOGIES_H
 
 #include "Parser.h"
-#include "Technology.h"
 #include "TechYearMapper.h"
+#include "Technology.h"
 
 namespace mappers
 {
 
 class Technologies: commonItems::parser
 {
-public:
+  public:
 	Technologies();
+
+	void updateTechs();
 
 	[[nodiscard]] const auto& getCategories() const { return categories; }
 	[[nodiscard]] const auto& getTechnologies() const { return technologies; }
 
-private:
+  private:
 	void registerKeys(const std::string& filename);
 
 	std::map<std::string, std::vector<mappers::Technology>> categories;
@@ -25,7 +27,7 @@ private:
 };
 
 
-}
+} // namespace mappers
 
 
 #endif // TECHNOLOGIES_H

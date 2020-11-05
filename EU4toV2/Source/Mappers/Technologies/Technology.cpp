@@ -1,15 +1,12 @@
 #include "Technology.h"
-#include "ParserHelpers.h"
 #include "OSCompatibilityLayer.h"
+#include "ParserHelpers.h"
 
-mappers::Technology::Technology(std::istream& theStream, const TechYearMapper& techYearMap)
+mappers::Technology::Technology(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
-
-	const auto& theMap = techYearMap.getMap();
-	updateYear(theMap);
 }
 
 void mappers::Technology::registerKeys()
@@ -39,10 +36,4 @@ void mappers::Technology::registerKeys()
 		effects.push_back(theEffect + " " + effectsStr.getString());
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
-}
-
-void mappers::Technology::updateYear(const std::map<std::string, std::string>& theMap)
-{
-	if (const auto& mapItr = theMap.find(name); mapItr != theMap.end())
-		year = stoi(mapItr->second);
 }
