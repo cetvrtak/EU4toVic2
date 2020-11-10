@@ -140,6 +140,9 @@ class World
 	void addReligionCulture();
 	
 	void addStateMapping(int origID, int modID) { stateMap.insert(std::make_pair(origID, modID)); }
+	int findBestMatch(const std::pair<int, std::map<int, int>>& state);
+	void sortStateMap(std::map<int, std::map<int, int>>& freqMap, std::vector<int>& sortedStates);
+	void updateStateMap(std::map<int, std::map<int, int>>& freqMap, int modStateID);
 	void addProvinceMapping(int origID, int modID) { provinceMap.insert(std::make_pair(origID, modID)); }
 	void copyModFiles() const;
 	void outputStateMap(std::string srcFile, std::string outFile) const;
@@ -149,7 +152,7 @@ class World
 	void convertEvents();
 	void drawProvinceMap();
 	void drawStateMap();
-	void verifyMap(std::map<int, int> theMap) const;
+	bool verifyMap(std::map<int, int> theMap) const;
 	void mapUnlocalized(const std::vector<int>& vanillaProvs,
 	 std::map<int, std::string> locProvs,
 	 std::ofstream& output);
@@ -171,9 +174,8 @@ class World
 	void outputGTFO(std::map<std::string, std::shared_ptr<Country>> countries) const;
 	void outputReturnCores(std::map<std::string, std::shared_ptr<V2::Country>> countries) const;
 	void outputTechnologies() const;
+	int getModStateId(int province, std::ofstream& output);
 
-	std::shared_ptr<V2::State> getStateByID(int stateID) const;
-	
 	mappers::ProvinceMapper provinceMapper;
 	mappers::Continents continentsMapper;
 	mappers::CountryMappings countryMapper;
