@@ -3,6 +3,7 @@
 #include "../../Configuration.h"
 #include "OSCompatibilityLayer.h"
 #include "Relation.h"
+#include "../../EU4World/World.h"
 #include "../../EU4World/Country/EU4Country.h"
 #include <fstream>
 #include "../Country/Country.h"
@@ -205,6 +206,35 @@ void V2::Diplomacy::convertRelationsToInfluence(const std::map<std::string, std:
 				}
 				relation.second.setInfluence(newInfluence);
 			}
+		}
+	}
+}
+
+void V2::Diplomacy::sphereHRE(const EU4::World& sourceWorld, std::map<std::string, std::shared_ptr<Country>>& countries)
+{
+	if (const auto& hreReforms = sourceWorld.getHREReforms();
+		 std::find(hreReforms.begin(), hreReforms.end(), "emperor_reichskrieg") == hreReforms.end())
+	{
+		return;
+	}
+	else
+	{
+		Log(LogLevel::Info) << "\tSphereing HRE";
+
+		const auto& emperorItr = std::find_if(countries.begin(), countries.end(),
+			[](const std::pair<std::string, std::shared_ptr<Country>>& country)
+			{
+				return country.second->isEmperorHRE();
+			});
+		const auto& emperor = emperorItr->second;
+
+		for (const auto& country: countries)
+		{
+			if (!country.second->isMemberHRE())
+				continue;
+			auto& relation = emperor->getRelation(country.second->getTag());
+			relation.setLevel(5);
+			relation.setAccess(true);
 		}
 	}
 }

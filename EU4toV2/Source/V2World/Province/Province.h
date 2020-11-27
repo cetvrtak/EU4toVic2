@@ -108,6 +108,7 @@ namespace V2
 
 		void sterilizeProvince();
 		void convertFromOldProvince(
+			const EU4::World& sourceWorld,
 			const std::vector<std::shared_ptr<EU4::Province>>& provinceSources,
 			const std::map<std::string, std::shared_ptr<EU4::Country>>& theEU4Countries,
 			const EU4::Regions& eu4Regions,

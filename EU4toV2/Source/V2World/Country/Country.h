@@ -140,6 +140,8 @@ class Country
 	[[nodiscard]] const auto& getParties() const { return details.parties; }
 	[[nodiscard]] const auto& getModReforms() const { return modReforms; }
 	[[nodiscard]] const auto& isReleasableVassal() const { return details.isReleasableVassal; }
+	[[nodiscard]] bool isEmperorHRE() const { return details.holyRomanEmperor; }
+	[[nodiscard]] bool isMemberHRE() const { return details.inHRE; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Country& country);
 	void outputCommons(std::ostream& output);

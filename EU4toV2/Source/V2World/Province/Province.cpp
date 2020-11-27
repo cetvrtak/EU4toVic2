@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "../Army/Regiment.h"
 #include "../../EU4World/Regions/Regions.h"
+#include "../../EU4World/World.h"
 #include "../../Mappers/Geography/Continents.h"
 #include "../../Mappers/CultureMapper/CultureMapper.h"
 #include "../../Mappers/ReligionMapper/ReligionMapper.h"
@@ -94,6 +95,7 @@ void V2::Province::addCore(const std::string& newCore)
 }
 
 void V2::Province::convertFromOldProvince(
+	const EU4::World& sourceWorld,
 	const std::vector<std::shared_ptr<EU4::Province>>& provinceSources,
 	const std::map<std::string, std::shared_ptr<EU4::Country>>& theEU4Countries,
 	const EU4::Regions& eu4Regions,
@@ -109,7 +111,16 @@ void V2::Province::convertFromOldProvince(
 	if (provinceSources.empty()) return; // Let's not do damage.
 	
 	// Single HRE province is enough
-	for (const auto& oldProvince: provinceSources) if (oldProvince->inHre()) inHRE = true;
+	for (const auto& oldProvince: provinceSources)
+	{
+		if (oldProvince->inHre())
+		{
+			inHRE = true;
+			if (const auto& hreReforms = sourceWorld.getHREReforms();
+				 std::find(hreReforms.begin(), hreReforms.end(), "emperor_reichskrieg") == hreReforms.end())
+				addCore("HRE");
+		}
+	}
 	
 	territorialCore = false; // A single territorial core will be sufficient to trip this.
 	for (const auto& oldProvince : provinceSources){

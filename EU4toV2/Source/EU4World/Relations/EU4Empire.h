@@ -2,6 +2,7 @@
 #define EU4EMPIRE_H
 
 #include "Parser.h"
+#include <set>
 
 namespace EU4
 {
@@ -11,9 +12,11 @@ namespace EU4
 		explicit EU4Empire(std::istream& theStream);
 		
 		[[nodiscard]] const auto& getEmperor() const { return emperor; }
+		[[nodiscard]] const auto& getHREReforms() const { return reforms; }
 
 	private:
 		std::string emperor;
+		std::set<std::string> reforms;
 	};
 }
 

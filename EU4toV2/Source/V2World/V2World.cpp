@@ -76,6 +76,7 @@ V2::World::World(const EU4::World& sourceWorld,
 
 	LOG(LogLevel::Info) << "-> Converting Diplomacy";
 	diplomacy.convertDiplomacy(sourceWorld.getDiplomaticAgreements(), countryMapper, countries);
+	diplomacy.sphereHRE(sourceWorld, countries);
 	Log(LogLevel::Progress) << "55 %";
 
 	LOG(LogLevel::Info) << "-> Setting Up Colonies";
@@ -119,7 +120,8 @@ V2::World::World(const EU4::World& sourceWorld,
 	Log(LogLevel::Progress) << "65 %";
 
 	LOG(LogLevel::Info) << "-> Merging Nations";
-	addUnions();
+	addUnions(sourceWorld);
+	decentralizeHRE(sourceWorld);
 	Log(LogLevel::Progress) << "66 %";
 
 	LOG(LogLevel::Info) << "-> Converting Armies and Navies";
@@ -1022,7 +1024,8 @@ void V2::World::convertProvinces(const EU4::World& sourceWorld, const mappers::T
 			}
 		}
 
-		province.second->convertFromOldProvince(filteredSources,
+		province.second->convertFromOldProvince(sourceWorld,
+			 filteredSources,
 			 sourceWorld.getCountries(),
 			 sourceWorld.getRegions(),
 			 cultureMapper,
@@ -1474,7 +1477,7 @@ void V2::World::setupPops(const EU4::World& sourceWorld)
 	LOG(LogLevel::Info) << "New total world population: " << newTotalPopulation;
 }
 
-void V2::World::addUnions()
+void V2::World::addUnions(const EU4::World& sourceWorld)
 {
 	if (theConfiguration.getCoreHandling() == Configuration::COREHANDLES::DropAll)
 		return;
@@ -1490,6 +1493,15 @@ void V2::World::addUnions()
 			{
 				auto unionCores = culturalUnionMapper.getCoresForCulture(culture);
 				auto nationalCores = culturalNationalitiesMapper.getCoresForCulture(culture);
+
+				// Skip Germany if the Empire was decentralized
+				if (const auto& gerItr = std::find(unionCores->begin(), unionCores->end(), "GER");
+					 sourceWorld.getHREReforms().count("emperor_reichskrieg")
+					 && gerItr != unionCores->end())
+				{
+					unionCores->erase(gerItr);
+				}
+
 				switch (theConfiguration.getCoreHandling())
 				{
 					case Configuration::COREHANDLES::DropNational:
@@ -1527,6 +1539,12 @@ void V2::World::addUnions()
 			}
 		}
 	}
+}
+
+void V2::World::decentralizeHRE(const EU4::World& sourceWorld)
+{
+	if (sourceWorld.getHREReforms().count("emperor_reichskrieg"))
+		cultureGroupsMapper.retrieveCultureGroup("german")->setUnionTag("");
 }
 
 

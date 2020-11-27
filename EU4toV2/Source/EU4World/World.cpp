@@ -75,6 +75,7 @@ EU4::World::World(const mappers::IdeaEffectMapper& ideaEffectMapper)
 	registerKeyword("empire", [this](const std::string& unused, std::istream& theStream) {
 		const EU4Empire empireBlock(theStream);
 		holyRomanEmperor = empireBlock.getEmperor();
+		hreReforms = empireBlock.getHREReforms();
 	});
 	registerKeyword("emperor", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString emperorStr(theStream);

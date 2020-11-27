@@ -18,6 +18,7 @@ namespace mappers
 
 		void addNeoCulture(const std::string& name, const Culture& culture, const std::string& oldCulture);
 		void mergeCulture(const std::string& name, const Culture& culture);
+		void setUnionTag(const std::string& tag) { culturalUnionTag = tag; }
 		[[nodiscard]] auto containsCulture(const std::string& cultureName) const { return cultures.count(cultureName) > 0; }
 
 		friend std::ostream& operator<<(std::ostream& output, const CultureGroup& cultureGroup);
