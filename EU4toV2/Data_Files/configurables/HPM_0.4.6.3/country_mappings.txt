@@ -983,8 +983,8 @@ link = { eu4 = MLB v2 = MLB } # Manipur
 link = { eu4 = HAD v2 = HAD } # Hadoti
 link = { eu4 = NGA v2 = NGA } # Nagaur
 link = { eu4 = RMP v2 = RMP } # Rohilkandh
-link = { eu4 = LDK v2 = LDK } # Ladakh
-link = { eu4 = d_ladakh v2 = LDK } # Ladakh
+link = { eu4 = LDK v2 = LAD } # Ladakh
+link = { eu4 = d_ladakh v2 = LAD } # Ladakh
 link = { eu4 = BGL v2 = BGL } # Bagelkhand
 link = { eu4 = JFN v2 = JFN } # Jaffna
 link = { eu4 = PTA v2 = PTA } # Patiala
@@ -1585,6 +1585,7 @@ map = { vic = LND mod = LUN } #Lunda
 map = { vic = JMB mod = DJA } #Jambi
 map = { vic = PAN mod = PNJ } #Panjab
 map = { vic = PHI mod = PHL } #Phillipines
+map = { vic = SGU mod = SEG } #Segu
 
 ### Create new tag for vanilla tag already taken in HPM
 reassign = { old = LUN new = LNB } #Luneburg

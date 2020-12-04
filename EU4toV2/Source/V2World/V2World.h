@@ -64,6 +64,12 @@ class World
 		 const mappers::VersionParser& versionParser);
 
   private:
+	void discoverFrCountries();
+	void outputFrCountries() const;
+
+	std::set<std::string> frCores;
+	std::map<std::string, std::shared_ptr<Country>> hpmCountries;
+
 	long totalWorldPopulation = 0;
 	int stateId = 0; // ID counter for generated states
 	bool isRandomWorld = false;
@@ -102,7 +108,7 @@ class World
 	void importPopsFromFile(const std::string& filename, const mappers::MinorityPopMapper& minorityPopMapper);
 	void importPopsFromProvince(int provinceID, const mappers::PopTypes& popType, const mappers::MinorityPopMapper& minorityPopMapper);
 	void importPotentialCountries();
-	void importPotentialCountry(const std::string& line, bool dynamicCountry);
+	void importPotentialCountry(const std::string& file, const std::string& line, bool dynamicCountry);
 	void initializeCultureMappers();
 	void convertCountries(const EU4::World& sourceWorld, const mappers::IdeaEffectMapper& ideaEffectMapper);
 	void convertProvinces(const EU4::World& sourceWorld, const mappers::TechGroupsMapper& techGroupsMapper, const EU4::Regions& eu4Regions);
@@ -139,7 +145,7 @@ class World
 	void modifyPrimaryAndAcceptedCultures();
 	void addAcceptedCultures(const EU4::Regions& eu4Regions);
 	void addReligionCulture();
-	
+
 	void addStateMapping(int origID, int modID) { stateMap.insert(std::make_pair(origID, modID)); }
 	int findBestMatch(const std::pair<int, std::map<int, int>>& state);
 	void sortStateMap(std::map<int, std::map<int, int>>& freqMap, std::vector<int>& sortedStates);
@@ -154,17 +160,15 @@ class World
 	void drawProvinceMap();
 	void drawStateMap();
 	bool verifyMap(std::map<int, int> theMap) const;
-	void mapUnlocalized(const std::vector<int>& vanillaProvs,
-	 std::map<int, std::string> locProvs,
-	 std::ofstream& output);
+	void mapUnlocalized(const std::vector<int>& vanillaProvs, std::map<int, std::string> locProvs, std::ofstream& output);
 	void mapUnchanged(const std::vector<int>& vanillaProvs,
-	 const mappers::ProvinceMapper& vanillaMapper,
-	 const mappers::ProvinceMapper& modMapper,
-	 std::ofstream& output);
+		 const mappers::ProvinceMapper& vanillaMapper,
+		 const mappers::ProvinceMapper& modMapper,
+		 std::ofstream& output);
 	void mapLeftovers(const std::vector<int>& vanillaProvs,
-	 const mappers::ProvinceMapper& vanillaMapper,
-	 const mappers::ProvinceMapper& modMapper,
-	 std::ofstream& output);
+		 const mappers::ProvinceMapper& vanillaMapper,
+		 const mappers::ProvinceMapper& modMapper,
+		 std::ofstream& output);
 	int getActualStateID(int provID, const std::map<int, std::set<int>>& theMap) const;
 	void convertCountryFlags();
 	void updateCountryDetails();

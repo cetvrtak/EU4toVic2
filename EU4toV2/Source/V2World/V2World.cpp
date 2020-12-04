@@ -157,6 +157,10 @@ V2::World::World(const EU4::World& sourceWorld,
 		Log(LogLevel::Progress) << "73 %";
 	}
 
+	LOG(LogLevel::Info) << "-> Discovering FR countries";
+	discoverFrCountries();
+	LOG(LogLevel::Progress) << "74 %";
+
 	LOG(LogLevel::Info) << "---> Le Dump <---";
 	output(versionParser);
 
@@ -724,15 +728,17 @@ void V2::World::importPotentialCountries()
 				dynamicSection = true;
 				continue;
 			}
-			importPotentialCountry(line, dynamicSection);
+			importPotentialCountry(countriesFile, line, dynamicSection);
 		}
 		v2CountriesInput.close();
 	}
 }
 
-void V2::World::importPotentialCountry(const std::string& line, bool dynamicCountry)
+void V2::World::importPotentialCountry(const std::string& file, const std::string& line, bool dynamicCountry)
 {
 	auto tag = line.substr(0, 3);
+	const auto& mod = theConfiguration.getVic2ModName();
+	const auto& hpmCountriesFiles = theConfiguration.getVic2ModPath() + "/" + mod  + "/common/countries.txt";
 
 	
 	if (countryMapper.getV2TagToModTagMap().find(tag) == countryMapper.getV2TagToModTagMap().end()
@@ -740,6 +746,10 @@ void V2::World::importPotentialCountry(const std::string& line, bool dynamicCoun
 	{
 		auto newCountry = std::make_shared<Country>(line, dynamicCountry, partyNameMapper, partyTypeMapper);
 		potentialCountries.insert(std::make_pair(tag, newCountry));
+		if (file == hpmCountriesFiles)
+		{
+			hpmCountries.insert(std::make_pair(tag, newCountry));
+		}
 		if (dynamicCountry && dynamicCountries.find(tag) == dynamicCountries.end())
 		{
 			dynamicCountries.insert(std::make_pair(tag, newCountry));
@@ -1640,6 +1650,7 @@ void V2::World::output(const mappers::VersionParser& versionParser) const
 
 	LOG(LogLevel::Info) << "<- Writing Countries";
 	outputCountries();
+	outputFrCountries();
 	Log(LogLevel::Progress) << "93 %";
 
 	LOG(LogLevel::Info) << "<- Writing Diplomacy";
@@ -1943,6 +1954,82 @@ void V2::World::outputCountries() const
 		if (!output.is_open())
 			throw std::runtime_error("Could not create OOB file " + country.first + "_OOB.txt");
 		country.second->outputOOB(output);
+	}
+}
+
+void V2::World::discoverFrCountries()
+{
+	for (const auto& [unused, province]: provinces)
+	{
+		const auto& owner = province->getOwner();
+		if ((frCores.find(owner) == frCores.end()) && (hpmCountries.find(owner) == hpmCountries.end()))
+			frCores.insert(owner);
+
+		for (const auto& core: province->getCores())
+		{
+			if ((frCores.find(core) == frCores.end()) && (hpmCountries.find(core) == hpmCountries.end()))
+				frCores.insert(core);
+		}
+	}
+}
+
+void V2::World::outputFrCountries() const
+{
+	const std::string frFolder = "output/FR Files";
+	Utils::TryCreateFolder(frFolder);
+	Utils::TryCreateFolder(frFolder + "/common");
+	Utils::TryCreateFolder(frFolder + "/common/countries");
+	Utils::TryCreateFolder(frFolder + "/history");
+	Utils::TryCreateFolder(frFolder + "/history/countries");
+	Utils::TryCreateFolder(frFolder + "/history/units");
+	Utils::TryCreateFolder(frFolder + "/gfx");
+	Utils::TryCreateFolder(frFolder + "/gfx/flags");
+	Utils::TryCreateFolder(frFolder + "/localisation");
+
+	const std::string flagsFolder = "output/" + theConfiguration.getOutputName() + "/gfx/flags";
+	const auto& flags = Utils::GetAllFilesInFolder(flagsFolder);
+	const std::string frFlags = frFolder + "/gfx/flags";
+
+	std::ofstream frCountries(frFolder + "/countries.txt");
+	if (!frCountries.is_open())
+		throw std::runtime_error("Could not create frMod countries.txt");
+
+	std::ofstream frLoc(frFolder + "/localisation/00_FR_countries.csv");
+	if (!frLoc.is_open())
+		throw std::runtime_error("Could not create 00_FR_countries.csv");
+
+	frCountries << "### French Revolution\n";
+	for (const auto& [tag, country]: countries)
+	{
+		if (frCores.find(tag) != frCores.end())
+		{
+			frCountries << tag << " = \"countries/" << country->getCommonCountryFile() << "\"\n";
+
+			std::ofstream frCommons(frFolder + "/common/countries/" + country->getCommonCountryFile());
+			if (!frCommons.is_open())
+				throw std::runtime_error("Could not create frCommons file " + country->getFilename());
+			country->outputCommons(frCommons);
+			frCommons.close();
+
+			std::ofstream frHistory(frFolder + "/history/countries/" + country->getFilename());
+			if (!frHistory.is_open())
+				throw std::runtime_error("Could not create frHistory file " + country->getFilename());
+			frHistory << *country;
+			frHistory.close();
+
+			std::ofstream frOob(frFolder + "/history/units/" + tag + "_OOB.txt");
+			if (!frOob.is_open())
+				throw std::runtime_error("Could not create frOOB file " + tag + "_OOB.txt");
+			country->outputOOB(frOob);
+
+			frLoc << country->getLocalisation();
+
+			for (const auto& flag: flags)
+			{
+				if (flag.substr(0, 3) == country->getTag())
+					fs::copy_file(flagsFolder + "/" + flag, frFlags + "/" + flag);
+			}
+		}
 	}
 }
 
