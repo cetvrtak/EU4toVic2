@@ -41,6 +41,7 @@ filename(std::move(_filename))
 	else
 	{
 		details = mappers::ProvinceDetails(theConfiguration.getVic2Path() + "/history/provinces/" + filename);
+		grandCampaign = details;
 	}
 
 	for (const auto& climate : climateMapper.getClimateMap())
@@ -934,4 +935,101 @@ std::pair<int, int> V2::Province::getAvailableSoldierCapacity() const
 		}
 	}
 	return std::pair<int, int>(soldierCap, draftCap);
+}
+
+void V2::Province::classifyDetails()
+{
+	if (details.owner != grandCampaign.owner)
+	{
+		fr.owner = details.owner;
+		gc.owner = grandCampaign.owner;
+		grandCampaign.owner.clear();
+	}
+	if (details.controller != grandCampaign.controller)
+	{
+		fr.controller = details.controller;
+		gc.controller = grandCampaign.controller;
+		grandCampaign.controller.clear();
+	}
+	for (const auto& core: details.cores)
+	{
+		if (grandCampaign.cores.find(core) == grandCampaign.cores.end())
+			fr.cores.insert(core);
+	}
+	for (const auto& core: grandCampaign.cores)
+	{
+		if (details.cores.find(core) == details.cores.end())
+		{
+			gc.cores.insert(core);
+			grandCampaign.cores.erase(core);
+		}
+	}
+	if (details.rgoType != grandCampaign.rgoType)
+	{
+		fr.rgoType = details.rgoType;
+		gc.rgoType = grandCampaign.rgoType;
+		grandCampaign.rgoType.clear();
+	}
+	if (details.lifeRating != grandCampaign.lifeRating)
+	{
+		fr.lifeRating = details.lifeRating;
+		gc.lifeRating = grandCampaign.lifeRating;
+		grandCampaign.lifeRating = 0;
+	}
+	if (details.terrain != grandCampaign.terrain)
+	{
+		fr.terrain = details.terrain;
+		gc.terrain = grandCampaign.terrain;
+		grandCampaign.terrain.clear();
+	}
+	if (details.colonial != grandCampaign.colonial)
+	{
+		fr.colonial = details.colonial;
+		gc.colonial = grandCampaign.colonial;
+		grandCampaign.colonial = 0;
+	}
+	if (details.navalBaseLevel != grandCampaign.navalBaseLevel)
+	{
+		fr.navalBaseLevel = details.navalBaseLevel;
+		gc.navalBaseLevel = grandCampaign.navalBaseLevel;
+		grandCampaign.navalBaseLevel = 0;
+	}
+	if (details.fortLevel != grandCampaign.fortLevel)
+	{
+		fr.fortLevel = details.fortLevel;
+		gc.fortLevel = grandCampaign.fortLevel;
+		grandCampaign.fortLevel = 0;
+	}
+	if (details.railLevel != grandCampaign.railLevel)
+	{
+		fr.railLevel = details.railLevel;
+		gc.railLevel = grandCampaign.railLevel;
+		grandCampaign.railLevel = 0;
+	}
+	if (details.slaveState != grandCampaign.slaveState)
+	{
+		fr.slaveState = details.slaveState;
+		gc.slaveState = grandCampaign.slaveState;
+		grandCampaign.slaveState = false;
+	}
+	gc.buildings = grandCampaign.buildings;
+	grandCampaign.buildings.clear();
+}
+
+bool V2::Province::doPrintDetails(mappers::ProvinceDetails theDetails) const
+{
+	if (!theDetails.owner.empty()) return true;
+	if (!theDetails.controller.empty()) return true;
+	if (!theDetails.cores.empty()) return true;
+	if (!theDetails.rgoType.empty()) return true;
+	if (theDetails.lifeRating) return true;
+	if (!theDetails.terrain.empty()) return true;
+	if (theDetails.colonial) return true;
+	if (theDetails.navalBaseLevel) return true;
+	if (theDetails.fortLevel) return true;
+	if (theDetails.railLevel) return true;
+	if (theDetails.slaveState) return true;
+	if (!theDetails.buildings.empty()) return true;
+
+	return false;
 }

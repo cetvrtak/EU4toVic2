@@ -124,6 +124,8 @@ namespace V2
 			CIV_ALGORITHM popConversionAlgorithm,
 			const mappers::ProvinceMapper& provinceMapper
 		);
+		void classifyDetails();
+		bool doPrintDetails(mappers::ProvinceDetails theDetails) const;
 		
 		friend std::ostream& operator<<(std::ostream& output, const Province& province);
 
@@ -160,6 +162,10 @@ namespace V2
 		std::string superRegion; // orientation issue.
 		std::map<REGIMENTTYPE, int> unitNameCount;
 		mappers::ProvinceDetails details;
+		mappers::ProvinceDetails grandCampaign;
+		mappers::ProvinceDetails common;
+		mappers::ProvinceDetails fr;
+		mappers::ProvinceDetails gc;
 		int stateID;
 
 		struct pop_points

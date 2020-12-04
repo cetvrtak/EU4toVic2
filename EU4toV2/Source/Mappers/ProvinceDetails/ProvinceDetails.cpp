@@ -45,8 +45,7 @@ void mappers::ProvinceDetails::registerKeys()
 	registerKeyword("terrain", [this](const std::string& unused, std::istream& theStream)
 		{
 			const commonItems::singleString terrainStr(theStream);
-			std::regex terrainT("coral_island");
-			if (!regex_match(terrainStr.getString(), terrainT)) terrain = terrainStr.getString();
+			terrain = terrainStr.getString();
 		});
 	registerKeyword("colonial", [this](const std::string& unused, std::istream& theStream)
 		{
@@ -77,6 +76,11 @@ void mappers::ProvinceDetails::registerKeys()
 		{
 			const commonItems::singleString ignoredStr(theStream);
 			slaveState = true;
+		});
+	registerKeyword("state_building", [this](const std::string& unused, std::istream& theStream)
+		{
+			const commonItems::stringOfItem buildingStr(theStream);
+			buildings.push_back(buildingStr.getString());
 		});
 	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
 }

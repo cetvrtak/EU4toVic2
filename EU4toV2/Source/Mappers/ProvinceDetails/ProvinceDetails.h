@@ -28,6 +28,7 @@ namespace mappers
 		int fortLevel = 0;
 		int railLevel = 0;
 		bool slaveState = false;
+		std::vector<std::string> buildings;
 
 	private:
 		void registerKeys();

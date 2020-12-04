@@ -1033,6 +1033,8 @@ void V2::World::convertProvinces(const EU4::World& sourceWorld, const mappers::T
 			 continentsMapper,
 			 religionMapper,
 			 countryMapper);
+
+		province.second->classifyDetails();
 	}
 }
 
