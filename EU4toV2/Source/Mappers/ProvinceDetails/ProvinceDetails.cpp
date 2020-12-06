@@ -1,3 +1,4 @@
+#include "../../Configuration.h"
 #include "ProvinceDetails.h"
 #include "ParserHelpers.h"
 
@@ -6,6 +7,9 @@ mappers::ProvinceDetails::ProvinceDetails(const std::string& filename)
 	registerKeys();
 	parseFile(filename);
 	clearRegisteredKeywords();
+
+	const auto& date = theConfiguration.getVic2StartDate();
+	bookmarks[date] = makeNewBookmark(date);
 }
 
 mappers::ProvinceDetails::ProvinceDetails(std::istream& theStream)
@@ -82,5 +86,33 @@ void mappers::ProvinceDetails::registerKeys()
 			const commonItems::stringOfItem buildingStr(theStream);
 			buildings.push_back(buildingStr.getString());
 		});
+	registerRegex("[0-9.]+", [this](const std::string& date, std::istream& theStream)
+		{
+			mappers::ProvinceDetails newBookmark(theStream);
+			newBookmark.bookmarkDate = date;
+			bookmarks[date] = newBookmark;
+		});
 	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
+}
+
+mappers::ProvinceDetails mappers::ProvinceDetails::makeNewBookmark(const std::string& date) const
+{
+	mappers::ProvinceDetails newBookmark;
+	newBookmark.bookmarkDate = date;
+	newBookmark.owner = owner;
+	newBookmark.controller = controller;
+	newBookmark.rgoType = rgoType;
+	newBookmark.terrain = terrain;
+	newBookmark.climate = climate;
+	newBookmark.lifeRating = lifeRating;
+	newBookmark.colonial = colonial;
+	newBookmark.colonyLevel = colonyLevel;
+	newBookmark.navalBaseLevel = navalBaseLevel;
+	newBookmark.fortLevel = fortLevel;
+	newBookmark.railLevel = railLevel;
+	newBookmark.slaveState = slaveState;
+	newBookmark.cores = cores;
+	newBookmark.buildings = buildings;
+
+	return newBookmark;
 }

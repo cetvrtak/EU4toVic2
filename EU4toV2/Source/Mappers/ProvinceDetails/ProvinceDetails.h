@@ -12,6 +12,9 @@ namespace mappers
 		ProvinceDetails() = default;
 		explicit ProvinceDetails(const std::string& filename);
 		explicit ProvinceDetails(std::istream& theStream);
+		
+		mappers::ProvinceDetails makeNewBookmark(const std::string& date) const;
+		[[nodiscard]] const std::string& getBookmarkDate() { return bookmarkDate; }
 
 		// These values are open to ease management.
 		// This is a storage container for V2::Province.
@@ -29,6 +32,10 @@ namespace mappers
 		int railLevel = 0;
 		bool slaveState = false;
 		std::vector<std::string> buildings;
+		std::map<std::string, mappers::ProvinceDetails> bookmarks;
+		std::string bookmarkDate;
+
+		friend std::ostream& operator<<(std::ostream& output, const ProvinceDetails& provinceDetails);
 
 	private:
 		void registerKeys();

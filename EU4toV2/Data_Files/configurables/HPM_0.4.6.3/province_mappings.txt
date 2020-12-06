@@ -505,8 +505,8 @@
 	link = { eu4 = 991 eu4 = 2585 v2 = 57 } # Ottawa, Kichesipi -> Bytown
 	link = { eu4 = 989 v2 = 56 } # Ontario -> Kingston
 	link = { eu4 = 2670 v2 = 46 } # Tkaronto -> Toronto
-	link = { eu4 = 2586 eu4 = 2587 v2 = 53 } # Tionontate, Odawa -> Barrie
-	link = { eu4 = 987 v2 = 54 v2 = 55 } # Niagara -> Windsor, Hamilton
+	link = { eu4 = 2586 eu4 = 2587 v2 = 54 } # Tionontate, Odawa -> Windsor
+	link = { eu4 = 987 v2 = 55 } # Niagara -> Hamilton
 	link = { eu4 = 2581 eu4 = 2580 eu4 = 992 eu4 = 1002 v2 = 63 } # Timiskaming, Atikamekw, Algonquin, Abitbi -> Temiscaming
 	link = { eu4 = 999 eu4 = 1000 v2 = 2593 } # Nunavik, Cree -> Fort George
 	link = { eu4 = 998 v2 = 2592 v2 = 2626 } # Ungava -> Ungava, Sakami
@@ -1161,6 +1161,7 @@
 	link = { eu4 = 2981 eu4 = 4728 v2 = 723 } # Asti, Pavia -> Alessandria
 	link = { eu4 = 2979 v2 = 722 } # Novara -> Novara
 	link = { eu4 = 104 eu4 = 1862 eu4 = 4740 v2 = 726 } # Lombardia, Cremona, Como -> Milan
+	link = { eu4 = 109 v2 = 53 } # Mantua -> Mantua
 	link = { eu4 = 4739 v2 = 727 v2 = 2669 } # Bergamo -> Bergamo, Sondrio
 	link = { eu4 = 107 v2 = 728 } # Brescia -> Brescia
 	link = { eu4 = 4729 v2 = 731 } # Padova -> Padua

@@ -112,6 +112,7 @@ class World
 	void initializeCultureMappers();
 	void convertCountries(const EU4::World& sourceWorld, const mappers::IdeaEffectMapper& ideaEffectMapper);
 	void convertProvinces(const EU4::World& sourceWorld, const mappers::TechGroupsMapper& techGroupsMapper, const EU4::Regions& eu4Regions);
+	void updateProvinceHistory();
 	void initializeCountries(const EU4::World& sourceWorld, const mappers::IdeaEffectMapper& ideaEffectMapper);
 	void convertNationalValues();
 	void convertPrestige();

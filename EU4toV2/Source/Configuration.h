@@ -72,6 +72,7 @@ class Configuration: commonItems::parser
 		[[nodiscard]] const auto& getActualName() const { return actualName; }
 		[[nodiscard]] const auto& getEU4Mods() const { return EU4Mods; }
 		[[nodiscard]] const auto& getVic2ModName() const { return vic2Mod; }
+		[[nodiscard]] const auto& getVic2StartDate() const { return vic2StartDate; }
 
 		[[nodiscard]] bool wasDLCActive(const std::string& DLC) const;
 
@@ -118,6 +119,7 @@ class Configuration: commonItems::parser
 		std::vector<std::string> activeDLCs;
 		std::vector<std::string> EU4Mods;
 		std::string vic2Mod = "HPM_0.4.6.3";
+		std::string vic2StartDate = "1836.1.1";
 };
 
 extern Configuration theConfiguration;

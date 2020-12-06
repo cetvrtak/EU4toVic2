@@ -41,7 +41,6 @@ filename(std::move(_filename))
 	else
 	{
 		details = mappers::ProvinceDetails(theConfiguration.getVic2Path() + "/history/provinces/" + filename);
-		grandCampaign = details;
 	}
 
 	for (const auto& climate : climateMapper.getClimateMap())
@@ -937,99 +936,60 @@ std::pair<int, int> V2::Province::getAvailableSoldierCapacity() const
 	return std::pair<int, int>(soldierCap, draftCap);
 }
 
-void V2::Province::classifyDetails()
+void V2::Province::updateDetails()
 {
-	if (details.owner != grandCampaign.owner)
+	const auto& startDate = theConfiguration.getLastEU4Date().toString();
+	auto baseDetails = std::make_shared<mappers::ProvinceDetails>(details.makeNewBookmark(startDate));
+	bookmarks.push_back(baseDetails);
+
+	for (auto& [date, bookmark]: details.bookmarks)
 	{
-		fr.owner = details.owner;
-		gc.owner = grandCampaign.owner;
-		grandCampaign.owner.clear();
+		/*const auto& prevDate = std::prev(details.bookmarks.find(date));
+		setHistory(bookmark, *baseDetails, prevDate->second);*/
+		auto newBookmark = std::make_shared<mappers::ProvinceDetails>(bookmark.makeNewBookmark(date));
+		bookmarks.push_back(newBookmark);
 	}
-	if (details.controller != grandCampaign.controller)
-	{
-		fr.controller = details.controller;
-		gc.controller = grandCampaign.controller;
-		grandCampaign.controller.clear();
-	}
-	for (const auto& core: details.cores)
-	{
-		if (grandCampaign.cores.find(core) == grandCampaign.cores.end())
-			fr.cores.insert(core);
-	}
-	for (const auto& core: grandCampaign.cores)
-	{
-		if (details.cores.find(core) == details.cores.end())
-		{
-			gc.cores.insert(core);
-			grandCampaign.cores.erase(core);
-		}
-	}
-	if (details.rgoType != grandCampaign.rgoType)
-	{
-		fr.rgoType = details.rgoType;
-		gc.rgoType = grandCampaign.rgoType;
-		grandCampaign.rgoType.clear();
-	}
-	if (details.lifeRating != grandCampaign.lifeRating)
-	{
-		fr.lifeRating = details.lifeRating;
-		gc.lifeRating = grandCampaign.lifeRating;
-		grandCampaign.lifeRating = 0;
-	}
-	if (details.terrain != grandCampaign.terrain)
-	{
-		fr.terrain = details.terrain;
-		gc.terrain = grandCampaign.terrain;
-		grandCampaign.terrain.clear();
-	}
-	if (details.colonial != grandCampaign.colonial)
-	{
-		fr.colonial = details.colonial;
-		gc.colonial = grandCampaign.colonial;
-		grandCampaign.colonial = 0;
-	}
-	if (details.navalBaseLevel != grandCampaign.navalBaseLevel)
-	{
-		fr.navalBaseLevel = details.navalBaseLevel;
-		gc.navalBaseLevel = grandCampaign.navalBaseLevel;
-		grandCampaign.navalBaseLevel = 0;
-	}
-	if (details.fortLevel != grandCampaign.fortLevel)
-	{
-		fr.fortLevel = details.fortLevel;
-		gc.fortLevel = grandCampaign.fortLevel;
-		grandCampaign.fortLevel = 0;
-	}
-	if (details.railLevel != grandCampaign.railLevel)
-	{
-		fr.railLevel = details.railLevel;
-		gc.railLevel = grandCampaign.railLevel;
-		grandCampaign.railLevel = 0;
-	}
-	if (details.slaveState != grandCampaign.slaveState)
-	{
-		fr.slaveState = details.slaveState;
-		gc.slaveState = grandCampaign.slaveState;
-		grandCampaign.slaveState = false;
-	}
-	gc.buildings = grandCampaign.buildings;
-	grandCampaign.buildings.clear();
 }
 
-bool V2::Province::doPrintDetails(mappers::ProvinceDetails theDetails) const
+void V2::Province::setHistory(mappers::ProvinceDetails& _this,
+		 const mappers::ProvinceDetails& base,
+		 const mappers::ProvinceDetails& prev)
 {
-	if (!theDetails.owner.empty()) return true;
-	if (!theDetails.controller.empty()) return true;
-	if (!theDetails.cores.empty()) return true;
-	if (!theDetails.rgoType.empty()) return true;
-	if (theDetails.lifeRating) return true;
-	if (!theDetails.terrain.empty()) return true;
-	if (theDetails.colonial) return true;
-	if (theDetails.navalBaseLevel) return true;
-	if (theDetails.fortLevel) return true;
-	if (theDetails.railLevel) return true;
-	if (theDetails.slaveState) return true;
-	if (!theDetails.buildings.empty()) return true;
+	bool unchangedOwner = _this.owner == prev.owner || (prev.owner.empty() && _this.owner == base.owner);
+	bool unchangedController = _this.controller == prev.controller || (prev.controller.empty() && _this.controller == base.controller);
+	bool unchangedRgo = _this.rgoType == prev.rgoType || (prev.rgoType.empty() && _this.rgoType == base.rgoType);
+	bool unchangedTerrain = _this.terrain == prev.terrain || (prev.terrain.empty() && _this.terrain == base.terrain);
+	bool unchangedClimate = _this.climate == prev.climate || (prev.climate.empty() && _this.climate == base.climate);
+	bool unchangedLifeRating = _this.lifeRating == prev.lifeRating || (prev.lifeRating == 0 && _this.lifeRating == base.lifeRating);
+	bool unchangedColonial = _this.colonial == prev.colonial || (prev.colonial == 0 && _this.colonial == base.colonial);
+	bool unchangedColonyLevel = _this.colonyLevel == prev.colonyLevel || (prev.colonyLevel == 0 && _this.colonyLevel == base.colonyLevel);
+	bool unchangedNavalBase = _this.navalBaseLevel == prev.navalBaseLevel || (prev.navalBaseLevel == 0 && _this.navalBaseLevel == base.navalBaseLevel);
+	bool unchangedFort = _this.fortLevel == prev.fortLevel || (prev.fortLevel == 0 && _this.fortLevel == base.fortLevel);
+	bool unchangedRail = _this.railLevel == prev.railLevel || (prev.railLevel == 0 && _this.railLevel == base.railLevel);
 
-	return false;
+	if (unchangedOwner) _this.owner.clear();
+	else if (_this.owner.empty() && prev.owner.empty() && !base.owner.empty())
+		_this.owner = "\"---\"";
+
+	if (unchangedController) _this.controller.clear();
+	else if (_this.controller.empty() && prev.controller.empty() && !base.controller.empty())
+		_this.controller = "\"---\"";
+
+	if (unchangedRgo) _this.rgoType.clear();
+
+	if (unchangedTerrain) _this.terrain.clear();
+
+	if (unchangedClimate) _this.climate.clear();
+
+	if (unchangedLifeRating) _this.lifeRating = 0;
+
+	if (unchangedColonial) _this.colonial = 0;
+
+	if (unchangedColonyLevel) _this.colonyLevel = 0;
+
+	if (unchangedNavalBase) _this.navalBaseLevel = 0;
+
+	if (unchangedFort) _this.fortLevel = 0;
+
+	if (unchangedRail) _this.railLevel = 0;
 }

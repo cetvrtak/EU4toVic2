@@ -41,6 +41,7 @@ namespace V2
 
 namespace mappers
 {
+	std::ostream& operator<<(std::ostream& output, const ProvinceDetails& provinceDetails);
 	std::ostream& operator<<(std::ostream& output, const PartyType& partyDetails);
 	std::ostream& operator<<(std::ostream& output, const VersionParser& versionParser);
 	std::ostream& operator<<(std::ostream& output, const CultureGroups& cultureGroupsMapper);

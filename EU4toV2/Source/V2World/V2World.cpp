@@ -68,6 +68,7 @@ V2::World::World(const EU4::World& sourceWorld,
 
 	LOG(LogLevel::Info) << "-> Converting Provinces";
 	convertProvinces(sourceWorld, techGroupsMapper, sourceWorld.getRegions());
+	updateProvinceHistory();
 	Log(LogLevel::Progress) << "53 %";
 
 	LOG(LogLevel::Info) << "-> Cataloguing Invasive Fauna";
@@ -1044,7 +1045,14 @@ void V2::World::convertProvinces(const EU4::World& sourceWorld, const mappers::T
 			 religionMapper,
 			 countryMapper);
 
-		province.second->classifyDetails();
+	}
+}
+
+void V2::World::updateProvinceHistory()
+{
+	for (const auto& [unused, province]: provinces)
+	{
+		province->updateDetails();
 	}
 }
 
@@ -2027,7 +2035,10 @@ void V2::World::outputFrCountries() const
 			for (const auto& flag: flags)
 			{
 				if (flag.substr(0, 3) == country->getTag())
+				{
+					fs::remove(frFlags + "/" + flag);
 					fs::copy_file(flagsFolder + "/" + flag, frFlags + "/" + flag);
+				}
 			}
 		}
 	}
