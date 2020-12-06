@@ -9,7 +9,7 @@ mappers::ProvinceDetails::ProvinceDetails(const std::string& filename)
 	clearRegisteredKeywords();
 
 	const auto& date = theConfiguration.getVic2StartDate();
-	bookmarks[date] = makeNewBookmark(date);
+	bookmarks[date] = dumpIntoBookmark(date);
 }
 
 mappers::ProvinceDetails::ProvinceDetails(std::istream& theStream)
@@ -36,6 +36,11 @@ void mappers::ProvinceDetails::registerKeys()
 			const commonItems::singleString coreStr(theStream);
 			cores.insert(coreStr.getString());
 		});
+	registerKeyword("remove_core", [this](const std::string& unused, std::istream& theStream)
+		{
+			const commonItems::singleString coreStr(theStream);
+			remCores.insert(coreStr.getString());
+		});
 	registerKeyword("trade_goods", [this](const std::string& unused, std::istream& theStream)
 		{
 			const commonItems::singleString rgoTypeStr(theStream);
@@ -54,12 +59,12 @@ void mappers::ProvinceDetails::registerKeys()
 	registerKeyword("colonial", [this](const std::string& unused, std::istream& theStream)
 		{
 			const commonItems::singleInt colonialInt(theStream);
-			colonial = colonialInt.getInt();
+			colonial = std::make_optional(colonialInt.getInt());
 		});
 	registerKeyword("colony", [this](const std::string& unused, std::istream& theStream)
 		{
 			const commonItems::singleInt colonyInt(theStream);
-			colonyLevel = colonyInt.getInt();
+			colonyLevel = std::make_optional(colonyInt.getInt());
 		});
 	registerKeyword("naval_base", [this](const std::string& unused, std::istream& theStream)
 		{
@@ -89,13 +94,18 @@ void mappers::ProvinceDetails::registerKeys()
 	registerRegex("[0-9.]+", [this](const std::string& date, std::istream& theStream)
 		{
 			mappers::ProvinceDetails newBookmark(theStream);
-			newBookmark.bookmarkDate = date;
-			bookmarks[date] = newBookmark;
+			if (!bookmarks.count(date))
+			{
+				newBookmark.bookmarkDate = date;
+				bookmarks[date] = newBookmark;
+			}
+			else
+				bookmarks[date] = merge(newBookmark, date);
 		});
 	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
 }
 
-mappers::ProvinceDetails mappers::ProvinceDetails::makeNewBookmark(const std::string& date) const
+mappers::ProvinceDetails mappers::ProvinceDetails::dumpIntoBookmark(const std::string& date) const
 {
 	mappers::ProvinceDetails newBookmark;
 	newBookmark.bookmarkDate = date;
@@ -112,7 +122,56 @@ mappers::ProvinceDetails mappers::ProvinceDetails::makeNewBookmark(const std::st
 	newBookmark.railLevel = railLevel;
 	newBookmark.slaveState = slaveState;
 	newBookmark.cores = cores;
+	newBookmark.remCores = remCores;
 	newBookmark.buildings = buildings;
 
 	return newBookmark;
+}
+
+void mappers::ProvinceDetails::resetBookmark(const std::set<std::string>& baseCores)
+{
+	if (owner.empty()) owner = "---";
+	if (controller.empty() || owner.empty()) controller = "---";
+
+	for (const auto& core: baseCores)
+	{
+		if (cores.find(core) == cores.end())
+			remCores.insert(core);
+	}
+}
+
+mappers::ProvinceDetails mappers::ProvinceDetails::merge(const mappers::ProvinceDetails& newBookmark, const std::string& date)
+{
+	auto bookmark = bookmarks[date];
+
+	if (!newBookmark.owner.empty()) bookmark.owner = newBookmark.owner;
+	if (!newBookmark.controller.empty()) bookmark.controller = newBookmark.controller;
+	if (!newBookmark.rgoType.empty()) bookmark.rgoType = newBookmark.rgoType;
+	if (newBookmark.terrain.empty()) bookmark.terrain = newBookmark.terrain;
+	if (newBookmark.climate.empty()) bookmark.climate = newBookmark.climate;
+	if (newBookmark.lifeRating > 0) bookmark.lifeRating = newBookmark.lifeRating;
+	if (newBookmark.colonial) bookmark.colonial = newBookmark.colonial;
+	if (newBookmark.colonyLevel) bookmark.colonyLevel = newBookmark.colonyLevel;
+	if (newBookmark.navalBaseLevel > 0) bookmark.navalBaseLevel = newBookmark.navalBaseLevel;
+	if (newBookmark.fortLevel > 0) bookmark.fortLevel = newBookmark.fortLevel;
+	if (newBookmark.railLevel > 0) bookmark.railLevel = newBookmark.railLevel;
+	if (newBookmark.slaveState) bookmark.slaveState = newBookmark.slaveState;
+
+	for (const auto& core: newBookmark.cores)
+	{
+		if (bookmark.cores.find(core) == bookmark.cores.end())
+			bookmark.cores.insert(core);
+	}
+	for (const auto& core: newBookmark.remCores)
+	{
+		if (bookmark.remCores.find(core) == bookmark.remCores.end())
+			bookmark.remCores.insert(core);
+	}
+	for (const auto& building: newBookmark.buildings)
+	{
+		if (std::find(bookmark.buildings.begin(), bookmark.buildings.end(), building) == bookmark.buildings.end())
+			bookmark.buildings.push_back(building);
+	}
+
+	return bookmark;
 }

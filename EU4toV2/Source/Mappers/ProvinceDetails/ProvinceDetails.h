@@ -13,7 +13,9 @@ namespace mappers
 		explicit ProvinceDetails(const std::string& filename);
 		explicit ProvinceDetails(std::istream& theStream);
 		
-		mappers::ProvinceDetails makeNewBookmark(const std::string& date) const;
+		mappers::ProvinceDetails dumpIntoBookmark(const std::string& date) const;
+		void resetBookmark(const std::set<std::string>& baseCores);
+		mappers::ProvinceDetails merge(const mappers::ProvinceDetails& newBookmark, const std::string& date);
 		[[nodiscard]] const std::string& getBookmarkDate() { return bookmarkDate; }
 
 		// These values are open to ease management.
@@ -24,9 +26,10 @@ namespace mappers
 		std::string terrain;
 		std::string climate;
 		std::set<std::string> cores;
+		std::set<std::string> remCores;
 		int lifeRating = 0;
-		int colonial = 0;
-		int colonyLevel = 0;
+		std::optional<int> colonial;
+		std::optional<int> colonyLevel;
 		int navalBaseLevel = 0;
 		int fortLevel = 0;
 		int railLevel = 0;

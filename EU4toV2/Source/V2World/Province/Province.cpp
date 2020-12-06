@@ -221,8 +221,8 @@ void V2::Province::sterilizeProvince()
 	details.owner = "";
 	details.controller = "";
 	details.cores.clear();
-	details.colonial = 0;
-	details.colonyLevel = 0;
+	details.colonial.reset();
+	details.colonyLevel.reset();
 	details.navalBaseLevel = 0;
 	details.fortLevel = 0;
 	details.railLevel = 0;
@@ -939,14 +939,18 @@ std::pair<int, int> V2::Province::getAvailableSoldierCapacity() const
 void V2::Province::updateDetails()
 {
 	const auto& startDate = theConfiguration.getLastEU4Date().toString();
-	auto baseDetails = std::make_shared<mappers::ProvinceDetails>(details.makeNewBookmark(startDate));
+	auto baseDetails = std::make_shared<mappers::ProvinceDetails>(details.dumpIntoBookmark(startDate));
 	bookmarks.push_back(baseDetails);
 
 	for (auto& [date, bookmark]: details.bookmarks)
 	{
 		/*const auto& prevDate = std::prev(details.bookmarks.find(date));
 		setHistory(bookmark, *baseDetails, prevDate->second);*/
-		auto newBookmark = std::make_shared<mappers::ProvinceDetails>(bookmark.makeNewBookmark(date));
+		auto newBookmark = std::make_shared<mappers::ProvinceDetails>(bookmark.dumpIntoBookmark(date));
+
+		if (date == theConfiguration.getVic2StartDate())
+			newBookmark->resetBookmark(baseDetails->cores);
+
 		bookmarks.push_back(newBookmark);
 	}
 }

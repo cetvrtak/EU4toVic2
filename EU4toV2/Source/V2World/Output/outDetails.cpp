@@ -17,6 +17,10 @@ std::ostream& mappers::operator<<(std::ostream& output, const ProvinceDetails& p
 		{
 			output << "add_core = " << core << "\n";
 		}
+		for (const auto& core: provinceDetails.remCores)
+		{
+			output << "remove_core = " << core << "\n";
+		}
 		if (!provinceDetails.rgoType.empty())
 		{
 			output << "trade_goods = " << provinceDetails.rgoType << "\n";
@@ -29,9 +33,9 @@ std::ostream& mappers::operator<<(std::ostream& output, const ProvinceDetails& p
 		{
 			output << "terrain = " << provinceDetails.terrain << "\n";
 		}
-		if (provinceDetails.colonial > 0)
+		if (provinceDetails.colonial)
 		{
-			output << "colonial = " << provinceDetails.colonial << "\n";
+			output << "colonial = " << *provinceDetails.colonial << "\n";
 		}
 		if (provinceDetails.navalBaseLevel > 0)
 		{
@@ -70,6 +74,10 @@ std::ostream& mappers::operator<<(std::ostream& output, const ProvinceDetails& p
 		{
 			output << "\tadd_core = " << core << "\n";
 		}
+		for (const auto& core: provinceDetails.remCores)
+		{
+			output << "\tremove_core = " << core << "\n";
+		}
 		if (!provinceDetails.rgoType.empty())
 		{
 			output << "\ttrade_goods = " << provinceDetails.rgoType << "\n";
@@ -82,9 +90,9 @@ std::ostream& mappers::operator<<(std::ostream& output, const ProvinceDetails& p
 		{
 			output << "\tterrain = " << provinceDetails.terrain << "\n";
 		}
-		if (provinceDetails.colonial > 0)
+		if (provinceDetails.colonial)
 		{
-			output << "\tcolonial = " << provinceDetails.colonial << "\n";
+			output << "\tcolonial = " << *provinceDetails.colonial << "\n";
 		}
 		if (provinceDetails.navalBaseLevel > 0)
 		{
