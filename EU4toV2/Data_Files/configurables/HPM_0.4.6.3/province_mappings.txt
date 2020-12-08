@@ -501,12 +501,11 @@
 	link = { eu4 = 1003 eu4 = 2589 eu4 = 2590 v2 = 48 } # Moose Cree, Kesagami, Shaggami -> Fort Albany
 	link = { eu4 = 2591 v2 = 2594 } # Outoulibi -> Osnaburgh House
 	link = { eu4 = 2592 eu4 = 1004 v2 = 47 } # Omushkego, Attawapiskat -> Fort Severn
-	link = { eu4 = 2671 eu4 = 988 v2 = 52 } # Missisage, Huron -> Orillia
+	link = { eu4 = 2671 eu4 = 988 eu4 = 2586 v2 = 52 } # Missisage, Huron, Tionontate -> Orillia
 	link = { eu4 = 991 eu4 = 2585 v2 = 57 } # Ottawa, Kichesipi -> Bytown
 	link = { eu4 = 989 v2 = 56 } # Ontario -> Kingston
 	link = { eu4 = 2670 v2 = 46 } # Tkaronto -> Toronto
-	link = { eu4 = 2586 eu4 = 2587 v2 = 54 } # Tionontate, Odawa -> Windsor
-	link = { eu4 = 987 v2 = 55 } # Niagara -> Hamilton
+	link = { eu4 = 987 v2 = 54 v2 = 55 } # Niagara -> Windsor, Hamilton
 	link = { eu4 = 2581 eu4 = 2580 eu4 = 992 eu4 = 1002 v2 = 63 } # Timiskaming, Atikamekw, Algonquin, Abitbi -> Temiscaming
 	link = { eu4 = 999 eu4 = 1000 v2 = 2593 } # Nunavik, Cree -> Fort George
 	link = { eu4 = 998 v2 = 2592 v2 = 2626 } # Ungava -> Ungava, Sakami
@@ -564,64 +563,66 @@
 	link = { eu4 = 950 v2 = 214 } # Powhatan -> Norfolk
 	link = { eu4 = 2549 v2 = 211 } # Moratok -> Lynchburg
 	link = { eu4 = 2011 v2 = 215 } # Shenandoah -> Staunton
-	link = { eu4 = 949 eu4 = 2548 v2 = 216 } # Monacan, Tutelo -> Roanoke
+	link = { eu4 = 2548 v2 = 109 } # Tutelo -> Overmountain
+	link = { eu4 = 949 v2 = 216 } # Monacan -> Roanoke
 	link = { eu4 = 2551 eu4 = 2552 v2 = 217 } # Monongahela, Manahoac -> Green Bank
 	link = { eu4 = 951 v2 = 218 } # Kanawha -> Wheeling
 	link = { eu4 = 2547 v2 = 207 } # Roanoke -> Raleigh
 	link = { eu4 = 937 v2 = 208 } # Tuscarora -> Winston-Salem
 	link = { eu4 = 938 eu4 = 2546 v2 = 210 } # Pamlico, Chicora -> WIlmington
-	link = { eu4 = 2545 eu4 = 2544 v2 = 209 } # Waxhaw, Yadkin -> Charlotte
-	link = { eu4 = 936 v2 = 2556 } # Cheraw -> Asheville
-	link = { eu4 = 935 v2 = 190 } # Cherokee -> Knoxville
-	link = { eu4 = 2527 v2 = 191 } # Chickamauga -> Chattanooga
-	link = { eu4 = 934 v2 = 188 } # Shawnee -> Nashville
+	link = { eu4 = 2545 v2 = 209 } # Waxhaw -> Charlotte
+	link = { eu4 = 931 v2 = 201 } # Chiaha -> Atlanta
+	link = { eu4 = 2544 v2 = 2556 } # Yadkin -> Asheville
+	link = { eu4 = 935 eu4 = 936 v2 = 190 } # Cherokee, Cheraw -> Knoxville
+	link = { eu4 = 2527 eu4 = 934 v2 = 191 } # Chickamauga, Shawnee -> Chattanooga
+	link = { eu4 = 2531 eu4 = 919 v2 = 188 } # Napochi, Chickasaw -> Nashville
 	link = { eu4 = 481 v2 = 203 } # Bermuda -> Bermuda
 	link = { eu4 = 933 eu4 = 2541 v2 = 206 } # Catawba, Saluda -> Columbia
 	link = { eu4 = 2543 eu4 = 932 eu4 = 2542 v2 = 205 } # Waccamaw, Santee, Cusabo -> Charleston
 	link = { eu4 = 2540 v2 = 2555 } # Coweta -> Augusta
-	link = { eu4 = 929 eu4 = 2539 v2 = 204 } # Muskogee, Mocama -> Savannah
-	link = { eu4 = 2537 eu4 = 2538 v2 = 202 } # Hitchiti, Yamasee -> Valdosta
-	link = { eu4 = 930 eu4 = 931 v2 = 201 } # Yamasee, Chiaha -> Atlanta
-	link = { eu4 = 927 eu4 = 2534 v2 = 199 } # Timucua, Yustaga -> St Augustine
-	link = { eu4 = 926 eu4 = 2536 eu4 = 2535 eu4 = 4625 eu4 = 4626 v2 = 200 } # Seminole, Mayaimi, Calusa, Mayaca, Potano -> Tampa
+	link = { eu4 = 929 v2 = 204 } # Muskogee -> Savannah
+	link = { eu4 = 2537 eu4 = 2538 eu4 = 2539 v2 = 202 } # Hitchiti, Yamasee, Mocama -> Valdosta
+	link = { eu4 = 930 v2 = 196 } # Yamasee -> Gadsden
+	link = { eu4 = 927 eu4 = 2534 eu4 = 4626 eu4 = 4625 v2 = 199 } # Timucua, Yustaga, Potano, Mayaca -> St Augustine
+	link = { eu4 = 926 eu4 = 2536 eu4 = 2535 v2 = 200 } # Seminole, Mayaimi, Calusa -> Tampa
 	link = { eu4 = 928 eu4 = 2533 eu4 = 923 v2 = 198 } # Apalachee, Chatot, Pensacola -> Tallahassee
 	link = { eu4 = 922 v2 = 197 } # Mobile -> Mobile
-	link = { eu4 = 925 eu4 = 924 eu4 = 2532 v2 = 195 } # Tuskegee, Alabama, Tohome -> Montgomery
-	link = { eu4 = 2531 v2 = 196 } # Napochi -> Gadsden
-	link = { eu4 = 918 v2 = 189 } # Tennessee -> Memphis
-	link = { eu4 = 919 eu4 = 2528 v2 = 193 } # Chickasaw, Yazoo -> Greenwood
-	link = { eu4 = 920 eu4 = 2529 eu4 = 921 v2 = 192 } # Choctaw, Natchez, Bayougoula -> Jackson
+	link = { eu4 = 925 eu4 = 924 v2 = 195 } # Tuskegee, Alabama -> Montgomery
+	link = { eu4 = 2528 eu4 = 918 eu4 = 939 v2 = 189 } # Yazoo, Tennessee, Pennyrile -> Memphis
+	link = { eu4 = 920 eu4 = 2529 eu4 = 2532 v2 = 192 v2 = 193 } # MANY-TO-MANY: Choctaw, Natchez, Tohome -> Jackson, Greenwood
 	link = { eu4 = 2530 v2 = 194 } # Biloxi -> Biloxi
-	link = { eu4 = 893 v2 = 139 v2 = 140 } # Chitimacha -> New Orleans, Baton Rouge
+	link = { eu4 = 921 v2 = 140 } # Bayougoula -> Baton Rouge
+	link = { eu4 = 893 v2 = 139 } # Chitimacha -> New Orleans
 	link = { eu4 = 2516 v2 = 141 } # Adai -> Lake Charles
 	link = { eu4 = 2014 v2 = 142 } # Natchitoches -> Shreveport
-	link = { eu4 = 895 eu4 = 897 v2 = 143 } # Arkansas, Quapaw -> Little Rock
+	link = { eu4 = 895 v2 = 144 } # Arkansas -> Hot Springs
+	link = { eu4 = 897 v2 = 143 } # Quapaw -> Little Rock
 	link = { eu4 = 2515 v2 = 145 } # Satuskhdin -> Fayetteville
-	link = { eu4 = 894 v2 = 144 } # Caddo -> Hot Springs
 	link = { eu4 = 892 v2 = 131 } # Wichita -> Fort Washita
-	link = { eu4 = 891 v2 = 129 } # Jicarilla -> Guymon
+	link = { eu4 = 891 v2 = 129 v2 = 128 } # Jicarilla -> Guymon, Hugoton
 	link = { eu4 = 896 v2 = 130 } # Ozark -> Fort Gibson
 	link = { eu4 = 2665 eu4 = 888 v2 = 132 } # Ais, Atakapa -> Houston
-	link = { eu4 = 2669 v2 = 43 } # Hasinai -> Clarksville
+	link = { eu4 = 2669 eu4 = 894 v2 = 43 } # Hasinai, Caddo -> Clarksville
 	link = { eu4 = 887 eu4 = 886 v2 = 134 } # Tonkawa, Waco -> Fort Parker
-	link = { eu4 = 2500 eu4 = 4627 v2 = 133 } # Querecho, Tanu -> Austin
-	link = { eu4 = 883 eu4 = 884 eu4 = 2499 eu4 = 2666 v2 = 137 v2 = 138 } # MANY-TO-MANY: Lipan, Karankawa, Coahuilteco, Tuintsundé -> San Antonio, Laredo
-	link = { eu4 = 2498 eu4 = 2497 eu4 = 4628 eu4 = 4629 v2 = 136 } # Jumao, Lipiyanes, Nitahende, Tel Kondaha -> El Paso
-	link = { eu4 = 885 v2 = 135 } # Comanche -> Llano Estacado
-	link = { eu4 = 882 eu4 = 4630 eu4 = 4631 v2 = 105 } # Mescalero, Natahende, Towa -> Santa Fe
-	link = { eu4 = 2496 eu4 = 880 v2 = 103 } # Jicarilla, Pueblo -> Pueblo
-	link = { eu4 = 881 eu4 = 2492 eu4 = 2494 eu4 = 878 eu4 = 4632 eu4 = 2495 v2 = 2148 v2 = 2662 } # MANY-TO-MANY: Piro, Chiricahua, Zuni, Navajo, Keres, Acoma -> Albuquerque, Animas
-	link = { eu4 = 877 eu4 = 4633 v2 = 102 } # Pima, Sobaipuri -> Tucson
-	link = { eu4 = 879 eu4 = 876 eu4 = 4634 v2 = 100 } # Apache, Yavapai, Tsekaadn -> Phoenix
-	link = { eu4 = 2493 eu4 = 875 eu4 = 2491 v2 = 101 } # Hopi, Canyon, Hualapai -> Flagstaff
+	link = { eu4 = 4627 v2 = 133 } # Tanu -> Austin
+	link = { eu4 = 883 eu4 = 884 eu4 = 2499 v2 = 137 v2 = 138 } # MANY-TO-MANY: Lipan, Karankawa, Coahuilteco -> San Antonio, Laredo
+	link = { eu4 = 4629 eu4 = 2666 v2 = 2147 } # Tel Kondaha, Tuintsundé -> Ciudad Acuña
+	link = { eu4 = 885 eu4 = 2500 v2 = 135 } # Comanche, Querecho -> Llano Estacado
+	link = { eu4 = 882 eu4 = 4630 eu4 = 2497 v2 = 136 } # Mescalero, Natahende, Lipiyanes -> El Paso
+	link = { eu4 = 2496 v2 = 105 } # Jicarilla -> Santa Fe
+	link = { eu4 = 4632 eu4 = 2495 eu4 = 881 eu4 = 4644 eu4 = 880 eu4 = 4631 v2 = 2662 } # Keres, Acoma, Piro, Jocome, Pueblo, Towa -> Animas
+	link = { eu4 = 878 v2 = 2148 } # Navajo -> Albuquerque
+	link = { eu4 = 4634 eu4 = 879 eu4 = 2492 v2 = 102 } # Tsekaadn, Apache, Chiricahua -> Tucson
+	link = { eu4 = 2493 eu4 = 2494 v2 = 100 } # Hopi, Zuni -> Phoenix
+	link = { eu4 = 875 v2 = 101 } # Canyon -> Flagstaff
 	link = { eu4 = 2476 v2 = 90 } # Kumeyaay -> San Diego
-	link = { eu4 = 2478 eu4 = 870 eu4 = 4636 eu4 = 4635 eu4 = 867 v2 = 88 } # Tachi, Yorkuts, Choinumni, Taaqtam, Mojave -> Mojave
+	link = { eu4 = 4635 eu4 = 867 eu4 = 2491 eu4 = 876 v2 = 88 } # Taaqtam, Mojave, Hualapai, Yavapai -> Mojave
 	link = { eu4 = 868 v2 = 89 } # Chumash -> Los Angeles
 	link = { eu4 = 869 v2 = 87 } # Salinan -> Monterey
 	link = { eu4 = 2021 eu4 = 871 v2 = 84 } # Miwok, Pomo -> Sacramento
 	link = { eu4 = 4637 v2 = 104 } # Ohlone -> San Francisco
 	link = { eu4 = 2477 v2 = 85 } # Yuki -> Sonoma
-	link = { eu4 = 2480 eu4 = 2479 eu4 = 4638 v2 = 86 } # Shasta, Maidu, Wintun -> Truckee
+	link = { eu4 = 2480 eu4 = 2479 eu4 = 4638 eu4 = 4636 eu4 = 870 eu4 = 2478 v2 = 86 } # Shasta, Maidu, Wintun, Choinumni, Yorkuts, Tachi -> Truckee
 	link = { eu4 = 872 eu4 = 2482 v2 = 81 } # Kalapuya, Kalapuya -> Oregon City
 	link = { eu4 = 2481 v2 = 83 } # Klamath -> Fort Umpqua
 	link = { eu4 = 874 v2 = 78 } # Salish -> Fort Nisqually
@@ -632,39 +633,40 @@
 	link = { eu4 = 2489 v2 = 91 } # Bohogue -> Boise
 	link = { eu4 = 2020 v2 = 93 } # Bannock -> Fort Hall
 	link = { eu4 = 2608 v2 = 113 v2 = 114 } # Rocky Mountains -> Gallatin Valley, Fort Owen
-	link = { eu4 = 2502 eu4 = 2501 eu4 = 2510 v2 = 115 } # Haaninin, Piegan, Mandan -> Fort Benton
+	link = { eu4 = 2502 eu4 = 2501 v2 = 115 } # Haaninin, Piegan -> Fort Benton
 	link = { eu4 = 2006 eu4 = 2503 eu4 = 2504 v2 = 116 } # Apsáalooke, Ashshipite, Eelalapito -> Fort Van Buren
 	link = { eu4 = 1809 eu4 = 2505 v2 = 112 } # Great Plains, Tsitsistas -> Fort Laramie
-	link = { eu4 = 2507 v2 = 124 } # Baachinena -> Bordeaux's Post
+	link = { eu4 = 2508 eu4 = 901 v2 = 124 } # Skiri, Pawnee -> Bordeaux's Post
 	link = { eu4 = 2506 v2 = 111 } # Kuccuntikka -> Fort Bonneville
 	link = { eu4 = 2490 v2 = 110 } # Goshute -> Rock Springs
 	link = { eu4 = 2009 v2 = 122 } # Teton -> Fort Pierre
-	link = { eu4 = 2508 eu4 = 901 v2 = 125 } # Skiri, Pawnee -> Fontenelle's Post
+	link = { eu4 = 2672 v2 = 125 } # Kitkehaki -> Fontenelle's Post
 	link = { eu4 = 903 v2 = 123 } # Omaha -> Fort Robidoux
-	link = { eu4 = 2008 v2 = 121 v2 = 119 } # Yankton -> Fort Cedar, Fort Union
-	link = { eu4 = 906 eu4 = 907 eu4 = 2007 v2 = 120 } # Lakota, Dakota, Arikara -> Fort Kiowa
+	link = { eu4 = 2510 v2 = 119 } # Mandan -> Fort Union
+	link = { eu4 = 2008 v2 = 121 } # Yankton -> Fort Cedar
+	link = { eu4 = 2007 v2 = 120 } # Arikara -> Fort Kiowa
 	link = { eu4 = 909 v2 = 117 } # Mandan -> Fort Clark
 	link = { eu4 = 2511 v2 = 118 } # Itscheabine -> Fort James
 	link = { eu4 = 910 eu4 = 2517 v2 = 158 } # Chippewa, Mdewakanton -> Duluth
 	link = { eu4 = 2016 v2 = 157 } # Bungi -> Fort Ripley
-	link = { eu4 = 2512 v2 = 156 } # Wahpekute -> Fort Renville
-	link = { eu4 = 908 v2 = 155 } # Minnesota -> Fort Snelling
+	link = { eu4 = 906 v2 = 156 } # Lakota -> Fort Renville
+	link = { eu4 = 907 v2 = 154 } # Dakota -> Sioux City
+	link = { eu4 = 908 eu4 = 2512 v2 = 155 } # Minnesota, Wahpekute -> Fort Snelling
 	link = { eu4 = 2518 v2 = 160 } # Noquet -> Superior
-	link = { eu4 = 904 v2 = 153 v2 = 154 } # Nakota -> Cedar Rapids, Sioux City
+	link = { eu4 = 904 v2 = 153 } # Nakota -> Cedar Rapids
 	link = { eu4 = 905 v2 = 151 } # Iowa -> Des Moines
 	link = { eu4 = 2513 v2 = 152 } # Moingwena -> Oskaloosa
-	link = { eu4 = 2672 eu4 = 2625 v2 = 127 } # Kitkehaki, Hinonoeino -> Fort Mann
-	link = { eu4 = 890 eu4 = 889 v2 = 128 } # Kiowa, Arapaho -> Hugoton
+	link = { eu4 = 2625 eu4 = 2507 eu4 = 889 v2 = 106 v2 = 103 } # MANY-TO-MANY: Hinonoeino, Baachinena, Arapaho -> Bent's Fort, Pueblo
+	link = { eu4 = 890 v2 = 127 } # Kiowa -> Fort Mann
 	link = { eu4 = 2509 eu4 = 898 v2 = 126 } # Utsehta, Kansas -> Fort Leavenworth
 	link = { eu4 = 899 v2 = 149 v2 = 147 } # Osage -> Jefferson City, Joplin
 	link = { eu4 = 902 v2 = 150 } # Missouri -> Kansas City
 	link = { eu4 = 2514 v2 = 148 } # Michigamea -> Malden
 	link = { eu4 = 900 v2 = 146 } # Tamaroa -> St Louis
-	link = { eu4 = 939 v2 = 187 } # Pennyrile -> Paducah
 	link = { eu4 = 941 v2 = 186 } # Cumberland -> Lexington
-	link = { eu4 = 940 v2 = 184 } # Kentucky -> Louisville
-	link = { eu4 = 2524 v2 = 170 } # Wabash -> Evansville
-	link = { eu4 = 2523 v2 = 169 } # Piankeshaw -> Indianapolis
+	link = { eu4 = 940 v2 = 184 v2 = 187 } # Kentucky -> Louisville, Paducah
+	link = { eu4 = 2523 v2 = 170 } # Piankeshaw -> Evansville
+	link = { eu4 = 2524 v2 = 169 } # Wabash -> Indianapolis
 	link = { eu4 = 943 v2 = 172 } # Miami -> Fort Wayne
 	link = { eu4 = 942 v2 = 171 } # Wea -> South Bend
 	link = { eu4 = 2520 v2 = 168 } # Mengkonkia -> Olney
@@ -672,20 +674,19 @@
 	link = { eu4 = 2519 v2 = 165 } # Kilatika -> Champaign
 	link = { eu4 = 917 v2 = 166 } # Cahokia -> Peoria
 	link = { eu4 = 915 v2 = 163 v2 = 164 } # Illinois -> Chicago, Rockford
-	link = { eu4 = 914 v2 = 159 } # Winnebago -> Milwaukee
-	link = { eu4 = 913 v2 = 162 } # Fox -> Madison
-	link = { eu4 = 912 v2 = 161 } # Sauk -> Green Bay
+	link = { eu4 = 914 v2 = 159 v2 = 161 } # Winnebago -> Milwaukee, Green Bay
+	link = { eu4 = 912 eu4 = 913 v2 = 162 } # Sauk, Fox -> Madison
 	link = { eu4 = 2522 v2 = 174 } # Mascouten -> Grand Rapids
 	link = { eu4 = 945 v2 = 176 } # Michigan -> Traverse City
 	link = { eu4 = 911 v2 = 177 } # Menominee -> Marquette
-	link = { eu4 = 2521 v2 = 175 } # Okouara -> Saginaw
+	link = { eu4 = 2521 eu4 = 2587 v2 = 175 } # Okouara, Odawa -> Saginaw
 	link = { eu4 = 944 v2 = 173 } # Potawatomi -> Detroit
 	link = { eu4 = 2526 v2 = 185 } # Shatteras -> Pikeville
 	link = { eu4 = 946 v2 = 180 } # Wyandot -> Sandusky
-	link = { eu4 = 2525 v2 = 179 v2 = 181 } # Chillicothe -> Columbus, Dayton
-	link = { eu4 = 948 v2 = 182 v2 = 183 } # Ohio -> Cincinnati, Marietta
+	link = { eu4 = 2525 v2 = 181 v2 = 182 } # Chillicothe -> Dayton, Cincinnati
+	link = { eu4 = 948 v2 = 179 v2 = 183 } # Ohio -> Columbus, Marietta
 	link = { eu4 = 947 v2 = 178 } # Erie -> Cleveland
-	link = { eu4 = 1808 v2 = 98 v2 = 99 v2 = 108 v2 = 109 v2 = 106 v2 = 107 v2 = 96 v2 = 95 v2 = 94 v2 = 97 } # Great Basin -> Cedar City, Moab, Grand Junction, Aspen, Bent's Fort, Riverside, Las Vegas, Elko, Carson City, Salt Lake City
+	link = { eu4 = 1808 v2 = 98 v2 = 99 v2 = 108 v2 = 107 v2 = 96 v2 = 95 v2 = 94 v2 = 97 } # Great Basin -> Cedar City, Moab, Grand Junction, Riverside, Las Vegas, Elko, Carson City, Salt Lake City
 	link = { eu4 = 482 v2 = 2219 } # Bahamas -> Bahamas
 	link = { eu4 = 483 v2 = 2220 } # Turks Islands -> Turks & Caicos
 	link = { eu4 = 484 eu4 = 4624 v2 = 2209 } # Havana, Guane -> Havana
@@ -713,7 +714,7 @@
 	link = { eu4 = 491 v2 = 2235 v2 = 2234 } # Curacao -> Aruba, Curacao
 	link = { eu4 = 2620 eu4 = 865 eu4 = 4639 v2 = 2139 } # Nakipa, Cochimi, Paipai -> Rosarito
 	link = { eu4 = 866 v2 = 2138 } # Guaycura -> Loreto
-	link = { eu4 = 2616 eu4 = 4577 eu4 = 4650 v2 = 2140 v2 = 2137 } # MANY-TO-MANY: Seri, Tohono, Opata -> Hermosillo, Nogales
+	link = { eu4 = 2616 eu4 = 4577 eu4 = 4650 eu4 = 877 eu4 = 4633 v2 = 2140 v2 = 2137 } # MANY-TO-MANY: Seri, Tohono, Opata, Pima, Sobaipuri -> Hermosillo, Nogales
 	link = { eu4 = 862 eu4 = 4649 v2 = 2141 } # Yaqui, Mayo -> Guaymas
 	link = { eu4 = 859 v2 = 2157 } # Sinaloa -> Culiacan
 	link = { eu4 = 855 v2 = 2156 } # Huichol -> Mazatlan
@@ -749,11 +750,11 @@
 	link = { eu4 = 858 eu4 = 2614 v2 = 2150 v2 = 2151 } # MANY-TO-MANY: Tamaulipas, Cotoname -> Ciudad Victoria, Saltillo
 	link = { eu4 = 2668 v2 = 2149 } # Borrado -> Matamoros
 	link = { eu4 = 2619 v2 = 2155 } # Laguneros -> Torreon
-	link = { eu4 = 2667 v2 = 2147 } # Cacaxtes -> Ciudad Acuña
+	link = { eu4 = 2667 } # Cacaxtes -> DROPPED
 	link = { eu4 = 861 v2 = 2152 } # Coahuila -> Monclova
 	link = { eu4 = 2618 eu4 = 4646 v2 = 2145 } # Toboso, Tarahumara -> Parral
-	link = { eu4 = 864 eu4 = 4606 v2 = 2142 v2 = 2144 } # MANY-TO-MANY: Concho, Chichitames -> Chihuahua, Delicias
-	link = { eu4 = 863 eu4 = 4644 v2 = 2143 } # Suma, Jocome -> Ciudad Juarez
+	link = { eu4 = 864 eu4 = 4606 v2 = 2144 } # Concho, Chichitames -> Delicias
+	link = { eu4 = 863 eu4 = 4628 eu4 = 2498 v2 = 2142 v2 = 2143 } # MANY-TO-MANY: Suma, Nitahende, Jumao -> Chihuahua, Ciudad Juarez
 	link = { eu4 = 843 eu4 = 4589 v2 = 2190 } # Belize, Moran -> Belize
 	link = { eu4 = 842 eu4 = 4594 v2 = 2189 } # Petén, Tzul -> Sayaxche
 	link = { eu4 = 2636 v2 = 2188 } # Chacujal -> Puerto Barrios
@@ -1146,7 +1147,7 @@
 	link = { eu4 = 2976 eu4 = 4731 v2 = 751 } # Umbria, Spoleto -> Perugia
 	link = { eu4 = 119 eu4 = 2977 v2 = 752 } # Ancona, Urbino -> Ancona
 	link = { eu4 = 117 v2 = 747 v2 = 748 } # Siena -> Siena, Grosseto
-	link = { eu4 = 115 v2 = 745 } # Pisa -> Leghorn
+	link = { eu4 = 115 v2 = 745 v2 = 1981 } # Pisa -> Leghorn, Elba
 	link = { eu4 = 116 eu4 = 2978 v2 = 744 } # Firenze, Arezzo -> Florence
 	link = { eu4 = 2980 v2 = 746 } # Lucca -> Lucca
 	link = { eu4 = 4730 v2 = 741 } # Bologna -> Bologna
@@ -1322,8 +1323,8 @@
 	link = { eu4 = 4751 v2 = 767 } # Cilli -> Maribor
 	link = { eu4 = 129 v2 = 768 } # Krain -> Ljubljana
 	link = { eu4 = 4738 v2 = 736 } # Trieste -> Trieste
-	link = { eu4 = 130 v2 = 770 v2 = 778 } # Istria -> Pola, Fiume
-	link = { eu4 = 4752 v2 = 773 } # Rijeka -> Karlovac
+	link = { eu4 = 130 v2 = 770 } # Istria -> Pola
+	link = { eu4 = 4752 v2 = 773 v2 = 778 } # Rijeka -> Karlovac, Fiume
 	link = { eu4 = 1826 v2 = 774 } # Lika -> Senj
 	link = { eu4 = 4753 v2 = 781 } # Zadar -> Zadar
 	link = { eu4 = 136 v2 = 780 } # Dalmatia -> Split
@@ -1372,7 +1373,8 @@
 	link = { eu4 = 2968 v2 = 630 } # Budejovice -> Budejovice
 	link = { eu4 = 266 v2 = 625 } # Bohemia -> Prague
 	link = { eu4 = 2970 eu4 = 4724 v2 = 626 } # Hradekco, Pardubice -> Hradec Kralove
-	link = { eu4 = 4237 v2 = 632 v2 = 688 v2 = 689 } # Olomouc -> Olomouc, Troppau, Teschen
+	link = { eu4 = 4726 v2 = 689 } # Ostrava -> Teschen
+	link = { eu4 = 4237 v2 = 632 v2 = 688 } # Olomouc -> Olomouc, Troppau
 	link = { eu4 = 1772 v2 = 633 } # Presburg -> Bratislava
 	link = { eu4 = 4236 v2 = 634 } # Trencin -> Trencin
 	link = { eu4 = 154 v2 = 635 } # Ersekujvar -> Nitra
@@ -2004,7 +2006,7 @@
 	link = { eu4 = 4052 v2 = 2031 } # Dawa -> Wajir
 	link = { eu4 = 1173 v2 = 2004 v2 = 2079 v2 = 2084 } # Namibia -> Mocamedes, Otjozondjii, Nomabeb
 	link = { eu4 = 1801 v2 = 2080 v2 = 2081 v2 = 2082 v2 = 2076 v2 = 2075 v2 = 2077 v2 = 2085 v2 = 2078 v2 = 2086 v2 = 2095 v2 = 2074 v2 = 2574 v2 = 2008 v2 = 2005 v2 = 2007 v2 = 2006 v2 = 2013 } # Kalahari -> Otjivanda, Luhonono, Epako, Nokaneng, Serowe, Tsabong, Nugouses, Otjomuise, Aixa-aibes, Dikathong, Gaborone, Mochudi, Ondjiva, Huambo, Mavinga, Kuito, Mongu
-	link = { eu4 = 1797 v2 = 1997 v2 = 1996 v2 = 1995 v2 = 1981 v2 = 1976 v2 = 1975 v2 = 1980 v2 = 1992 v2 = 1993 v2 = 1998 } # Inner Kongo -> Mungbane, Kisangani, Gemena, Elba, Makokou, Moanda, Djambala, Basoko, Irebu, Baramo
+	link = { eu4 = 1797 v2 = 1997 v2 = 1996 v2 = 1995 v2 = 1976 v2 = 1975 v2 = 1980 v2 = 1992 v2 = 1993 v2 = 1998 } # Inner Kongo -> Mungbane, Kisangani, Gemena, Makokou, Moanda, Djambala, Basoko, Irebu, Baramo
 	link = { eu4 = 1796 v2 = 1959 v2 = 1962 v2 = 1966 v2 = 1965 v2 = 1970 v2 = 1969 v2 = 1845 v2 = 1846 v2 = 1844 v2 = 1843 v2 = 1971 v2 = 1968 v2 = 1967 v2 = 1963 v2 = 1960 } # Central Africa -> Yaounde, Bertoua, Nola, Bangui, Bangassou, Zemio, Bahr el Ghazal, Lado, Bor, Waw, Ndele, Bossangoa, Bouar, Ngaoundere, Bafoussam
 	link = { eu4 = 1793 v2 = 1773 v2 = 1775 v2 = 1779 v2 = 1782 v2 = 1696 } # El Djouf -> Saguia el-Hamra, Nouakchott, Shingit, Bir Murghayn, Cape Juby
 	link = { eu4 = 2251 v2 = 1895 v2 = 1896 v2 = 1891 v2 = 1889 v2 = 1890 v2 = 1886 v2 = 1885 v2 = 1883 } # Bagoe -> Daloa, Man, Zwedru, Bopolu, Gbarnga, Bo, Falaba, Beyla
