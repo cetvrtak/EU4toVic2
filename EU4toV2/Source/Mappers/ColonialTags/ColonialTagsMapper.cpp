@@ -2,11 +2,15 @@
 #include "Parser.h"
 #include <fstream>
 #include "ParserHelpers.h"
+#include "../../Configuration.h"
 
 mappers::ColonialTagMapper::ColonialTagMapper()
 {
 	registerKeys();
-	parseFile("configurables/colonial_tags.txt");
+	std::string configFolder = "configurables";
+	if (const auto& mod = theConfiguration.getVic2ModName(); !mod.empty())
+		configFolder = "configurables/" + mod;
+	parseFile(configFolder + "/colonial_tags.txt");
 	clearRegisteredKeywords();
 }
 
