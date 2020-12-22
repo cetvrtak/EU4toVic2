@@ -49,6 +49,9 @@ namespace V2
 			const mappers::TerrainDataMapper& terrainDataMapper,
 			const ProvinceNameParser& provinceNameParser,
 			const mappers::NavalBaseMapper& navalBaseMapper);
+		
+		void addFrPop(std::shared_ptr<Pop> pop) { frPops.push_back(pop); }
+		[[nodiscard]] const auto& getFrPops() const { return frPops; }
 
 		void setRgoType(const std::string& _type) { details.rgoType = _type; }
 		void setOwner(const std::string& _owner) { details.owner = _owner; }
@@ -152,6 +155,7 @@ namespace V2
 		double devpushMod = 0.0;
 		double weightMod = 0.0;
 		double totalWeight = 0.0;
+		std::vector<std::shared_ptr<Pop>> frPops;
 		std::vector<std::shared_ptr<Pop>> vanillaPops;
 		std::vector<std::shared_ptr<Pop>> minorityPops;
 		std::vector<std::shared_ptr<Pop>> pops;

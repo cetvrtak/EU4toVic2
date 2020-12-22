@@ -15,6 +15,7 @@ namespace V2
 		bool combine(const Pop& rhs);
 		void changeSize(int delta) { size += delta; }
 		void incrementSupportedRegimentCount() { supportedRegiments++; }
+		void setType(std::string _type) { type = _type; }
 		void setCulture(std::string _culture) { culture = _culture; }
 		void setReligion(std::string _religion) { religion = _religion; }
 

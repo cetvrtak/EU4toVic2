@@ -333,7 +333,7 @@ std::string EU4::World::generateNeoCulture(const std::string& superRegionName, c
 	}
 
 	// This is the new culture name.
-	const auto neoCultureName = cultureGroupOpt->getName() + "_" + superRegionName + "_culture";
+	const auto neoCultureName = oldCultureName;
 
 	// Grab culture definitions.
 	const auto& cultureItr = cultureGroupOpt->getCultures().find(oldCultureName);

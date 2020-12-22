@@ -64,8 +64,15 @@ class World
 		 const mappers::VersionParser& versionParser);
 
   private:
+	int nativePopulationBefore;
+	int nativePopulationAfter;
+	int minorsBefore;
+	int minorsAfter;
 	void discoverFrCountries();
-	void outputFrCountries() const;
+	void outputFrFiles() const;
+	void makeFrPops();
+	std::shared_ptr<Pop> expelNonNatives(const std::shared_ptr<V2::Province>& province, std::shared_ptr<Pop> pop);
+	const std::string getGroupName(const std::string& culture) const;
 
 	std::set<std::string> frCores;
 	std::map<std::string, std::shared_ptr<Country>> hpmCountries;

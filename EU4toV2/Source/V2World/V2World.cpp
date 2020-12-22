@@ -71,6 +71,10 @@ V2::World::World(const EU4::World& sourceWorld,
 	updateProvinceHistory();
 	Log(LogLevel::Progress) << "53 %";
 
+	LOG(LogLevel::Info) << "-> Making FR Pops";
+	makeFrPops();
+	Log(LogLevel::Info) << "*** FR Pops Done ***";
+
 	LOG(LogLevel::Info) << "-> Cataloguing Invasive Fauna";
 	transcribeNeoCultures();
 	Log(LogLevel::Progress) << "54 %";
@@ -694,6 +698,91 @@ void V2::World::importPopsFromProvince(const int provinceID, const mappers::PopT
 	}
 
 	province->second->setSlaveProportion(1.0 * provinceSlavePopulation / provincePopulation);
+}
+
+void V2::World::makeFrPops()
+{
+	const auto& eu4Year = std::stoi(theConfiguration.getLastEU4Date().toString().substr(0, 4));
+	const auto& v2Year = std::stoi(theConfiguration.getVic2StartDate().substr(0, 4));
+	const auto& modPath = theConfiguration.getVic2ModPath();
+	const auto& modName = theConfiguration.getVic2ModName();
+
+	for (const auto& popRegion: popRegions)
+	{
+		const auto& popsFile = modPath + "/" + modName + "/history/pops/1836.1.1/" + popRegion.first;
+		const mappers::PopMapper popMapper(popsFile);
+
+		std::set<std::string> natives = {"algonkian","caddoan","cherokee","dakota","muskogean",
+			"native_american_minor","navajo","penutian","pueblo"};
+
+		for (const auto& [provinceID, popTypes]: popMapper.getProvincePopTypeMap())
+		{
+			auto& province = provinces.find(provinceID);
+			if (province == provinces.end())
+				return;
+
+			for (const auto& [popType, pop]: popTypes.getPopTypes())
+			{
+				if (natives.count(pop.getCulture()))
+					nativePopulationBefore += pop.getSize();
+				const auto& newPopSize = static_cast<int>(pop.getSize());
+				auto newPop = std::make_shared<Pop>(popType, newPopSize, pop.getCulture(), pop.getReligion());
+				newPop = expelNonNatives(province->second, newPop);
+				if (newPop)
+				{
+					province->second->addFrPop(newPop);
+					if (natives.count(newPop->getCulture()))
+						nativePopulationAfter += newPop->getSize();
+				}
+			}
+		}
+	}
+}
+
+std::shared_ptr<V2::Pop> V2::World::expelNonNatives(const std::shared_ptr<V2::Province>& province, std::shared_ptr<Pop> pop)
+{
+	constexpr double nativesRatio = -0.8;
+	auto nativePop = pop;
+	std::string popCulture = pop->getCulture();
+	std::string popCultureGroup;
+	if (cultureGroupsMapper.getGroupForCulture(popCulture))
+		popCultureGroup = cultureGroupsMapper.getGroupForCulture(popCulture)->getName();
+
+	std::set<std::string> natives = {"algonkian","caddoan","cherokee","cree","eskaleut","dakota",
+		 "inuit","iroquois","metis","muskogean","native_american_minor","navajo","pueblo","penutian"};
+	std::set<std::string> colonials = {"afro_american","dixie","texan","yankee","british",
+		"irish","french","portuguese","spanish","mexican","alaskan","anglo_canadian",
+		"australian","boer","french_canadian"};
+
+	const auto& ownerTag = province->getOwner();
+	std::string ownerCulture;
+	if (std::shared_ptr<V2::Country> owner; !ownerTag.empty())
+	{
+		owner = getCountry(ownerTag);
+		if (owner)
+			ownerCulture = owner->getPrimaryCulture();
+	}
+
+	if (colonials.count(popCulture))
+	{
+		if (ownerCulture.empty())
+			return nullptr;
+		if (natives.count(ownerCulture))
+			nativePop->changeSize(static_cast<int>(nativePop->getSize() * nativesRatio));
+	}
+	if (natives.count(ownerCulture))
+		nativePop->setCulture(ownerCulture);
+
+	return nativePop;
+}
+
+const std::string V2::World::getGroupName(const std::string& culture) const
+{
+	std::string groupName;
+	if (const auto& group = cultureGroupsMapper.getGroupForCulture(culture); group)
+		groupName = group->getName();
+
+	return groupName;
 }
 
 void V2::World::importPotentialCountries()
@@ -1658,7 +1747,7 @@ void V2::World::output(const mappers::VersionParser& versionParser) const
 
 	LOG(LogLevel::Info) << "<- Writing Countries";
 	outputCountries();
-	outputFrCountries();
+	outputFrFiles();
 	Log(LogLevel::Progress) << "93 %";
 
 	LOG(LogLevel::Info) << "<- Writing Diplomacy";
@@ -1981,18 +2070,60 @@ void V2::World::discoverFrCountries()
 	}
 }
 
-void V2::World::outputFrCountries() const
+void V2::World::outputFrFiles() const
 {
+	Log(LogLevel::Info) << "<- Outputting FR Files";
 	const std::string frFolder = "output/FR Files";
 	Utils::TryCreateFolder(frFolder);
 	Utils::TryCreateFolder(frFolder + "/common");
 	Utils::TryCreateFolder(frFolder + "/common/countries");
 	Utils::TryCreateFolder(frFolder + "/history");
 	Utils::TryCreateFolder(frFolder + "/history/countries");
+	Utils::TryCreateFolder(frFolder + "/history/pops");
+	Utils::TryCreateFolder(frFolder + "/history/pops/" + theConfiguration.getLastEU4Date().toString());
 	Utils::TryCreateFolder(frFolder + "/history/units");
 	Utils::TryCreateFolder(frFolder + "/gfx");
 	Utils::TryCreateFolder(frFolder + "/gfx/flags");
 	Utils::TryCreateFolder(frFolder + "/localisation");
+
+	// POPs
+	Log(LogLevel::Info) << "<-- POPs";
+	if (const auto& popsFolder = frFolder + "/history/pops/" + theConfiguration.getLastEU4Date().toString();
+			Utils::TryCreateFolder(popsFolder))
+	{
+		for (const auto& [region, provinceIDs]: popRegions)
+		{
+			std::ofstream output(popsFolder + "/" + region);
+			if (!output.is_open())
+				throw std::runtime_error("Could not open " + region + " for writing");
+			for (const auto& provinceID: provinceIDs)
+			{
+				const auto& province = provinces.find(provinceID);
+				if (province == provinces.end())
+				{
+					Log(LogLevel::Debug) << "Could not locate province " << provinceID << " (" << region << ")";
+					continue;
+				}
+				std::string provinceName = province->second->getName();
+				if (const auto& filename = province->second->getFilename(); provinceName.empty())
+				{
+					provinceName = filename.substr(filename.find_last_of('-') + 2, filename.length() - (filename.find_last_of('-') + 2));
+					provinceName = provinceName.substr(0, provinceName.length() - 4);
+				}
+				output << "# " << provinceName << "\n";
+				output << provinceID << " = {\n";
+				for (const auto& pop: province->second->getFrPops())
+				{
+					output << *pop;
+				}
+				output << "}\n";
+			}
+			output.close();
+		}
+		Log(LogLevel::Debug) << "Native Americans before: " << nativePopulationBefore;
+		Log(LogLevel::Debug) << "Native Americans after: " << nativePopulationAfter;
+	}
+	Log(LogLevel::Info) << "*** Done ***";
 
 	const std::string flagsFolder = "output/" + theConfiguration.getOutputName() + "/gfx/flags";
 	const auto& flags = Utils::GetAllFilesInFolder(flagsFolder);
