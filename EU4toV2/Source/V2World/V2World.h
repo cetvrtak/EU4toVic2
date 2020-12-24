@@ -188,6 +188,8 @@ class World
 	void outputReturnCores(std::map<std::string, std::shared_ptr<V2::Country>> countries) const;
 	void outputTechnologies() const;
 	int getModStateId(int province, std::ofstream& output);
+	
+	void updateCountryHistory();
 
 	mappers::ProvinceMapper provinceMapper;
 	mappers::Continents continentsMapper;

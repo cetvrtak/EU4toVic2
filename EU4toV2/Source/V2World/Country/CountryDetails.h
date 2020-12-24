@@ -71,6 +71,7 @@ class CountryDetails: commonItems::parser
 	bool holyRomanEmperor = false;
 	bool celestialEmperor = false;
 	double literacy = 0.0;
+	double nonStateCultureLiteracy = 0.0;
 	std::string rulingParty = "conservative";
 	int upperHouseReactionary = 10;
 	int upperHouseConservative = 65;
@@ -85,6 +86,11 @@ class CountryDetails: commonItems::parser
 	Reform reforms;
 	UpperHouse upperHouses;
 	double literacyInvestment = 0;
+	
+	std::map<std::string, std::string> politicalReforms;
+	std::map<std::string, std::string> socialReforms;
+	std::map<std::string, std::string> newReforms;
+	std::map<std::string, std::string> uncivReforms;
 
   private:
 	void registerKeys();

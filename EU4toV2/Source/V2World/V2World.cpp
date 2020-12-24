@@ -137,8 +137,8 @@ V2::World::World(const EU4::World& sourceWorld,
 	convertWars(sourceWorld);
 	Log(LogLevel::Progress) << "68 %";
 
-	LOG(LogLevel::Info) << "-> Describing Religion";
-	addReligionCulture();
+	LOG(LogLevel::Info) << "-> Skipping zzz_religion";
+	//addReligionCulture();
 	Log(LogLevel::Progress) << "69 %";
 
 	LOG(LogLevel::Info) << "-> Converting Botanical Definitions";
@@ -160,11 +160,15 @@ V2::World::World(const EU4::World& sourceWorld,
 		LOG(LogLevel::Info) << "-> Update country details";
 		updateCountryDetails();
 		Log(LogLevel::Progress) << "73 %";
+
+		LOG(LogLevel::Info) << "-> Update country history";
+		updateCountryHistory();
+		Log(LogLevel::Progress) << "74 %";
 	}
 
 	LOG(LogLevel::Info) << "-> Discovering FR countries";
 	discoverFrCountries();
-	LOG(LogLevel::Progress) << "74 %";
+	LOG(LogLevel::Progress) << "75 %";
 
 	LOG(LogLevel::Info) << "---> Le Dump <---";
 	output(versionParser);
@@ -2150,11 +2154,11 @@ void V2::World::outputFrFiles() const
 			country->outputCommons(frCommons);
 			frCommons.close();
 
-			std::ofstream frHistory(frFolder + "/history/countries/" + country->getFilename());
+			/*std::ofstream frHistory(frFolder + "/history/countries/" + country->getFilename());
 			if (!frHistory.is_open())
 				throw std::runtime_error("Could not create frHistory file " + country->getFilename());
 			frHistory << *country;
-			frHistory.close();
+			frHistory.close();*/
 
 			std::ofstream frOob(frFolder + "/history/units/" + tag + "_OOB.txt");
 			if (!frOob.is_open())
@@ -2937,5 +2941,19 @@ void V2::World::outputTechnologies() const
 			output << technology;
 		}
 		output.close();
+	}
+}
+
+void V2::World::updateCountryHistory()
+{
+	for (const auto& [unused, country]: countries)
+	{
+		const auto& modHistory = country->getModHistory();
+		if (!modHistory)
+			continue;
+
+		country->classifyRefsTechsInvs(issues, modReforms, technologies, startingInventionMapper);
+
+		country->updateDetails();
 	}
 }

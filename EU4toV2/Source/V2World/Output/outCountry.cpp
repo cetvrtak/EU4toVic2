@@ -16,6 +16,10 @@ std::ostream& V2::operator<<(std::ostream& output, const Country& country)
 	output << "plurality = " << country.details.plurality << "\n";
 	output << "nationalvalue = " << country.details.nationalValue << "\n";
 	output << "literacy = " << country.details.literacy << "\n";
+	if (country.details.nonStateCultureLiteracy > 0)
+	{
+		output << "non_state_culture_literacy = " << country.details.nonStateCultureLiteracy << "\n";
+	}
 	output << "\n";
 	if (country.details.civilized)
 	{
@@ -25,37 +29,45 @@ std::ostream& V2::operator<<(std::ostream& output, const Country& country)
 	{
 		output << "is_releasable_vassal = no\n";
 	}
-	output << "\n";
-	output << "# Social Reforms\n";
-	output << "wage_reform = no_minimum_wage\n";
-	output << "work_hours = no_work_hour_limit\n";
-	output << "safety_regulations = no_safety\n";
-	output << "health_care = no_health_care\n";
-	output << "unemployment_subsidies = no_subsidies\n";
-	output << "pensions = no_pensions\n";
-	output << "school_reforms = no_schools\n";
-
-	if (country.reforms)
+	if (!country.details.politicalReforms.empty())
+	{
+		output << "\n";
+		output << "# Political Reforms\n";
+		for (const auto& [reform, level]: country.details.politicalReforms)
+		{
+			output << reform << " = " << level << "\n";
+		}
+	}
+	else if (country.reforms)
 	{
 		output << *country.reforms;
 	}
+	if (!country.details.socialReforms.empty())
+	{
+		output << "\n";
+		output << "# Social Reforms\n";
+		for (const auto& [reform, level]: country.details.socialReforms)
+		{
+			output << reform << " = " << level << "\n";
+		}
+	}
 	else
 	{
-		output << "# Political Reforms\n";
-		output << "slavery=yes_slavery\n";
-		output << "vote_franschise=none_voting\n"; // leave typo alone!
-		output << "upper_house_composition=appointed\n";
-		output << "voting_system=jefferson_method\n";
-		output << "public_meetings=yes_meeting\n";
-		output << "press_rights=censored_press\n";
-		output << "trade_unions=no_trade_unions\n";
-		output << "political_parties=underground_parties\n";
+		output << "\n";
+		output << "# Social Reforms\n";
+		output << "wage_reform = no_minimum_wage\n";
+		output << "work_hours = no_work_hour_limit\n";
+		output << "safety_regulations = no_safety\n";
+		output << "health_care = no_health_care\n";
+		output << "unemployment_subsidies = no_subsidies\n";
+		output << "pensions = no_pensions\n";
+		output << "school_reforms = no_schools\n";
 	}
 
 	if (const auto& modReforms = country.getModReforms(); !modReforms.empty())
 	{
 		output << "\n";
-		output << "#Mod Reforms\n";
+		output << "#New Reforms\n";
 		for (const auto& modReform: modReforms)
 		{
 			output << modReform.first << "=" << modReform.second << "\n";
