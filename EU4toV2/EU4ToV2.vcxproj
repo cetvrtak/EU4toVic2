@@ -486,6 +486,7 @@
     <ClCompile Include="Source\V2World\Reforms\Reforms.cpp" />
     <ClCompile Include="Source\V2World\Reforms\UncivReforms.cpp" />
     <ClCompile Include="Source\V2World\State\State.cpp" />
+    <ClCompile Include="Source\V2World\State\StateNameParser.cpp" />
     <ClCompile Include="Source\V2World\V2World.cpp" />
     <ClCompile Include="Source\V2World\War\War.cpp" />
   </ItemGroup>
@@ -665,6 +666,7 @@
     <ClInclude Include="Source\V2World\Reforms\Reforms.h" />
     <ClInclude Include="Source\V2World\Reforms\UncivReforms.h" />
     <ClInclude Include="Source\V2World\State\State.h" />
+    <ClInclude Include="Source\V2World\State\StateNameParser.h" />
     <ClInclude Include="Source\V2World\V2World.h" />
     <ClInclude Include="Source\V2World\War\War.h" />
   </ItemGroup>
