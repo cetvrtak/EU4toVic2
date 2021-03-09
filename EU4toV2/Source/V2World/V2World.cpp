@@ -148,8 +148,8 @@ V2::World::World(const EU4::World& sourceWorld,
 
 	if (!theConfiguration.getOutputName().empty())
 	{
-		LOG(LogLevel::Debug) << "Converting events";
-		convertEvents();
+		LOG(LogLevel::Info) << "-> Converting province and state IDs";
+		convertIds();
 		Log(LogLevel::Progress) << "72 %";
 	}
 
@@ -1893,31 +1893,118 @@ std::string V2::World::clipCountryFileName(const std::string& incoming) const
 }
 
 
-void V2::World::convertEvents()
+		const auto& commons = commonItems::GetAllFilesInFolder(mod + "/common");
+		for (const auto& file: commons)
+		{
+			if (file == "rebel_types.txt")
+			{
+				fs::remove(output + "/common/rebel_types.txt");
+			}
+			else if (commonItems::DoesFileExist(output + "/common/" + file))
+			{
+				continue;
+			}
+			fs::copy_file(mod + "/common/" + file, output + "/common/" + file);
+		}
+
+		if (commonItems::DoesFileExist(configurables + "/religion.txt"))
+		{
+			fs::remove(output + "/common/religion.txt");
+			fs::copy_file(configurables + "/religion.txt", output + "/common/religion.txt");
+		}
+
+		copyFolder("battleplans", mod, output);
+		copyFolder("map", mod, output);
+
+		mergeFolder("gfx/interface/leaders", mod, output);
+		const auto& gfxInterfaceFiles = commonItems::GetAllFilesInFolder(mod + "/gfx/interface");
+		for (const auto& file: gfxInterfaceFiles)
+		{
+			if (file != "icon_religion.dds")
+			{
+				fs::copy_file(mod + "/gfx/interface/" + file, output + "/gfx/interface/" + file);
+			}
+		}
+
+		copyFolder("gfx/anims", mod, output);
+		copyFolder("gfx/pictures/tech", mod, output);
+
+		const auto& interfaceFiles = commonItems::GetAllFilesInFolder(mod + "/interface");
+		for (const auto& file: interfaceFiles)
+		{
+			if (file != "general_gfx.gfx")
+			{
+				fs::copy_file(mod + "/interface/" + file, output + "/interface/" + file);	
+			}
+		}
+
+		copyFolder("inventions", mod, output);
+		mergeFolder("localisation", mod, output);
+
+		const auto& converterDecisions = commonItems::GetAllFilesInFolder(output + "/decisions");
+		const auto& decisionsFiles = commonItems::GetAllFilesInFolder(mod + "/decisions");
+		for (const auto& file: decisionsFiles)
+		{
+			fs::remove(output + "/decisions/" + file);
+			fs::copy_file(mod + "/decisions/" + file, output + "/decisions/" + file);
+		}
+		const auto& configurablesDecisions = commonItems::GetAllFilesInFolder("configurables/" + theConfiguration.getVic2ModName() + "/decisions");
+		for (const auto& file: configurablesDecisions)
+		{
+			fs::remove(output + "/decisions/" + file);
+			fs::copy_file("configurables/" + theConfiguration.getVic2ModName() + "/decisions/" + file,
+							output + "/decisions/" + file);
+		}
+
+		const auto& converterEvents = commonItems::GetAllFilesInFolder(output + "/events");
+		const auto& eventsFiles = commonItems::GetAllFilesInFolder(mod + "/events");
+		for (const auto& file: eventsFiles)
+		{
+			fs::remove(output + "/events/" + file);
+			fs::copy_file(mod + "/events/" + file, output + "/events/" + file);
+		}
+		const auto& configurablesEvents = commonItems::GetAllFilesInFolder("configurables/" + theConfiguration.getVic2ModName() + "/events");
+		for (const auto& file: configurablesEvents)
+		{
+			fs::remove(output + "/events/" + file);
+			fs::copy_file("configurables/" + theConfiguration.getVic2ModName() + "/events/" + file,
+							output + "/events/" + file);
+		}
+
+		const auto& poptypesFiles = commonItems::GetAllFilesInFolder(mod + "/poptypes");
+		commonItems::TryCreateFolder(output + "/poptypes");
+		for (const auto& file: poptypesFiles)
+		{
+			fs::copy_file(mod + "/poptypes/" + file, output + "/poptypes/" + file);
+		}
+	}
+}
+
+void V2::World::convertIds()
 {
 	IdConverter idConverter(vanillaWorld.getProvinces(), provinceNameParser.getProvinceNames());
 	const auto& provinceMap = idConverter.getProvinceMap();
 	const auto& stateMap = idConverter.getStateMap();
 
-	LOG(LogLevel::Debug) << "Loading event files";
-	std::set<std::string> evtFiles;
+	LOG(LogLevel::Info) << "-> Loading Converter events and decisions";
+	std::set<std::string> files;
 	for (const auto& eventFile: commonItems::GetAllFilesInFolder("blankMod/output/events"))
 	{
-		evtFiles.insert("events/" + eventFile);
+		files.insert("events/" + eventFile);
 	}
 	for (const auto& decisionFile: commonItems::GetAllFilesInFolder("blankMod/output/decisions"))
 	{
-		evtFiles.insert("decisions/" + decisionFile);
+		files.insert("decisions/" + decisionFile);
 	}
 
-	for (const auto& evtFile: evtFiles)
+	Log(LogLevel::Info) << "\tConverting IDs";
+	for (const auto& file: files)
 	{
-		LOG(LogLevel::Debug) << " -> " << evtFile;
-		Events eventsFile("blankMod/output/" + evtFile);
+		Events eventsFile("blankMod/output/" + file);
 		eventsFile.updateEvents(stateMap, provinceMap);
 		for (const auto& theEvents: eventsFile.getEvents())
 		{
-			events.insert(make_pair(evtFile, theEvents));
+			events.insert(make_pair(file, theEvents));
 		}
 	}
 }
@@ -1926,7 +2013,7 @@ void V2::World::outEvents() const
 {
 	for (const auto& event: events)
 	{
-		std::ofstream output("output/" + theConfiguration.getOutputName() + "/events/" + event.first);
+		std::ofstream output("output/" + theConfiguration.getOutputName() + "/" + event.first);
 		if (!output.is_open())
 			Log(LogLevel::Warning) << "Could not create " + event.first;
 		output << event.second;

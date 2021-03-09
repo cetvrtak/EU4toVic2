@@ -37,17 +37,37 @@ void V2::Events::registerKeys()
 	});
 }
 
-void V2::Events::updateEvents(const std::map<int, int>& stateMap, const std::map<int, int>& provinceMap)
+void V2::Events::updateEvents(const std::map<std::string, std::string>& stateMap, const std::map<int, int>& provinceMap)
 {
 	for (auto& event: events)
 	{
-		std::regex state("([A-Z]{3}_)([0-9]+)");
-		std::regex prov("(province_id.*)([0-9]+)");
+		std::regex state("[A-Z]{3}_[0-9]+");
+		std::regex prov("(province_id\\s*=\\s*)([0-9]+)");
 		std::regex provScope("(\\s)([0-9]+)(\\s=\\s\\{)");
 
-		updateIDs(event, state, 2, stateMap);
+		updateStateIDs(event, state, stateMap);
 		updateIDs(event, prov, 2, provinceMap);
 		updateIDs(event, provScope, 2, provinceMap);
+	}
+}
+
+void V2::Events::updateStateIDs(std::string& theEvent, std::regex expression, std::map<std::string, std::string> map)
+{
+	std::sregex_iterator end;
+
+	std::sregex_iterator matchItr(theEvent.begin(), theEvent.end(), expression);
+	while (matchItr != end)
+	{
+		if (matchItr->size() > 0)
+		{
+			const auto& matchedStr = (*matchItr)[0].str();
+			if (std::string newID; map.contains(matchedStr) && matchedStr != map.at(matchedStr))
+			{
+				newID = map.at(matchedStr);
+				theEvent.replace(theEvent.find(matchedStr), matchedStr.length(), newID);
+			}
+		}
+		++matchItr;
 	}
 }
 
@@ -58,22 +78,28 @@ void V2::Events::updateIDs(std::string& theEvent, std::regex expression, int cap
 	std::sregex_iterator matchItr(theEvent.begin(), theEvent.end(), expression);
 	while (matchItr != end)
 	{
-		if (matchItr->size() > 0)
+		if (matchItr->size() > 0) //or is it >= captureGroup?
 		{
-			std::string newStr;
-			for (int i = 1; i < matchItr->size(); ++i)
-			{
-				if (i != captureGroup)
-				{
-					newStr += (*matchItr)[i].str();
-				}
-				else
-				{
-					newStr += std::to_string(map.find(std::stoi((*matchItr)[i].str()))->second);
-				}
-			}
 			const auto& matchedStr = (*matchItr)[0].str();
-			theEvent.replace(theEvent.find(matchedStr), matchedStr.length(), newStr);
+			if (const auto& origID = std::stoi((*matchItr)[captureGroup].str());
+				map.contains(origID) && origID != map.at(origID))
+			{
+				const auto& newID = std::to_string(map.at(origID));
+				std::string newStr;
+
+				for (int i = 1; i < matchItr->size(); ++i)
+				{
+					if (i == captureGroup)
+					{
+						newStr += newID;
+					}
+					else
+					{
+						newStr += (*matchItr)[i].str();
+					}
+				}
+				theEvent.replace(theEvent.find(matchedStr), matchedStr.length(), newStr);
+			}
 		}
 		++matchItr;
 	}

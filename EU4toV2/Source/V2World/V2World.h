@@ -132,7 +132,7 @@ class World
 	void updateDeadNations();
 
 	void outEvents() const;
-	void convertEvents();
+	void convertIds();
 
 	mappers::ProvinceMapper provinceMapper;
 	mappers::Continents continentsMapper;
