@@ -565,9 +565,6 @@
     <ClCompile Include="Source\V2World\Events\Events.cpp">
       <Filter>Vic2World\Events</Filter>
     </ClCompile>
-    <ClCompile Include="Source\V2World\VanillaWorld\VanillaWorld.cpp">
-      <Filter>Vic2World\VanillaWorld</Filter>
-    </ClCompile>
     <ClCompile Include="Source\V2World\State\StateNameParser.cpp">
       <Filter>Vic2World\State</Filter>
     </ClCompile>
@@ -1100,9 +1097,6 @@
     <ClInclude Include="Source\V2World\Events\Events.h">
       <Filter>Vic2World\Events</Filter>
     </ClInclude>
-    <ClInclude Include="Source\V2World\VanillaWorld\VanillaWorld.h">
-      <Filter>Vic2World\VanillaWorld</Filter>
-    </ClInclude>
     <ClInclude Include="Source\V2World\State\StateNameParser.h">
       <Filter>Vic2World\State</Filter>
     </ClInclude>
@@ -1356,9 +1350,6 @@
     </Filter>
     <Filter Include="Vic2World\Events">
       <UniqueIdentifier>{92ece9b9-9524-4b72-a050-f85a4085d09f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vic2World\VanillaWorld">
-      <UniqueIdentifier>{d121c48f-d84f-4701-84eb-3a1a2f5a802e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Vic2World\IdConverter">
       <UniqueIdentifier>{40c800f4-c46b-4750-881b-b49e04623cfc}</UniqueIdentifier>

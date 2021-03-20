@@ -146,7 +146,7 @@ V2::World::World(const EU4::World& sourceWorld,
 	convertCountryFlags();
 	Log(LogLevel::Progress) << "71 %";
 
-	if (!theConfiguration.getOutputName().empty())
+	if (theConfiguration.isHpmEnabled())
 	{
 		LOG(LogLevel::Info) << "-> Converting province and state IDs";
 		convertIds();
@@ -607,8 +607,7 @@ std::set<std::string> V2::World::discoverProvinceFilenames()
 	}
 	if (provinceFilenames.empty())
 	{
-		provinceFilenames = commonItems::GetAllFilesInFolderRecursive(
-				theConfiguration.getVic2Path() + "/history/provinces");
+		provinceFilenames = commonItems::GetAllFilesInFolderRecursive(theConfiguration.getVic2Path() + "/history/provinces");
 	}
 
 	return provinceFilenames;
@@ -1892,94 +1891,6 @@ std::string V2::World::clipCountryFileName(const std::string& incoming) const
 		return incoming.substr(0, 76) + ".txt";
 }
 
-
-		const auto& commons = commonItems::GetAllFilesInFolder(mod + "/common");
-		for (const auto& file: commons)
-		{
-			if (file == "rebel_types.txt")
-			{
-				fs::remove(output + "/common/rebel_types.txt");
-			}
-			else if (commonItems::DoesFileExist(output + "/common/" + file))
-			{
-				continue;
-			}
-			fs::copy_file(mod + "/common/" + file, output + "/common/" + file);
-		}
-
-		if (commonItems::DoesFileExist(configurables + "/religion.txt"))
-		{
-			fs::remove(output + "/common/religion.txt");
-			fs::copy_file(configurables + "/religion.txt", output + "/common/religion.txt");
-		}
-
-		copyFolder("battleplans", mod, output);
-		copyFolder("map", mod, output);
-
-		mergeFolder("gfx/interface/leaders", mod, output);
-		const auto& gfxInterfaceFiles = commonItems::GetAllFilesInFolder(mod + "/gfx/interface");
-		for (const auto& file: gfxInterfaceFiles)
-		{
-			if (file != "icon_religion.dds")
-			{
-				fs::copy_file(mod + "/gfx/interface/" + file, output + "/gfx/interface/" + file);
-			}
-		}
-
-		copyFolder("gfx/anims", mod, output);
-		copyFolder("gfx/pictures/tech", mod, output);
-
-		const auto& interfaceFiles = commonItems::GetAllFilesInFolder(mod + "/interface");
-		for (const auto& file: interfaceFiles)
-		{
-			if (file != "general_gfx.gfx")
-			{
-				fs::copy_file(mod + "/interface/" + file, output + "/interface/" + file);	
-			}
-		}
-
-		copyFolder("inventions", mod, output);
-		mergeFolder("localisation", mod, output);
-
-		const auto& converterDecisions = commonItems::GetAllFilesInFolder(output + "/decisions");
-		const auto& decisionsFiles = commonItems::GetAllFilesInFolder(mod + "/decisions");
-		for (const auto& file: decisionsFiles)
-		{
-			fs::remove(output + "/decisions/" + file);
-			fs::copy_file(mod + "/decisions/" + file, output + "/decisions/" + file);
-		}
-		const auto& configurablesDecisions = commonItems::GetAllFilesInFolder("configurables/" + theConfiguration.getVic2ModName() + "/decisions");
-		for (const auto& file: configurablesDecisions)
-		{
-			fs::remove(output + "/decisions/" + file);
-			fs::copy_file("configurables/" + theConfiguration.getVic2ModName() + "/decisions/" + file,
-							output + "/decisions/" + file);
-		}
-
-		const auto& converterEvents = commonItems::GetAllFilesInFolder(output + "/events");
-		const auto& eventsFiles = commonItems::GetAllFilesInFolder(mod + "/events");
-		for (const auto& file: eventsFiles)
-		{
-			fs::remove(output + "/events/" + file);
-			fs::copy_file(mod + "/events/" + file, output + "/events/" + file);
-		}
-		const auto& configurablesEvents = commonItems::GetAllFilesInFolder("configurables/" + theConfiguration.getVic2ModName() + "/events");
-		for (const auto& file: configurablesEvents)
-		{
-			fs::remove(output + "/events/" + file);
-			fs::copy_file("configurables/" + theConfiguration.getVic2ModName() + "/events/" + file,
-							output + "/events/" + file);
-		}
-
-		const auto& poptypesFiles = commonItems::GetAllFilesInFolder(mod + "/poptypes");
-		commonItems::TryCreateFolder(output + "/poptypes");
-		for (const auto& file: poptypesFiles)
-		{
-			fs::copy_file(mod + "/poptypes/" + file, output + "/poptypes/" + file);
-		}
-	}
-}
-
 void V2::World::convertIds()
 {
 	IdConverter idConverter(vanillaWorld.getProvinces(), provinceNameParser.getProvinceNames());
@@ -2011,11 +1922,11 @@ void V2::World::convertIds()
 
 void V2::World::outEvents() const
 {
-	for (const auto& event: events)
+	for (const auto& [filename, event]: events)
 	{
-		std::ofstream output("output/" + theConfiguration.getOutputName() + "/" + event.first);
+		std::ofstream output("output/" + theConfiguration.getOutputName() + "/" + filename);
 		if (!output.is_open())
-			Log(LogLevel::Warning) << "Could not create " + event.first;
-		output << event.second;
+			Log(LogLevel::Warning) << "Could not create " + filename;
+		output << event;
 	}
 }

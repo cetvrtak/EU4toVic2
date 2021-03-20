@@ -61,7 +61,6 @@ class Configuration: commonItems::parser
 		[[nodiscard]] const auto& getSteamWorkshopPath() const { return SteamWorkshopPath; }
 		[[nodiscard]] const auto& getCK2ExportPath() const { return CK2ExportPath; }
 		[[nodiscard]] const auto& getVic2Path() const { return Vic2Path; }
-		[[nodiscard]] const auto& getVanillaVic2Path() const { return vanillaVic2Path; }
 		[[nodiscard]] const auto& getVic2DocumentsPath() const { return Vic2DocumentsPath; }
 		[[nodiscard]] const auto& getResetProvinces() const { return resetProvinces; }
 		[[nodiscard]] const auto& getEU4Version() const { return version; }
@@ -85,7 +84,6 @@ class Configuration: commonItems::parser
 		std::string SteamWorkshopPath;
 		std::string CK2ExportPath;
 		std::string Vic2Path;
-		std::string vanillaVic2Path;
 		std::string Vic2DocumentsPath;
 		std::string resetProvinces = "no";
 		double MaxLiteracy = 1.0;
