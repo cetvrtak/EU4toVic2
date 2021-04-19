@@ -2329,6 +2329,7 @@ void V2::World::copyModFiles() const
 		fs::copy_file(mod + "/common/event_modifiers.txt", output + "/common/event_modifiers.txt");
 		fs::copy_file(mod + "/common/issues.txt", output + "/common/issues.txt");
 		fs::copy_file(mod + "/common/buildings.txt", output + "/common/buildings.txt");
+		fs::remove(output + "/common/cb_types.txt");
 		fs::copy_file(mod + "/common/cb_types.txt", output + "/common/cb_types.txt");
 		fs::copy_file(mod + "/common/ideologies.txt", output + "/common/ideologies.txt");
 		fs::copy_file(mod + "/common/national_focus.txt", output + "/common/national_focus.txt");

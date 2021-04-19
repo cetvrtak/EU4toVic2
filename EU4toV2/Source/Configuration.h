@@ -118,7 +118,7 @@ class Configuration: commonItems::parser
 		std::string actualName; // Not normalized like outputName
 		std::vector<std::string> activeDLCs;
 		std::vector<std::string> EU4Mods;
-		std::string vic2Mod = "HPM_0.4.6.3";
+		std::string vic2Mod = "HPM";
 		std::string vic2StartDate = "1836.1.1";
 };
 
