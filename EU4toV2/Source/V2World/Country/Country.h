@@ -114,7 +114,7 @@ class Country
 	Relation& getRelation(const std::string& target);
 	std::map<std::string, Relation>& getRelations() { return relations; }
 	void addPolicy(const std::string& partyName, const std::string& policy, const std::string& position);
-	void setReformPosition(const std::string& reform, const std::string& position) { modReforms.insert(make_pair(reform, position)); }
+	void setReformPosition(const std::string& reform, const std::string& position) { modReforms.push_back(make_pair(reform, position)); }
 	
 	void classifyRefsTechsInvs(const mappers::Issues& reforms,
 		 const mappers::ModReforms& modReforms,
@@ -180,8 +180,8 @@ class Country
 	Localisation localisation;
 	EU4::NationalSymbol nationalColors;
 	ModCommons modCommons;
-	std::optional<ModHistory> modHistory;
-	std::map<std::string, std::string> modReforms;
+	std::unique_ptr<ModHistory> modHistory;
+	std::vector<std::pair<std::string, std::string>> modReforms;
 
 	[[nodiscard]] std::optional<std::string> getFileFromTag(const std::string& directoryPath, const std::string& tag) const;
 	void loadPartiesFromBlob(const mappers::PartyNameMapper& partyNameMapper, const mappers::PartyTypeMapper& partyTypeMapper);

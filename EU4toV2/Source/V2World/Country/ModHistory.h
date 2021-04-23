@@ -10,16 +10,15 @@ class ModHistory: commonItems::parser
 {
   public:
 	ModHistory() = default;
-	ModHistory(const std::string& filename);
+	ModHistory(const std::string& tag);
 	ModHistory(std::istream& theStream);
 
 	void registerKeys();
-	std::optional<std::string> determineFilePath(const std::string& filename);
 
-	void addPoliticalReform(const std::string& reformName) { politicalReforms.insert(std::make_pair(reformName, refsTechsInvs[reformName])); }
-	void addSocialReform(const std::string& reformName) { socialReforms.insert(std::make_pair(reformName, refsTechsInvs[reformName])); }
-	void addNewReform(const std::string& reformName) { newReforms.insert(std::make_pair(reformName, refsTechsInvs[reformName])); }
-	void addUncivReform(const std::string& reformName) { uncivReforms.insert(std::make_pair(reformName, refsTechsInvs[reformName])); }
+	void addPoliticalReform(const std::pair<std::string, std::string>& reform) { politicalReforms.push_back(std::make_pair(reform.first, reform.second)); }
+	void addSocialReform(const std::pair<std::string, std::string>& reform) { socialReforms.push_back(std::make_pair(reform.first, reform.second)); }
+	void addNewReform(const std::pair<std::string, std::string>& reform) { newReforms.push_back(std::make_pair(reform.first, reform.second)); }
+	void addUncivReform(const std::pair<std::string, std::string>& reform) { uncivReforms.push_back(std::make_pair(reform.first, reform.second)); }
 	void addTech(const std::string& techName) { technologies.push_back(techName); }
 	void addInvention(const std::string& inventionName) { inventions.push_back(inventionName); }
 
@@ -44,6 +43,7 @@ class ModHistory: commonItems::parser
 	[[nodiscard]] const auto& getPrestige() const { return prestige; }
 	[[nodiscard]] const auto& getRefsTechsInvs() const { return refsTechsInvs; }
 	[[nodiscard]] const auto& getCountryFlags() const { return countryFlags; }
+	[[nodiscard]] const auto& getGovtFlags() const { return govtFlags; }
 	[[nodiscard]] const auto& getDecisions() const { return decisions; }
 	[[nodiscard]] const auto& getRulingParty() const { return rulingParty; }
 	[[nodiscard]] const auto& getUpperHouse() const { return upperHouse; }
@@ -51,14 +51,14 @@ class ModHistory: commonItems::parser
 	[[nodiscard]] const auto& getNonStateConsciousness() const { return nonStateConsciousness; }
 	[[nodiscard]] const auto& getTechSchool() const { return techSchool; }
 	[[nodiscard]] const auto& getForeignInvestment() const { return foreignInvestment; }
-	[[nodiscard]] const auto& getOOB() const { return OOB; }
+	[[nodiscard]] const auto& getOob() const { return oob; }
 	[[nodiscard]] const auto& getBookmarks() const { return bookmarks; }
 
   private:
-	std::map<std::string, std::string> politicalReforms;
-	std::map<std::string, std::string> socialReforms;
-	std::map<std::string, std::string> newReforms;
-	std::map<std::string, std::string> uncivReforms;
+	std::vector<std::pair<std::string, std::string>> politicalReforms;
+	std::vector<std::pair<std::string, std::string>> socialReforms;
+	std::vector<std::pair<std::string, std::string>> newReforms;
+	std::vector<std::pair<std::string, std::string>> uncivReforms;
 	std::vector<std::string> technologies;
 	std::vector<std::string> inventions;
 
@@ -70,21 +70,22 @@ class ModHistory: commonItems::parser
 	double plurality;
 	std::string nationalValue;
 	double literacy;
-	double nonStateCultureLiteracy;
+	double nonStateCultureLiteracy = 0;
 	std::string civilized;
 	std::string releasableVassal;
-	int prestige;
-	std::map<std::string, std::string> refsTechsInvs;
-	std::vector<std::string> countryFlags;
-	std::vector<std::string> decisions;
+	int prestige = 0;
+	std::vector<std::pair<std::string, std::string>> refsTechsInvs;
+	std::set<std::string> countryFlags;
+	std::set<std::string> govtFlags;
+	std::set<std::string> decisions;
 	std::string rulingParty;
 	std::string upperHouse;
-	double consciousness;
-	double nonStateConsciousness;
+	int consciousness = 0;
+	int nonStateConsciousness = 0;
 	std::string techSchool;
 	std::string foreignInvestment;
-	std::string OOB;
-	std::multimap<std::string, ModHistory> bookmarks;
+	std::optional<std::string> oob;
+	std::multimap<std::string, std::string> bookmarks;
 };
 } // namespace V2
 

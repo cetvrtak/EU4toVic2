@@ -13,17 +13,38 @@ std::ostream& V2::operator<<(std::ostream& output, const Country& country)
 	}
 	output << "religion = " << country.details.religion << "\n";
 	output << "government = " << country.details.government << "\n";
-	output << "plurality = " << country.details.plurality << "\n";
+	if (country.modHistory)
+	{
+		if (country.modHistory->getPlurality() == 0)
+		{
+			output << "plurality = 0.0\n";
+		}
+		else
+		{
+			output << "plurality = " << country.modHistory->getPlurality() << "\n";
+		}
+	}
+	else
+	{
+		output << "plurality = " << country.details.plurality << "\n";
+	}
 	output << "nationalvalue = " << country.details.nationalValue << "\n";
 	output << "literacy = " << country.details.literacy << "\n";
 	if (country.details.nonStateCultureLiteracy > 0)
 	{
 		output << "non_state_culture_literacy = " << country.details.nonStateCultureLiteracy << "\n";
 	}
-	output << "\n";
 	if (country.details.civilized)
 	{
 		output << "civilized = yes\n";
+	}
+	if (country.modHistory && country.modHistory->getPrestige() > 0)
+	{
+		output << "prestige = " << country.modHistory->getPrestige() << "\n";
+	}
+	else if (country.details.prestige > 0)
+	{
+		output << "prestige = " << country.details.prestige << "\n";
 	}
 	if (!country.details.isReleasableVassal)
 	{
@@ -32,7 +53,7 @@ std::ostream& V2::operator<<(std::ostream& output, const Country& country)
 	if (!country.details.politicalReforms.empty())
 	{
 		output << "\n";
-		output << "# Political Reforms\n";
+		output << "# Political reforms\n";
 		for (const auto& [reform, level]: country.details.politicalReforms)
 		{
 			output << reform << " = " << level << "\n";
@@ -67,56 +88,105 @@ std::ostream& V2::operator<<(std::ostream& output, const Country& country)
 	if (const auto& modReforms = country.getModReforms(); !modReforms.empty())
 	{
 		output << "\n";
-		output << "#New Reforms\n";
+		output << "# New Reforms\n";
 		for (const auto& modReform: modReforms)
 		{
-			output << modReform.first << "=" << modReform.second << "\n";
+			output << modReform.first << " = " << modReform.second << "\n";
 		}
+		output << "\n";
+	}
+
+	for (const auto& flag: country.details.countryFlags)
+	{
+		output << "set_country_flag = " << flag << "\n";
+	}
+	for (const auto& govtFlag: country.details.govtFlags)
+	{
+		output << "govt_flag " << govtFlag << "\n";
+	}
+	for (const auto& decision: country.decisions)
+	{
+		output << "decision = " << decision << "\n";
 	}
 
 	output << "\n";
 	output << "ruling_party = " << country.details.rulingParty << "\n";
-	output << "upper_house = \n";
-	output << "{\n";
-	output << "	fascist = 0\n";
-	output << "	liberal = " << country.details.upperHouseLiberal << "\n";
-	output << "	conservative = " << country.details.upperHouseConservative << "\n";
-	output << "	reactionary = " << country.details.upperHouseReactionary << "\n";
-	output << "	anarcho_liberal = 0\n";
-	output << "	socialist = 0\n";
-	output << "	communist = 0\n";
-	output << "}\n";
+	if (!country.details.upperHouse.empty())
+	{
+		output << "upper_house " << country.details.upperHouse << "\n";
+	}
+	else
+	{
+		output << "upper_house = \n";
+		output << "{\n";
+		output << "	fascist = 0\n";
+		output << "	liberal = " << country.details.upperHouseLiberal << "\n";
+		output << "	conservative = " << country.details.upperHouseConservative << "\n";
+		output << "	reactionary = " << country.details.upperHouseReactionary << "\n";
+		output << "	anarcho_liberal = 0\n";
+		output << "	socialist = 0\n";
+		output << "	communist = 0\n";
+		output << "}\n";
+	}
 	output << "\n";
-	output << "# Starting Consciousness\n";
-	output << "consciousness = " << country.details.consciousness << "\n";
-	output << "nonstate_consciousness= " << country.details.nonstateConsciousness << "\n";
+	output << "\n";
+	if (country.modHistory)
+	{
+		for (const auto& [reform, level]: country.details.uncivReforms)
+		{
+			output << reform << " = " << level << "\n";
+		}
+	}
+	else if (!country.details.civilized && country.uncivReforms)
+	{
+		output << *country.uncivReforms;
+	}
 	output << "\n";
 	output << "# Technologies\n";
 	for (const auto& tech: country.techs)
 	{
 		output << tech << " = 1\n";
 	}
-	if (!country.details.civilized && country.uncivReforms)
+	output << "\n";
+	output << "# Starting Consciousness\n";
+	if (country.modHistory)
 	{
-		output << *country.uncivReforms;
+		output << "consciousness = " << country.modHistory->getConsciousness() << "\n";
+		output << "nonstate_consciousness = " << country.modHistory->getNonStateConsciousness() << "\n";
 	}
-	output << "prestige=" << country.details.prestige << "\n";
+	else
+	{
+		output << "consciousness = " << country.details.consciousness << "\n";
+		output << "nonstate_consciousness = " << country.details.nonstateConsciousness << "\n";
+	}
 
-	if (!country.decisions.empty())
+	if (!country.details.techSchool.empty())
 	{
 		output << "\n";
-		output << "# Decisions\n";
-		output << "1.1.1 = {\n";
-		for (const auto& decision: country.decisions)
-		{
-			output << "\tdecision = " << decision << "\n";
-		}
-		output << "}\n";
+		output << "schools = " << country.details.techSchool << "\n";
 	}
 
-	// output << "	schools=\"%s\"\n", techSchool.c_str());
+	if (!country.details.foreignInvestment.empty())
+	{
+		output << "\n";
+		output << "foreign_investment " << country.details.foreignInvestment << "\n";
+	}
 
-	output << "oob = \"" << (country.tag + "_OOB.txt") << "\"\n";
+	if (!country.details.oob)
+	{
+		output << "\n";
+		output << "oob = \"" << (country.tag + "_OOB.txt") << "\"\n";
+	}
+	else if (!country.details.oob->empty())
+	{
+		output << "\n";
+		output << "oob = \"" << *country.details.oob << "\"\n";
+	}
+
+	for (const auto& [bookmarkDate, bookmarkDetails]: country.details.bookmarks)
+	{
+		output << bookmarkDate << " " << bookmarkDetails << "\n";
+	}
 
 	if (country.details.holyRomanEmperor)
 	{
@@ -129,10 +199,6 @@ std::ostream& V2::operator<<(std::ostream& output, const Country& country)
 	if (country.details.celestialEmperor)
 	{
 		output << "set_country_flag = celestial_emperor\n";
-	}
-	for (const auto& flag: country.details.countryFlags)
-	{
-		output << "set_country_flag = " << flag << "\n";
 	}
 	return output;
 }

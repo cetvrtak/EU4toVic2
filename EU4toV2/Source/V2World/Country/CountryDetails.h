@@ -87,10 +87,15 @@ class CountryDetails: commonItems::parser
 	UpperHouse upperHouses;
 	double literacyInvestment = 0;
 	
-	std::map<std::string, std::string> politicalReforms;
-	std::map<std::string, std::string> socialReforms;
-	std::map<std::string, std::string> newReforms;
-	std::map<std::string, std::string> uncivReforms;
+	std::vector<std::pair<std::string, std::string>> politicalReforms;
+	std::vector<std::pair<std::string, std::string>> socialReforms;
+	std::vector<std::pair<std::string, std::string>> newReforms;
+	std::vector<std::pair<std::string, std::string>> uncivReforms;
+	std::set<std::string> govtFlags;
+	std::string upperHouse;
+	std::string foreignInvestment;
+	std::optional<std::string> oob;
+	std::multimap<std::string, std::string> bookmarks;
 
   private:
 	void registerKeys();

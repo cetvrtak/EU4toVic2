@@ -11,15 +11,16 @@ V2::ProvinceNameParser::ProvinceNameParser()
 	{
 		importProvinceLocalizations("./blankMod/output/localisation/text.csv");
 	}
-	const auto& provLocPath = theConfiguration.getVic2Path() + "/localisation";
-	if (Utils::DoesFolderExist(provLocPath))
+	const auto& modLocs = theConfiguration.getVic2Path() + "/localisation";
+	if (Utils::DoesFolderExist(modLocs))
 	{
-		const auto& locFiles = Utils::GetAllFilesInFolderRecursive(provLocPath);
+		const auto& locFiles = Utils::GetAllFilesInFolderRecursive(modLocs);
 		for (const auto& locFile: locFiles)
 		{
-			importProvinceLocalizations(provLocPath + "/" + locFile);
+			importProvinceLocalizations(modLocs + "/" + locFile);
 		}
 	}
+	importProvinceLocalizations(theConfiguration.getVanillaVic2Path() + "/localisation/text.csv");
 }
 
 V2::ProvinceNameParser::ProvinceNameParser(std::string folder)

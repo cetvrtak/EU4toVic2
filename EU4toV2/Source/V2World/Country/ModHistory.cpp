@@ -3,12 +3,16 @@
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
 
-V2::ModHistory::ModHistory(const std::string& filename)
+V2::ModHistory::ModHistory(const std::string& tag)
 {
 	registerKeys();
-	const auto& file = determineFilePath(filename);
-	if (file)
-		parseFile(*file);
+	const auto& mod = theConfiguration.getVic2ModPath() + "/" + theConfiguration.getVic2ModName();
+	for (const auto& filename: Utils::GetAllFilesInFolder(mod + "/history/countries"))
+	{
+		if (filename.substr(0, 3) != tag)
+			continue;
+		parseFile(mod + "/history/countries/" + filename);
+	}
 	clearRegisteredKeywords();
 }
 
@@ -71,11 +75,15 @@ void V2::ModHistory::registerKeys()
 	});
 	registerKeyword("set_country_flag", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString countryFlagsStr(theStream);
-		countryFlags.push_back(countryFlagsStr.getString());
+		countryFlags.insert(countryFlagsStr.getString());
+	});
+	registerKeyword("govt_flag", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::stringOfItem govtFlagsStr(theStream);
+		govtFlags.insert(govtFlagsStr.getString());
 	});
 	registerKeyword("decision", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString decisionsStr(theStream);
-		decisions.push_back(decisionsStr.getString());
+		decisions.insert(decisionsStr.getString());
 	});
 	registerKeyword("ruling_party", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString rulingPartyStr(theStream);
@@ -86,12 +94,12 @@ void V2::ModHistory::registerKeys()
 		upperHouse = upperHouseStr.getString();
 	});
 	registerKeyword("consciousness", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleDouble consciousnessStr(theStream);
-		consciousness = consciousnessStr.getDouble();
+		const commonItems::singleInt consciousnessStr(theStream);
+		consciousness = consciousnessStr.getInt();
 	});
 	registerKeyword("nonstate_consciousness", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleDouble nonStateConsciousnessStr(theStream);
-		nonStateConsciousness = nonStateConsciousnessStr.getDouble();
+		const commonItems::singleInt nonStateConsciousnessStr(theStream);
+		nonStateConsciousness = nonStateConsciousnessStr.getInt();
 	});
 	registerKeyword("schools", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString techSchoolStr(theStream);
@@ -102,24 +110,15 @@ void V2::ModHistory::registerKeys()
 		foreignInvestment = foreignInvestmentStr.getString();
 	});
 	registerKeyword("oob", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString OOBStr(theStream);
-		OOB = OOBStr.getString();
+		const commonItems::singleString oobStr(theStream);
+		oob = oobStr.getString();
 	});
 	registerRegex("[0-9.]+", [this](const std::string& date, std::istream& theStream) {
-		const ModHistory newBookmark(theStream);
-		bookmarks.insert(std::make_pair(date, newBookmark));
+		const commonItems::stringOfItem newBookmarkStr(theStream);
+		bookmarks.insert(std::make_pair(date, newBookmarkStr.getString()));
 	});
 	registerRegex("[a-z_]+", [this](const std::string& key, std::istream& theStream) {
 		const commonItems::singleString refTechsInvsStr(theStream);
-		refsTechsInvs[key] = refTechsInvsStr.getString();
+		refsTechsInvs.push_back(std::make_pair(key, refTechsInvsStr.getString()));
 	});
-}
-
-std::optional<std::string> V2::ModHistory::determineFilePath(const std::string& filename)
-{
-	const auto& mod = theConfiguration.getVic2ModPath() + "/" + theConfiguration.getVic2ModName();
-	if (Utils::DoesFileExist(mod + "/history/countries/" + filename))
-		return mod + "/history/countries/" + filename;
-	else
-		return std::nullopt;
 }

@@ -2154,12 +2154,6 @@ void V2::World::outputFrFiles() const
 			country->outputCommons(frCommons);
 			frCommons.close();
 
-			/*std::ofstream frHistory(frFolder + "/history/countries/" + country->getFilename());
-			if (!frHistory.is_open())
-				throw std::runtime_error("Could not create frHistory file " + country->getFilename());
-			frHistory << *country;
-			frHistory.close();*/
-
 			std::ofstream frOob(frFolder + "/history/units/" + tag + "_OOB.txt");
 			if (!frOob.is_open())
 				throw std::runtime_error("Could not create frOOB file " + tag + "_OOB.txt");
@@ -2176,6 +2170,15 @@ void V2::World::outputFrFiles() const
 				}
 			}
 		}
+	}
+
+	for (const auto& [tag, country]: hpmCountries)
+	{
+		std::ofstream hmpHistory(frFolder + "/history/countries/" + country->getFilename());
+		if (!hmpHistory.is_open())
+			throw std::runtime_error("Could not create hmpHistory file " + country->getFilename());
+		hmpHistory << *country;
+		hmpHistory.close();
 	}
 }
 
@@ -2949,12 +2952,10 @@ void V2::World::updateCountryHistory()
 {
 	for (const auto& [unused, country]: countries)
 	{
-		const auto& modHistory = country->getModHistory();
-		if (!modHistory)
+		if (!country->getModHistory() || country->isDynamicCountry())
 			continue;
 
 		country->classifyRefsTechsInvs(issues, modReforms, technologies, startingInventionMapper);
-
 		country->updateDetails();
 	}
 }

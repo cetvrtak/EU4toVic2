@@ -34,7 +34,7 @@ V2::Country::Country(const std::string& countriesFileLine,
 	tag = countriesFileLine.substr(0, 3);
 	commonCountryFile = Localisation::convert(filename);
 	modCommons = ModCommons(filename);
-	modHistory = ModHistory(tag + " - " + filename);
+	modHistory = std::make_unique<ModHistory>(tag);
 	initParties(partyNameMapper, partyTypeMapper);
 }
 
@@ -981,43 +981,55 @@ void V2::Country::classifyRefsTechsInvs(const mappers::Issues& reforms,
 		 const mappers::Technologies& technologies,
 		 const mappers::StartingInventionMapper& inventions
 ){
-	std::set<std::string> allTechs;
+	std::map<std::string, std::string> refs;
+	std::set<std::string> techs;
+	std::set<std::string> invs;
 
-	//reforms
 	for (const auto& [category, reforms]: reforms.getCategories())
 	{
 		for (const auto& reform: reforms)
 		{
-			if (modHistory->getRefsTechsInvs().count(reform))
-			{
-				if (modReforms.getReforms().count(reform))
-					modHistory->addNewReform(reform);
-				else if (category == "political_reforms")
-					modHistory->addPoliticalReform(reform);
-				else if (category == "social_reforms")
-					modHistory->addSocialReform(reform);
-				else
-					modHistory->addUncivReform(reform);
-			}
+			refs[reform] = category;
 		}
 	}
-
-	//technologies
 	for (const auto& [unused, techsInCategory]: technologies.getCategories())
 	{
 		for (const auto& tech: techsInCategory)
 		{
-			allTechs.insert(tech.getName());
-			if (modHistory->getRefsTechsInvs().count(tech.getName()))
-				modHistory->addTech(tech.getName());
+			techs.insert(tech.getName());
 		}
 	}
-
-	//inventions
-	for (const auto& invention: inventions.getInventionsForTechs(allTechs))
+	for (const auto& invention: inventions.getInventionsForTechs(techs))
 	{
-		if (modHistory->getRefsTechsInvs().count(invention))
-			modHistory->addInvention(invention);
+		invs.insert(invention);
+	}
+
+	for (const auto& entry: modHistory->getRefsTechsInvs())
+	{
+		if (refs.count(entry.first))
+		{
+			if (modReforms.getReforms().count(entry.first))
+				modHistory->addNewReform(entry);
+			else if (refs[entry.first] == "political_reforms")
+				modHistory->addPoliticalReform(entry);
+			else if (refs[entry.first] == "social_reforms")
+				modHistory->addSocialReform(entry);
+			else
+				modHistory->addUncivReform(entry);
+			continue;
+		}
+
+		if (techs.count(entry.first))
+		{
+			modHistory->addTech(entry.first);
+			continue;
+		}
+
+		if (invs.count(entry.first))
+		{
+			modHistory->addInvention(entry.first);
+			continue;
+		}
 	}
 }
 
@@ -1028,17 +1040,28 @@ void V2::Country::updateDetails()
 	details.acceptedCultures = modHistory->getAcceptedCultures();
 	details.religion = modHistory->getReligion();
 	details.government = modHistory->getGovernment();
-	details.plurality = modHistory->getPlurality();
 	details.nationalValue = modHistory->getNationalValue();
 	details.literacy = modHistory->getLiteracy();
 	details.nonStateCultureLiteracy = modHistory->getNonStateCultureLiteracy();
 	if (modHistory->getCivilized() == "yes")
 		details.civilized = true;
-	if(modHistory->isReleasableVassal() == "yes")
-		details.isReleasableVassal = true;
-	details.prestige = modHistory->getPrestige();
+	if(modHistory->isReleasableVassal() == "no")
+		details.isReleasableVassal = false;
 	details.politicalReforms = modHistory->getPoliticalReforms();
 	details.socialReforms = modHistory->getSocialReforms();
-	details.newReforms = modHistory->getNewReforms();
+	modReforms = modHistory->getNewReforms();
 	details.uncivReforms = modHistory->getUncivReforms();
+	details.countryFlags = modHistory->getCountryFlags();
+	details.govtFlags = modHistory->getGovtFlags();
+	decisions = modHistory->getDecisions();
+	details.rulingParty = modHistory->getRulingParty();
+	details.upperHouse = modHistory->getUpperHouse();
+	details.techSchool = modHistory->getTechSchool();
+	details.foreignInvestment = modHistory->getForeignInvestment();
+
+	details.oob = "";
+	if (modHistory->getOob())
+		details.oob = *modHistory->getOob();
+
+	details.bookmarks = modHistory->getBookmarks();
 }
