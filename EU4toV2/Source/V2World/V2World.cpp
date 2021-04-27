@@ -2435,6 +2435,8 @@ void V2::World::copyModFiles() const
 		{
 			fs::copy_file(mod + "/poptypes/" + file, output + "/poptypes/" + file);
 		}
+		// units
+		Utils::CopyFolder(mod + "/units", output + "/units");
 	}
 }
 

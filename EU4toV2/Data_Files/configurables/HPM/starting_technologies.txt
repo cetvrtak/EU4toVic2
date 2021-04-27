@@ -8,17 +8,11 @@
 
 tech = {group = army score = -1.0 id = light_armament_1}
 tech = {group = army score = -0.9 id = heavy_armament_1}
-tech = {group = army score = -0.2 id = army_doctrine_1}
-tech = {group = army score = 0.2 id = army_leadership_1}
 tech = {group = army score = 0.6 id = military_science_1}
-tech = {group = army score = 1.0 id = army_leadership_2}
 
-tech = {group = navy score = 0 id = naval_doctrine_1}
 tech = {group = navy score = 0.1 id = naval_leadership_1}
 tech = {group = navy score = 0.3 id = ship_construction_1}
-tech = {group = navy score = 0.4 id = naval_engineering_1}
 tech = {group = navy score = 0.5 id = naval_science_1}
-tech = {group = navy score = 0.7 id = naval_doctrine_2}
 tech = {group = navy score = 0.8 id = ship_construction_2}
 tech = {group = navy score = 1.0 id = naval_leadership_2}
 
