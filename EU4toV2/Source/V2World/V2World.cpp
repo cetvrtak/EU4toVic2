@@ -167,7 +167,7 @@ V2::World::World(const EU4::World& sourceWorld,
 	}
 
 	LOG(LogLevel::Info) << "-> Discovering FR countries";
-	discoverFrCountries();
+	determineFrCountries();
 	LOG(LogLevel::Progress) << "75 %";
 
 	LOG(LogLevel::Info) << "---> Le Dump <---";
@@ -835,8 +835,7 @@ void V2::World::importPotentialCountry(const std::string& file, const std::strin
 	const auto& hpmCountriesFiles = theConfiguration.getVic2ModPath() + "/" + mod  + "/common/countries.txt";
 
 	
-	if (countryMapper.getV2TagToModTagMap().find(tag) == countryMapper.getV2TagToModTagMap().end()
-		&& potentialCountries.find(tag) == potentialCountries.end())
+	if (!countryMapper.getV2TagToModTagMap().count(tag) && !potentialCountries.count(tag))
 	{
 		auto newCountry = std::make_shared<Country>(line, dynamicCountry, partyNameMapper, partyTypeMapper);
 		potentialCountries.insert(std::make_pair(tag, newCountry));
@@ -1797,6 +1796,9 @@ void V2::World::output(const mappers::VersionParser& versionParser) const
 
 		Log(LogLevel::Info) << "<- Outputting technologies";
 		outputTechnologies();
+
+		Log(LogLevel::Info) << "Removing redundant files";
+		removeRedundantFiles();
 	}
 
 	// verify countries got written
@@ -1890,6 +1892,9 @@ void V2::World::outputCommonCountries() const
 
 	for (const auto& country: countries)
 	{
+		if (!theConfiguration.getVic2ModName().empty() && !hpmCountries.count(country.first) && !frCores.count(country.first))
+			continue;
+
 		const auto& dynamic = dynamicCountries.find(country.first);
 		// First output all regular countries, order matters!
 		if (dynamic == dynamicCountries.end())
@@ -2034,6 +2039,9 @@ void V2::World::outputCountries() const
 {
 	for (const auto& [tag, country]: countries)
 	{
+		if (!theConfiguration.getVic2ModName().empty() && !hpmCountries.count(tag) && !frCores.count(tag))
+			continue;
+
 		// Country file
 		if (!country->isDynamicCountry())
 		{
@@ -2061,17 +2069,17 @@ void V2::World::outputCountries() const
 	}
 }
 
-void V2::World::discoverFrCountries()
+void V2::World::determineFrCountries()
 {
 	for (const auto& [unused, province]: provinces)
 	{
 		const auto& owner = province->getOwner();
-		if ((frCores.find(owner) == frCores.end()) && (hpmCountries.find(owner) == hpmCountries.end()))
+		if (!frCores.count(owner) && !hpmCountries.count(owner))
 			frCores.insert(owner);
 
 		for (const auto& core: province->getCores())
 		{
-			if ((frCores.find(core) == frCores.end()) && (hpmCountries.find(core) == hpmCountries.end()))
+			if (!frCores.count(core) && !hpmCountries.count(core))
 				frCores.insert(core);
 		}
 	}
@@ -2147,41 +2155,21 @@ void V2::World::outputFrFiles() const
 	frCountries << "### French Revolution\n";
 	for (const auto& [tag, country]: countries)
 	{
-		if (frCores.find(tag) != frCores.end())
+		if (!frCores.count(tag))
+			continue;
+
+		frCountries << tag << " = \"countries/" << country->getCommonCountryFile() << "\"\n";
+
+		frLoc << country->getLocalisation();
+
+		for (const auto& flag: flags)
 		{
-			frCountries << tag << " = \"countries/" << country->getCommonCountryFile() << "\"\n";
-
-			std::ofstream frCommons(frFolder + "/common/countries/" + country->getCommonCountryFile());
-			if (!frCommons.is_open())
-				throw std::runtime_error("Could not create frCommons file " + country->getFilename());
-			country->outputCommons(frCommons);
-			frCommons.close();
-
-			std::ofstream frOob(frFolder + "/history/units/" + tag + "_OOB.txt");
-			if (!frOob.is_open())
-				throw std::runtime_error("Could not create frOOB file " + tag + "_OOB.txt");
-			country->outputOOB(frOob);
-
-			frLoc << country->getLocalisation();
-
-			for (const auto& flag: flags)
+			if (flag.substr(0, 3) == country->getTag())
 			{
-				if (flag.substr(0, 3) == country->getTag())
-				{
-					fs::remove(frFlags + "/" + flag);
-					fs::copy_file(flagsFolder + "/" + flag, frFlags + "/" + flag);
-				}
+				fs::remove(frFlags + "/" + flag);
+				fs::copy_file(flagsFolder + "/" + flag, frFlags + "/" + flag);
 			}
 		}
-	}
-
-	for (const auto& [tag, country]: hpmCountries)
-	{
-		std::ofstream hmpHistory(frFolder + "/history/countries/" + country->getFilename());
-		if (!hmpHistory.is_open())
-			throw std::runtime_error("Could not create hmpHistory file " + country->getFilename());
-		hmpHistory << *country;
-		hmpHistory.close();
 	}
 }
 
@@ -2973,12 +2961,32 @@ void V2::World::outputTechnologies() const
 
 void V2::World::updateCountryHistory()
 {
-	for (const auto& [unused, country]: countries)
+	for (const auto& [tag, country]: countries)
 	{
-		if (!country->getModHistory() || country->isDynamicCountry())
+		if (!hpmCountries.count(tag) || country->isDynamicCountry())
 			continue;
 
 		country->classifyRefsTechsInvs(issues, modReforms, technologies, startingInventionMapper);
 		country->updateDetails();
+	}
+}
+
+void V2::World::removeRedundantFiles() const
+{
+	std::set<std::string> fileNames;
+	for (const auto& [tag, country]: countries)
+	{
+		if (hpmCountries.count(tag) || frCores.count(tag))
+		{
+			fileNames.insert(country->getCommonCountryFile());
+		}
+	}
+	const auto& commons = Utils::GetAllFilesInFolder("output/" + theConfiguration.getOutputName() + "/common/countries");
+	for (const auto& commonFile: commons)
+	{
+		if (!fileNames.count(commonFile))
+		{
+			fs::remove("output/" + theConfiguration.getOutputName() + "/common/countries/" + commonFile);
+		}
 	}
 }

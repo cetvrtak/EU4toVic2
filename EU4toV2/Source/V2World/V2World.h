@@ -68,7 +68,7 @@ class World
 	int nativePopulationAfter;
 	int minorsBefore;
 	int minorsAfter;
-	void discoverFrCountries();
+	void determineFrCountries();
 	void outputFrFiles() const;
 	void makeFrPops();
 	std::shared_ptr<Pop> expelNonNatives(const std::shared_ptr<V2::Province>& province, std::shared_ptr<Pop> pop);
@@ -187,6 +187,7 @@ class World
 	void outputGTFO(std::map<std::string, std::shared_ptr<Country>> countries) const;
 	void outputReturnCores(std::map<std::string, std::shared_ptr<V2::Country>> countries) const;
 	void outputTechnologies() const;
+	void removeRedundantFiles() const;
 	int getModStateId(int province, std::ofstream& output);
 	
 	void updateCountryHistory();
