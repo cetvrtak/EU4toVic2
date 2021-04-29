@@ -236,22 +236,34 @@ void V2::Country::outputCommons(std::ostream& output)
 
 void V2::Country::outputOOB(std::ostream& output)
 {
-	output << "#Sphere of Influence\n";
-	output << "\n";
-	for (const auto& relation: relations)
+	if (hasActiveRelation())
 	{
-		output << relation.second;
+		output << "#Sphere of Influence\n";
+		output << "\n";
+		for (const auto& [unused, relation]: relations)
+		{
+			if (relation.isRelationActive())
+				output << relation;
+		}
+		output << "\n";
 	}
-	output << "\n";
-	output << "#Leaders\n";
-	for (const auto& leader: leaders)
+
+	if (!leaders.empty())
 	{
-		output << leader;
+		output << "#Leaders\n";
+		for (const auto& leader: leaders)
+		{
+			output << leader;
+		}
+		output << "\n";
 	}
-	output << "\n";
-	output << "#Armies\n";
-	for (const auto& army: armies)
+
+	if (hasProperArmy())
 	{
-		output << army;
+		output << "#Armies\n";
+		for (const auto& army: armies)
+		{
+			output << army;
+		}
 	}
 }

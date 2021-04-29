@@ -2032,29 +2032,32 @@ void V2::World::outputProvinces() const
 
 void V2::World::outputCountries() const
 {
-	for (const auto& country: countries)
+	for (const auto& [tag, country]: countries)
 	{
 		// Country file
-		if (!country.second->isDynamicCountry())
+		if (!country->isDynamicCountry())
 		{
-			std::ofstream output("output/" + theConfiguration.getOutputName() + "/history/countries/" + country.second->getFilename());
+			std::ofstream output("output/" + theConfiguration.getOutputName() + "/history/countries/" + country->getFilename());
 			if (!output.is_open())
-				throw std::runtime_error("Could not create country history file " + country.second->getFilename());
-			output << *country.second;
+				throw std::runtime_error("Could not create country history file " + country->getFilename());
+			output << *country;
 			output.close();
 		}
 		// commons file
-		std::ofstream commons("output/" + theConfiguration.getOutputName() + "/common/countries/" + country.second->getCommonCountryFile());
+		std::ofstream commons("output/" + theConfiguration.getOutputName() + "/common/countries/" + country->getCommonCountryFile());
 		if (!commons.is_open())
 			throw std::runtime_error(
-				 "Could not open output/" + theConfiguration.getOutputName() + "/common/countries/" + country.second->getCommonCountryFile());
-		country.second->outputCommons(commons);
+				 "Could not open output/" + theConfiguration.getOutputName() + "/common/countries/" + country->getCommonCountryFile());
+		country->outputCommons(commons);
 		commons.close();
 		// OOB
-		std::ofstream output("output/" + theConfiguration.getOutputName() + "/history/units/" + country.first + "_OOB.txt");
-		if (!output.is_open())
-			throw std::runtime_error("Could not create OOB file " + country.first + "_OOB.txt");
-		country.second->outputOOB(output);
+		if (country->hasActiveRelation() || country->hasProperArmy() || !country->getLeaders().empty())
+		{
+			std::ofstream output("output/" + theConfiguration.getOutputName() + "/history/units/" + tag + "_OOB.txt");
+			if (!output.is_open())
+				throw std::runtime_error("Could not create OOB file " + tag + "_OOB.txt");
+			country->outputOOB(output);
+		}
 	}
 }
 
@@ -2437,6 +2440,24 @@ void V2::World::copyModFiles() const
 		}
 		// units
 		Utils::CopyFolder(mod + "/units", output + "/units");
+
+		// history/units
+		const auto& startDate = theConfiguration.getVic2StartDate();
+		const auto& startYear = startDate.substr(0, 4);
+		Utils::TryCreateFolder(output + "/history/units/" + startYear);
+		const auto& oobFiles = Utils::GetAllFilesInFolder(mod + "/history/units");
+
+		for (const auto& oobFile: oobFiles)
+		{
+			if (Utils::DoesFileExist(mod + "/history/units/" + oobFile))
+			{
+				fs::copy_file(mod + "/history/units/" + oobFile, output + "/history/units/" + startYear + "/" + oobFile);
+			}
+			else if (Utils::DoesFolderExist(mod + "/history/units/" + oobFile))
+			{
+				Utils::CopyFolder(mod + "/history/units/" + oobFile, output + "/history/units/" + oobFile);
+			}
+		}
 	}
 }
 

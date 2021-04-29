@@ -121,6 +121,8 @@ class Country
 		 const mappers::Technologies& technologies,
 		 const mappers::StartingInventionMapper& inventions);
 	void updateDetails();
+	bool hasActiveRelation() const;
+	bool hasProperArmy() const;
 
 	[[nodiscard]] std::string getColonialRegion() const;
 	[[nodiscard]] virtual std::shared_ptr<EU4::Country> getSourceCountry() const { return srcCountry; }
@@ -152,6 +154,8 @@ class Country
 	[[nodiscard]] bool isEmperorHRE() const { return details.holyRomanEmperor; }
 	[[nodiscard]] bool isMemberHRE() const { return details.inHRE; }
 	[[nodiscard]] const auto& getModHistory() const { return modHistory; }
+	[[nodiscard]] const auto& getLeaders() const { return leaders; }
+	[[nodiscard]] const auto& getArmies() const { return armies; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Country& country);
 	void outputCommons(std::ostream& output);

@@ -30,6 +30,7 @@ namespace V2
 		[[nodiscard]] bool hasRegimentsOfType(REGIMENTTYPE chosenType) const;
 		[[nodiscard]] double getRegimentRemainder(REGIMENTTYPE chosenType) const;
 		[[nodiscard]] auto success() const { return created; }
+		[[nodiscard]] auto getRegiments() const { return regiments; }
 		
 		void addRegimentRemainder(const REGIMENTTYPE chosenType, const double value) { armyRemainders[chosenType] += value; }
 

@@ -22,6 +22,7 @@ namespace V2
 		[[nodiscard]] auto getRelations() const { return relations; }
 		[[nodiscard]] auto getInfluence() const { return influence; }
 		[[nodiscard]] auto getLevel() const { return level; }
+		[[nodiscard]] bool isRelationActive() const { return relations != 0 || influence > 0 || militaryAccess || level != 2; }
 
 		friend std::ostream& operator<<(std::ostream& output, const Relation& relation);
 

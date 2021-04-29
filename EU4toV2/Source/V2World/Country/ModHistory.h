@@ -21,6 +21,7 @@ class ModHistory: commonItems::parser
 	void addUncivReform(const std::pair<std::string, std::string>& reform) { uncivReforms.push_back(std::make_pair(reform.first, reform.second)); }
 	void addTech(const std::string& techName) { technologies.push_back(techName); }
 	void addInvention(const std::string& inventionName) { inventions.push_back(inventionName); }
+	void addToBookmark(const std::string& dateString, const std::string& newElement);
 
 	[[nodiscard]] const auto& getPoliticalReforms() const { return politicalReforms; }
 	[[nodiscard]] const auto& getSocialReforms() const { return socialReforms; }

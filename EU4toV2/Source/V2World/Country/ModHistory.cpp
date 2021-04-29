@@ -122,3 +122,15 @@ void V2::ModHistory::registerKeys()
 		refsTechsInvs.push_back(std::make_pair(key, refTechsInvsStr.getString()));
 	});
 }
+
+void V2::ModHistory::addToBookmark(const std::string& dateString, const std::string& newElement)
+{
+	const auto& bookmarkItr = bookmarks.find(dateString);
+	if (bookmarkItr != bookmarks.end())
+	{
+		// Replace "}" with new element + "\n}"
+		bookmarkItr->second.replace(bookmarkItr->second.size() - 1, 1, "\t" + newElement + "\n}");
+	}
+	else
+		bookmarks.insert(std::make_pair(dateString, "= {\n\t" + newElement + "\n}"));
+}

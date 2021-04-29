@@ -1063,5 +1063,29 @@ void V2::Country::updateDetails()
 	if (modHistory->getOob())
 		details.oob = *modHistory->getOob();
 
+	if (Utils::DoesFileExist(theConfiguration.getVic2Path() + "/history/units/" + tag + "_oob.txt"))
+	{
+		modHistory->addToBookmark("1836.1.1", "oob = \"/1836/" + tag + "_oob.txt\"");
+	}
 	details.bookmarks = modHistory->getBookmarks();
+}
+
+bool V2::Country::hasActiveRelation() const
+{
+	for (const auto& [unused, relation]: relations)
+	{
+		if (relation.isRelationActive())
+			return true;
+	}
+	return false;
+}
+
+bool V2::Country::hasProperArmy() const
+{
+	for (const auto& army: armies)
+	{
+		if (!army.getRegiments().empty())
+			return true;
+	}
+	return false;
 }
