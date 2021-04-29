@@ -1070,6 +1070,32 @@ void V2::Country::updateDetails()
 	details.bookmarks = modHistory->getBookmarks();
 }
 
+void V2::Country::setPartyDates()
+{
+	bool conservativeSet = false, liberalSet = false, reactionarySet = false;
+
+	for (auto& party: details.parties)
+	{
+		if (party.getIdeology() == "conservative" && !conservativeSet)
+		{
+			party.setStartDate("1783.9.4");
+			conservativeSet = true;
+			continue;
+		}
+		if (party.getIdeology() == "liberal" && !liberalSet)
+		{
+			party.setStartDate("1836.1.1");
+			liberalSet = true;
+			continue;
+		}
+		if (party.getIdeology() == "reactionary" && !reactionarySet)
+		{
+			party.setStartDate("1790.1.1");
+			reactionarySet = true;
+		}
+	}
+}
+
 bool V2::Country::hasActiveRelation() const
 {
 	for (const auto& [unused, relation]: relations)

@@ -49,13 +49,13 @@ void V2::ModCommons::setPartyDates()
 	{
 		if (party.getIdeology() == "conservative" && !conservativeSet)
 		{
-			party.setStartDate("1000.1.1");
+			party.setStartDate("1783.9.4");
 			conservativeSet = true;
 			continue;
 		}
 		if (party.getIdeology() == "liberal" && !liberalSet)
 		{
-			party.setStartDate("1680.1.1");
+			party.setStartDate("1836.1.1");
 			liberalSet = true;
 			continue;
 		}

@@ -121,6 +121,7 @@ class Country
 		 const mappers::Technologies& technologies,
 		 const mappers::StartingInventionMapper& inventions);
 	void updateDetails();
+	void setPartyDates();
 	bool hasActiveRelation() const;
 	bool hasProperArmy() const;
 
