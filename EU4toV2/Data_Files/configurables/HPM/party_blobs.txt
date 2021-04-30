@@ -14,7 +14,7 @@ conservative = {
 	social_policy = no_position_set
 }
 liberal = {
-	start_date = 1680.1.1
+	start_date = 1820.1.1
 	end_date = 2000.1.1
 	economic_policy = laissez_faire
 	trade_policy = free_trade
@@ -24,7 +24,7 @@ liberal = {
 	social_policy = no_position_set
 }
 reactionary = {
-	start_date = 1680.1.1
+	start_date = 1783.1.1
 	end_date = 2000.1.1
 	economic_policy = state_capitalism
 	trade_policy = protectionism
@@ -34,7 +34,7 @@ reactionary = {
 	social_policy = no_position_set
 }
 socialist = {
-	start_date = 1790.1.1
+	start_date = 1848.1.1
 	end_date = 2000.1.1
 	economic_policy = state_capitalism
 	trade_policy = free_trade
@@ -54,7 +54,7 @@ communist = {
 	social_policy = populist_welfare
 }
 anarcho_liberal = {
-	start_date = 1710.1.1
+	start_date = 1830.1.1
 	end_date = 2000.1.1
 	economic_policy = laissez_faire
 	trade_policy = free_trade

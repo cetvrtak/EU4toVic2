@@ -17,6 +17,7 @@ namespace mappers
 		explicit PartyTypeMapper(const std::string& filename);
 		
 		[[nodiscard]] std::optional<PartyType> getPartyTypeByIdeology(const std::string& ideology) const;
+		[[nodiscard]] const auto& getPartyTypeMap() const { return partyTypeMap; }
 
 	private:
 		void registerKeys();

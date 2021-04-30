@@ -61,6 +61,7 @@ void V2::Country::initParties(const mappers::PartyNameMapper& partyNameMapper, c
 	// We're a new nation so no parties are specified. Grab some.
 	if (parties.empty())
 		loadPartiesFromBlob(partyNameMapper, partyTypeMapper);	// Can load also for mod, only names are used
+	setPartyDates(partyTypeMapper);
 
 	// set a default ruling party
 	for (const auto& party: parties)
@@ -1083,28 +1084,37 @@ void V2::Country::updateDetails()
 	details.bookmarks = modHistory->getBookmarks();
 }
 
-void V2::Country::setPartyDates()
+void V2::Country::setPartyDates(const mappers::PartyTypeMapper& partyTypeMapper)
 {
-	bool conservativeSet = false, liberalSet = false, reactionarySet = false;
+	std::map<std::string, bool> isActivated;
+	std::set<std::string> activeBlobIdeologies;
+
+	for (const auto& [blobIdeology, partyType]: partyTypeMapper.getPartyTypeMap())
+	{
+		if (partyType.getStartDate() < theConfiguration.getLastEU4Date())
+			activeBlobIdeologies.insert(blobIdeology);
+	}
 
 	for (auto& party: details.parties)
 	{
-		if (party.getIdeology() == "conservative" && !conservativeSet)
+		const auto& ideology = party.getIdeology();
+		const auto& blobParty = partyTypeMapper.getPartyTypeByIdeology(ideology);
+		if (!blobParty)
 		{
-			party.setStartDate("1783.9.4");
-			conservativeSet = true;
+			Log(LogLevel::Warning) << party.getName() << " has undefined ideology!";
 			continue;
 		}
-		if (party.getIdeology() == "liberal" && !liberalSet)
+		const auto& startDate = blobParty->getStartDate();
+
+		if (activeBlobIdeologies.count(ideology) && !party.isActiveOn(startDate) && !isActivated[ideology])
 		{
-			party.setStartDate("1836.1.1");
-			liberalSet = true;
-			continue;
+			party.setStartDate(startDate.toString());
 		}
-		if (party.getIdeology() == "reactionary" && !reactionarySet)
+		isActivated[ideology] = true;
+
+		if (!activeBlobIdeologies.count(ideology) && party.isActiveOn(startDate))
 		{
-			party.setStartDate("1790.1.1");
-			reactionarySet = true;
+			party.setStartDate(startDate.toString());
 		}
 	}
 }

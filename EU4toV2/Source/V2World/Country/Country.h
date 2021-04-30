@@ -121,7 +121,7 @@ class Country
 		 const mappers::Technologies& technologies,
 		 const mappers::StartingInventionMapper& inventions);
 	void updateDetails();
-	void setPartyDates();
+	void setPartyDates(const mappers::PartyTypeMapper& partyTypeMapper);
 	bool hasActiveRelation() const;
 	bool hasProperArmy() const;
 	std::vector<int> pickHomeCandidates();

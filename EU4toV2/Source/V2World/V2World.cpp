@@ -2090,13 +2090,9 @@ void V2::World::outputFrFiles() const
 	Log(LogLevel::Info) << "<- Outputting FR Files";
 	const std::string frFolder = "output/FR Files";
 	Utils::TryCreateFolder(frFolder);
-	Utils::TryCreateFolder(frFolder + "/common");
-	Utils::TryCreateFolder(frFolder + "/common/countries");
 	Utils::TryCreateFolder(frFolder + "/history");
-	Utils::TryCreateFolder(frFolder + "/history/countries");
 	Utils::TryCreateFolder(frFolder + "/history/pops");
 	Utils::TryCreateFolder(frFolder + "/history/pops/" + theConfiguration.getLastEU4Date().toString());
-	Utils::TryCreateFolder(frFolder + "/history/units");
 	Utils::TryCreateFolder(frFolder + "/gfx");
 	Utils::TryCreateFolder(frFolder + "/gfx/flags");
 	Utils::TryCreateFolder(frFolder + "/localisation");
