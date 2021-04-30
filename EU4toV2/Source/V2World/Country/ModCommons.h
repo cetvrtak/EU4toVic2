@@ -1,6 +1,7 @@
 #ifndef MOD_COMMONS_H
 #define MOD_COMMONS_H
 
+#include "UnitNames.h"
 #include "../Party/Party.h"
 #include "Color.h"
 #include "Parser.h"
@@ -25,7 +26,7 @@ namespace V2
 		std::string color;
 		std::string graphicalCulture;
 		std::vector<Party> parties;
-		std::string unitNames;
+		std::shared_ptr<UnitNames> unitNames;
 	};
 }
 

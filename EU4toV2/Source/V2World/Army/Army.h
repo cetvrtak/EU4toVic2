@@ -21,8 +21,10 @@ namespace V2
 			bool civilized, 
 			const mappers::RegimentCostsMapper& regimentCostsMapper, 
 			std::map<int, std::shared_ptr<Province>> allProvinces,
+			const std::vector<int> homeProvinces,
 			const mappers::ProvinceMapper& provinceMapper,
 			const mappers::PortProvinces& portProvincesMapper, 
+			std::shared_ptr<UnitNames> unitNames,	
 			std::map<REGIMENTTYPE, int>& unitNameCount,
 			const std::string& localAdjective);
 
@@ -39,8 +41,10 @@ namespace V2
 		AddRegimentToArmyResult addRegimentToArmy(
 			REGIMENTTYPE chosenType,
 			const std::map<int, std::shared_ptr<Province>>& allProvinces,
+			const std::vector<int> homeProvinces,
 			const mappers::ProvinceMapper& provinceMapper,
 			const mappers::PortProvinces& portProvincesMapper,
+			std::shared_ptr<UnitNames> unitNames,
 			std::map<REGIMENTTYPE, int>& unitNameCount,
 			const std::string& localAdjective);
 

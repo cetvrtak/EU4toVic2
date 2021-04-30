@@ -10,8 +10,10 @@ V2::Army::Army(const EU4::EU4Army& eu4Army,
                const bool civilized, 
                const mappers::RegimentCostsMapper& regimentCostsMapper, 
                std::map<int, std::shared_ptr<Province>> allProvinces,
+               const std::vector<int> homeProvinces,
                const mappers::ProvinceMapper& provinceMapper,
                const mappers::PortProvinces& portProvincesMapper, 
+               std::shared_ptr<UnitNames> unitNames,	
 					std::map<REGIMENTTYPE, int>& unitNameCount,
 					const std::string& localAdjective):
 	name(eu4Army.getName()), tag(std::move(_tag))
@@ -48,7 +50,7 @@ V2::Army::Army(const EU4::EU4Army& eu4Army,
 	{
 		for (auto regimentCounter = 0; regimentCounter < buildItem.second; ++regimentCounter)
 		{
-			if (addRegimentToArmy(buildItem.first, allProvinces, provinceMapper, portProvincesMapper, unitNameCount, localAdjective) != AddRegimentToArmyResult::success)
+			if (addRegimentToArmy(buildItem.first, allProvinces, homeProvinces, provinceMapper, portProvincesMapper, unitNames, unitNameCount, localAdjective) != AddRegimentToArmyResult::success)
 			{
 				// couldn't add, dissolve into pool
 				armyRemainders[buildItem.first] += 1;
@@ -108,7 +110,7 @@ V2::Army::Army(const EU4::EU4Army& eu4Army,
 		}
 	}
 
-	const auto selectedLocation = pickRandomProvinceID(locationCandidates);
+	const auto selectedLocation = locationCandidates[0];
 	if (isNavy && usePort && !portProvincesMapper.isProvinceIDWhitelisted(selectedLocation))
 	{
 		LOG(LogLevel::Warning) << "Assigning navy to non-whitelisted port province " << selectedLocation << " - if the save crashes, try blacklisting this province";
@@ -158,8 +160,10 @@ V2::REGIMENTTYPE V2::Army::pickCategory(const EU4::REGIMENTCATEGORY incCategory,
 V2::AddRegimentToArmyResult V2::Army::addRegimentToArmy(
 	const REGIMENTTYPE chosenType,
 	const std::map<int, std::shared_ptr<Province>>& allProvinces,
+	const std::vector<int> homeProvinces,
 	const mappers::ProvinceMapper& provinceMapper,
 	const mappers::PortProvinces& portProvincesMapper,
+	std::shared_ptr<UnitNames> unitNames,
 	std::map<REGIMENTTYPE, int>& unitNameCount,
 	const std::string& localAdjective)
 {
@@ -188,14 +192,15 @@ V2::AddRegimentToArmyResult V2::Army::addRegimentToArmy(
 	{
 		// Navies should only get homes in port provinces
 		homeCandidates = getPortProvinces(homeCandidates, allProvinces, portProvincesMapper);
-		if (!homeCandidates.empty()) homeProvince = pickRandomPortProvince(homeCandidates, allProvinces);
+		if (!homeCandidates.empty() && allProvinces.find(homeCandidates[0]) != allProvinces.end())
+			homeProvince = allProvinces.find(homeCandidates[0])->second;
 		// else: So far nothing. No berth.
 	}
 	else
 	{
 		// Armies should get a home in the candidate most capable of supporting them
 		std::vector<std::shared_ptr<Province>> sortedHomeCandidates;
-		for (auto candidate : homeCandidates)
+		for (auto candidate : homeProvinces)
 		{
 			auto provinceItr = allProvinces.find(candidate);
 			if (provinceItr != allProvinces.end()) sortedHomeCandidates.push_back(provinceItr->second);
@@ -271,6 +276,7 @@ V2::AddRegimentToArmyResult V2::Army::addRegimentToArmy(
 		// Assign a national name ("1st Bavarian Frigate")
 		regiment.setName(getRegimentName(chosenType, unitNameCount, localAdjective));
 	}
+	if (unitNames) regiment.nameShip(unitNames);
 	regiments.push_back(regiment);
 	return AddRegimentToArmyResult::success;
 }

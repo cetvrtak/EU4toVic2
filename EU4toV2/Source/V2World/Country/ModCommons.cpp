@@ -19,8 +19,8 @@ V2::ModCommons::ModCommons(const std::string& filename)
 		parties.push_back(newParty);
 	});
 	registerKeyword("unit_names", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::stringOfItem unitNamesStr(theStream);
-		unitNames = unitNamesStr.getString();
+		const UnitNames newUnitNames(theStream);
+		unitNames = std::make_shared<UnitNames>(newUnitNames);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 

@@ -880,6 +880,17 @@ void V2::Country::convertArmies(const mappers::RegimentCostsMapper& regimentCost
 	if (provinces.empty())
 		return;
 
+	const auto& homeCandidates = pickHomeCandidates();
+	std::shared_ptr<UnitNames> unitNames = nullptr;
+	if (modCommons.getUnitNames())
+	{
+		unitNames = modCommons.getUnitNames();
+	}
+	else if (details.unitNames)
+	{
+		unitNames = details.unitNames;
+	}
+
 	// set up armies with whatever regiments they deserve, rounded down
 	// and keep track of the remainders for later
 	for (auto& eu4Army: srcCountry->getArmies())
@@ -889,8 +900,10 @@ void V2::Country::convertArmies(const mappers::RegimentCostsMapper& regimentCost
 			 details.civilized,
 			 regimentCostsMapper,
 			 allProvinces,
+			 homeCandidates,
 			 provinceMapper,
 			 portProvincesMapper,
+			 unitNames,
 			 unitNameCount,
 			 localisation.getLocalAdjective());
 		if (army.success())
@@ -910,7 +923,7 @@ void V2::Country::convertArmies(const mappers::RegimentCostsMapper& regimentCost
 			if (army == nullptr)
 				break;
 
-			switch (army->addRegimentToArmy(remainder.first, allProvinces, provinceMapper, portProvincesMapper, unitNameCount, localisation.getLocalAdjective()))
+			switch (army->addRegimentToArmy(remainder.first, allProvinces, homeCandidates, provinceMapper, portProvincesMapper, modCommons.getUnitNames(), unitNameCount, localisation.getLocalAdjective()))
 			{
 				case AddRegimentToArmyResult::success:
 					remainder.second -= 1.0;
@@ -1114,4 +1127,15 @@ bool V2::Country::hasProperArmy() const
 			return true;
 	}
 	return false;
+}
+
+std::vector<int> V2::Country::pickHomeCandidates()
+{
+	std::vector<int> homeCandidates;
+	for (const auto& [id, province]: provinces)
+	{
+		if (province->getCores().count(tag))
+			homeCandidates.push_back(id);
+	}
+	return homeCandidates;
 }

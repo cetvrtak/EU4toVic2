@@ -124,6 +124,7 @@ class Country
 	void setPartyDates();
 	bool hasActiveRelation() const;
 	bool hasProperArmy() const;
+	std::vector<int> pickHomeCandidates();
 
 	[[nodiscard]] std::string getColonialRegion() const;
 	[[nodiscard]] virtual std::shared_ptr<EU4::Country> getSourceCountry() const { return srcCountry; }
