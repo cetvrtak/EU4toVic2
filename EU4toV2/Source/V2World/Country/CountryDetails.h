@@ -93,7 +93,6 @@ class CountryDetails: commonItems::parser
 	std::vector<std::pair<std::string, std::string>> newReforms;
 	std::vector<std::pair<std::string, std::string>> uncivReforms;
 	std::set<std::string> govtFlags;
-	std::string upperHouse;
 	std::string foreignInvestment;
 	std::optional<std::string> oob;
 	std::multimap<std::string, std::string> bookmarks;

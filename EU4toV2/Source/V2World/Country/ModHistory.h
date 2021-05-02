@@ -63,14 +63,14 @@ class ModHistory: commonItems::parser
 	std::vector<std::string> technologies;
 	std::vector<std::string> inventions;
 
-	int capital;
+	int capital = 0;
 	std::string primaryCulture;
 	std::set<std::string> acceptedCultures;
 	std::string religion;
 	std::string government;
-	double plurality;
+	double plurality = 0;
 	std::string nationalValue;
-	double literacy;
+	double literacy = 0;
 	double nonStateCultureLiteracy = 0;
 	std::string civilized;
 	std::string releasableVassal;
@@ -79,7 +79,7 @@ class ModHistory: commonItems::parser
 	std::set<std::string> countryFlags;
 	std::set<std::string> govtFlags;
 	std::set<std::string> decisions;
-	std::string rulingParty;
+	std::string rulingParty = "conservative";
 	std::string upperHouse;
 	int consciousness = 0;
 	int nonStateConsciousness = 0;

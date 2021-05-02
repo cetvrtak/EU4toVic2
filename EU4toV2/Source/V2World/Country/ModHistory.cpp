@@ -25,6 +25,8 @@ V2::ModHistory::ModHistory(std::istream& theStream)
 
 void V2::ModHistory::registerKeys()
 {
+	const auto& startDate = theConfiguration.getVic2StartDate();
+
 	registerKeyword("capital", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt capitalStr(theStream);
 		capital = capitalStr.getInt();
@@ -85,9 +87,9 @@ void V2::ModHistory::registerKeys()
 		const commonItems::singleString decisionsStr(theStream);
 		decisions.insert(decisionsStr.getString());
 	});
-	registerKeyword("ruling_party", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString rulingPartyStr(theStream);
-		rulingParty = rulingPartyStr.getString();
+	registerKeyword("ruling_party", [this, startDate](const std::string& unused, std::istream& theStream) {
+		rulingParty = commonItems::singleString(theStream).getString();
+		addToBookmark(startDate, "ruling_party = " + rulingParty);
 	});
 	registerKeyword("upper_house", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::stringOfItem upperHouseStr(theStream);

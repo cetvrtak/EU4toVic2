@@ -53,26 +53,38 @@ V2::Country::Country(std::string _tag,
 
 void V2::Country::initParties(const mappers::PartyNameMapper& partyNameMapper, const mappers::PartyTypeMapper& partyTypeMapper)
 {
+	setPartyDates(partyTypeMapper);
 	// Check mod parties first
 	std::vector<Party> parties = modCommons.getParties();
 	if (parties.empty())
+	{
 		parties = details.parties;
+	}
 
 	// We're a new nation so no parties are specified. Grab some.
 	if (parties.empty())
+	{
 		loadPartiesFromBlob(partyNameMapper, partyTypeMapper);	// Can load also for mod, only names are used
-	setPartyDates(partyTypeMapper);
+		parties = details.parties;
+	}
 
 	// set a default ruling party
 	for (const auto& party: parties)
 	{
 		// We're pinging against this date only to protect against later-game parties.
-		if (party.isActiveOn(date("1836.1.1")))
+		if (party.isActiveOn(date(theConfiguration.getLastEU4Date())))
 		{
 			// This will get overridden if this country is initialized against extant EU4 country.
 			details.rulingParty = party.getName();
 			break;
 		}
+	}
+	// set upper house defaults here, so that they apply to all countries
+	if (!theConfiguration.getVic2ModName().empty())
+	{
+		details.upperHouseReactionary = 0;
+		details.upperHouseConservative = 100;
+		details.upperHouseLiberal = 0;
 	}
 }
 
@@ -379,8 +391,16 @@ void V2::Country::finalizeInvestments(const mappers::IdeaEffectMapper& ideaEffec
 
 void V2::Country::resolvePolitics()
 {
-	details.upperHouseReactionary = static_cast<int>(5 * (1 + details.upperHouses.reactionary * 20 / 100));
-	details.upperHouseLiberal = static_cast<int>(10 * (1 + details.upperHouses.liberal * 20 / 100));
+	if (!theConfiguration.getVic2ModName().empty())
+	{
+		details.upperHouseReactionary = static_cast<int>(15  + details.upperHouses.reactionary * 10);
+		details.upperHouseLiberal = 0;
+	}
+	else
+	{
+		details.upperHouseReactionary = static_cast<int>(5 * (1 + details.upperHouses.reactionary * 20 / 100));
+		details.upperHouseLiberal = static_cast<int>(10 * (1 + details.upperHouses.liberal * 20 / 100));
+	}
 	details.upperHouseConservative = 100 - (details.upperHouseReactionary + details.upperHouseLiberal);
 
 	if (srcCountry->isRevolutionary())
@@ -423,7 +443,7 @@ void V2::Country::resolvePolitics()
 
 	for (const auto& party: parties)
 	{
-		if (party.isActiveOn(date("1836.1.1")) && party.getIdeology() == ideology)
+		if (party.isActiveOn(date(theConfiguration.getLastEU4Date())) && party.getIdeology() == ideology)
 		{
 			details.rulingParty = party.getName();
 			break;
@@ -1068,8 +1088,6 @@ void V2::Country::updateDetails()
 	details.countryFlags = modHistory->getCountryFlags();
 	details.govtFlags = modHistory->getGovtFlags();
 	decisions = modHistory->getDecisions();
-	details.rulingParty = modHistory->getRulingParty();
-	details.upperHouse = modHistory->getUpperHouse();
 	details.techSchool = modHistory->getTechSchool();
 	details.foreignInvestment = modHistory->getForeignInvestment();
 
@@ -1079,7 +1097,7 @@ void V2::Country::updateDetails()
 
 	if (Utils::DoesFileExist(theConfiguration.getVic2Path() + "/history/units/" + tag + "_oob.txt"))
 	{
-		modHistory->addToBookmark("1836.1.1", "oob = \"/1836/" + tag + "_oob.txt\"");
+		modHistory->addToBookmark(theConfiguration.getVic2StartDate(), "oob = \"/1836/" + tag + "_oob.txt\"");
 	}
 	details.bookmarks = modHistory->getBookmarks();
 }

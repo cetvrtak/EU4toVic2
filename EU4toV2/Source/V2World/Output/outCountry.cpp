@@ -111,23 +111,16 @@ std::ostream& V2::operator<<(std::ostream& output, const Country& country)
 
 	output << "\n";
 	output << "ruling_party = " << country.details.rulingParty << "\n";
-	if (!country.details.upperHouse.empty())
-	{
-		output << "upper_house " << country.details.upperHouse << "\n";
-	}
-	else
-	{
-		output << "upper_house = \n";
-		output << "{\n";
-		output << "	fascist = 0\n";
-		output << "	liberal = " << country.details.upperHouseLiberal << "\n";
-		output << "	conservative = " << country.details.upperHouseConservative << "\n";
-		output << "	reactionary = " << country.details.upperHouseReactionary << "\n";
-		output << "	anarcho_liberal = 0\n";
-		output << "	socialist = 0\n";
-		output << "	communist = 0\n";
-		output << "}\n";
-	}
+	output << "upper_house = \n";
+	output << "{\n";
+	output << "	fascist = 0\n";
+	output << "	liberal = " << country.details.upperHouseLiberal << "\n";
+	output << "	conservative = " << country.details.upperHouseConservative << "\n";
+	output << "	reactionary = " << country.details.upperHouseReactionary << "\n";
+	output << "	anarcho_liberal = 0\n";
+	output << "	socialist = 0\n";
+	output << "	communist = 0\n";
+	output << "}\n";
 	output << "\n";
 	output << "\n";
 	if (country.modHistory)
