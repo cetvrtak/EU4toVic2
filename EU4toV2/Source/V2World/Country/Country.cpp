@@ -1073,7 +1073,6 @@ void V2::Country::updateDetails()
 	details.primaryCulture = modHistory->getPrimaryCulture();
 	details.acceptedCultures = modHistory->getAcceptedCultures();
 	details.religion = modHistory->getReligion();
-	details.government = modHistory->getGovernment();
 	details.nationalValue = modHistory->getNationalValue();
 	details.literacy = modHistory->getLiteracy();
 	details.nonStateCultureLiteracy = modHistory->getNonStateCultureLiteracy();

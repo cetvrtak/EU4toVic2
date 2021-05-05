@@ -22,7 +22,7 @@ int main(const int argc, const char * argv[])
 			}
 		}
 		convertEU4ToVic2(versionParser);
-		system("C:/Users/pkd/OneDrive/Desktop/fr_files.bat");
+		system("D:/source/repos/eu4tovic2/EU4toV2/fr_files.bat");
 		return 0;
 	}
 
