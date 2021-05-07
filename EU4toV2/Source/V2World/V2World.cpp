@@ -148,6 +148,8 @@ V2::World::World(const EU4::World& sourceWorld,
 		Log(LogLevel::Progress) << "72 %";
 	}
 
+	verifyHpmTags();
+
 	LOG(LogLevel::Info) << "---> Le Dump <---";
 	output(versionParser);
 
@@ -2056,4 +2058,33 @@ void V2::World::updateCountryDetails()
 			}
 		}
 	}
+}
+
+void V2::World::verifyHpmTags()
+{
+	Log(LogLevel::Info) << "Verifying HPM tags";
+	std::ofstream output("output/hpm_tags.txt");
+	if (!output.is_open())
+		throw std::runtime_error("Could not open output/hpm_tags.txt");
+
+	std::set<std::string> v2Map;
+	for (const auto& [eu4Tag, mapping]: countryMapper.getMappingRules())
+	{
+		v2Map.insert(mapping.getVic2Tag());
+	}
+
+	for (const auto& [hpmTag, loc]: hpmTags.getHpmTagsMap())
+	{
+		if (!v2Map.contains(hpmTag))
+			continue;
+
+		std::string countryName;
+		if (const auto& countryItr = countries.find(hpmTag); countryItr != countries.end())
+		{
+			countryName = countryItr->second->getLocalName();
+		}
+		if (loc != countryName)
+			output << hpmTag << ": " << loc << " (" << countryName << ")\n";
+	}
+	output.close();
 }

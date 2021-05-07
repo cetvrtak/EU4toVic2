@@ -1,0 +1,424 @@
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = TMT loc = "Tuamotu" }
+link = { tag = PNK loc = "Pontianak" }
+link = { tag = ATC loc = "Antillean Confederation" }
+link = { tag = PPG loc = "Papua New Guinea" }
+link = { tag = VTU loc = "Vanuatu" }
+link = { tag = SMO loc = "Samoa" }
+link = { tag = ZBW loc = "Zimbabwe" }
+link = { tag = CMS loc = "Comoros" }
+link = { tag = EQG loc = "Equatorial Guinea" }
+link = { tag = gur loc = "Gur" }
+link = { tag = yao loc = "Yao-Makonde" }
+link = { tag = tiv loc = "Bantoid" }
+link = { tag = HTY loc = "Turkmeneli" }
+link = { tag = MNP loc = "Manipur" }
+link = { tag = BDK loc = "Badakhshan" }
+link = { tag = CNG loc = "The Congo" }
+link = { tag = PGG loc = "Pingnan Guo" }
+link = { tag = TUN loc = "Tunisia" }
+link = { tag = DAI loc = "Vietnam" }
+link = { tag = NMB loc = "Namibia" }
+link = { tag = SLG loc = "Selangor" }
+link = { tag = PRK loc = "Perak" }
+link = { tag = PHG loc = "Pahang" }
+link = { tag = SGM loc = "Sigmaringen" }
+link = { tag = FRO loc = "Faroe Islands" }
+link = { tag = NEH loc = "Neuchatel" }
+link = { tag = HBY loc = "Hobyo" }
+link = { tag = QAT loc = "Qatar" }
+link = { tag = KAR loc = "Karen" }
+link = { tag = BRY loc = "Buryatia" }
+link = { tag = MLD loc = "Maldives" }
+link = { tag = PAK loc = "Pakistan" }
+link = { tag = CRL loc = "Chitral" }
+link = { tag = MSS loc = "Samos" }
+link = { tag = RDL loc = "Ardalan" }
+link = { tag = BTL loc = "Bitlis" }
+link = { tag = BNB loc = "Baban" }
+link = { tag = BDN loc = "Hakkari" }
+link = { tag = MKN loc = "Mukriyan" }
+link = { tag = BHT loc = "Bohtan" }
+link = { tag = SRN loc = "Soran" }
+link = { tag = LBG loc = "Limburg" }
+link = { tag = ABK loc = "Abkhazia" }
+link = { tag = BHP loc = "Bahawalpur" }
+link = { tag = WEI loc = "Saxe-Weimar" }
+link = { tag = PBC loc = "Peru-Bolivia" }
+link = { tag = KOR loc = "Korea" }
+link = { tag = MCK loc = "Manchuria" }
+link = { tag = KML loc = "Kumul Khanate" }
+link = { tag = ATJ loc = "Aceh" }
+link = { tag = JOH loc = "Johor" }
+link = { tag = UCA loc = "The FRCA" }
+link = { tag = LHJ loc = "Lahej" }
+link = { tag = FDL loc = "Fadhli" }
+link = { tag = KTH loc = "Kathiri" }
+link = { tag = MHR loc = "Mahra" }
+link = { tag = SBA loc = "Buenos Aires" }
+link = { tag = ARC loc = "Argentina" }
+link = { tag = CRT loc = "Corrientes" }
+link = { tag = DMW loc = "Adamawa" }
+link = { tag = BRM loc = "Baguirmi" }
+link = { tag = SHK loc = "Shilluk" }
+link = { tag = WRL loc = "Warsangali" }
+link = { tag = PNB loc = "Pernambuco" }
+link = { tag = CHK loc = "Champassak" }
+link = { tag = D01 loc = "$REGION$" }
+link = { tag = D02 loc = "The Confederation of $REGION$" }
+link = { tag = D03 loc = "Commonwealth of $REGION$" }
+link = { tag = D04 loc = "$REGION$" }
+link = { tag = D05 loc = "$REGION$ Free State" }
+link = { tag = D06 loc = "$REGION$" }
+link = { tag = D07 loc = "The Free State of $REGION$" }
+link = { tag = D08 loc = "$REGION$" }
+link = { tag = D09 loc = "$REGION$" }
+link = { tag = D10 loc = "$REGION$" }
+link = { tag = D11 loc = "$REGION$" }
+link = { tag = D12 loc = "The $REGION$ Union" }
+link = { tag = D13 loc = "$REGION$" }
+link = { tag = D14 loc = "The Dominion of $REGION$" }
+link = { tag = D15 loc = "$REGION$" }
+link = { tag = D16 loc = "The $REGION$ Commonwealth" }
+link = { tag = D17 loc = "The $REGION$ Federation" }
+link = { tag = D18 loc = "The United States of $REGION$" }
+link = { tag = D19 loc = "The Union of $REGION$" }
+link = { tag = D20 loc = "$REGION$" }
+link = { tag = D21 loc = "$REGION$" }
+link = { tag = D22 loc = "$REGION$" }
+link = { tag = D23 loc = "$REGION$" }
+link = { tag = D24 loc = "$REGION$" }
+link = { tag = D25 loc = "$REGION$" }
+link = { tag = D26 loc = "The $REGION$ Free State" }
+link = { tag = D27 loc = "The $REGION$ Commonwealth" }
+link = { tag = D28 loc = "The $REGION$ Confederacy" }
+link = { tag = D29 loc = "$REGION$" }
+link = { tag = D30 loc = "$REGION$" }
+link = { tag = D31 loc = "$REGION$" }
+link = { tag = D32 loc = "Union of $REGION$" }
+link = { tag = D33 loc = "$REGION$ Federation" }
+link = { tag = D34 loc = "$REGION$" }
+link = { tag = D35 loc = "The $REGION$ Confederation" }
+link = { tag = D36 loc = "The $REGION$ Federation" }
+link = { tag = D37 loc = "The $REGION$ Union" }
+link = { tag = D38 loc = "$REGION$" }
+link = { tag = D39 loc = "$REGION$" }
+link = { tag = D40 loc = "$REGION$" }
+link = { tag = D41 loc = "$REGION$" }
+link = { tag = D42 loc = "Dominion of $REGION$" }
+link = { tag = D43 loc = "$REGION$" }
+link = { tag = D44 loc = "$REGION$" }
+link = { tag = D45 loc = "$REGION$" }
+link = { tag = D46 loc = "$REGION$" }
+link = { tag = D47 loc = "The $REGION$ Dominion" }
+link = { tag = D48 loc = "$REGION$" }
+link = { tag = D49 loc = "$REGION$" }
+link = { tag = D50 loc = "$REGION$" }
+link = { tag = ABU loc = "United Arab Emirates" }
+link = { tag = ACR loc = "Acre" }
+link = { tag = EZO loc = "Ezo" }
+link = { tag = AKH loc = "Astrakhan" }
+link = { tag = ALS loc = "Elsass" }
+link = { tag = ALT loc = "Altai Republic" }
+link = { tag = ANG loc = "Angola" }
+link = { tag = ANI loc = "Antilles Confederation" }
+link = { tag = ANT loc = "Antigua" }
+link = { tag = AOT loc = "Aotearoa" }
+link = { tag = ARA loc = "Arabia" }
+link = { tag = ARU loc = "Arab Union" }
+link = { tag = ASR loc = "Asir" }
+link = { tag = ASM loc = "Assam" }
+link = { tag = ASY loc = "Assyria" }
+link = { tag = ATR loc = "Asturias" }
+link = { tag = BAH loc = "Bahia" }
+link = { tag = BAN loc = "Banat" }
+link = { tag = BAR loc = "Barbados" }
+link = { tag = BHM loc = "Bahamas" }
+link = { tag = BHR loc = "Bahrain" }
+link = { tag = BIH loc = "Bihar" }
+link = { tag = TMR loc = "Timor" }
+link = { tag = BKV loc = "Bukovina" }
+link = { tag = BLC loc = "Baluchistan" }
+link = { tag = BLZ loc = "Belize" }
+link = { tag = BNG loc = "Bangladesh" }
+link = { tag = BRT loc = "Brittany" }
+link = { tag = BSQ loc = "Basque Country" }
+link = { tag = CAR loc = "Central African Republic" }
+link = { tag = CGO loc = "Congo" }
+link = { tag = CHD loc = "Chad" }
+link = { tag = CHI loc = "China" }
+link = { tag = CHO loc = "Chugoku" }
+link = { tag = CHP loc = "Chiapas" }
+link = { tag = CIR loc = "Circassia" }
+link = { tag = CLC loc = "Cilicia" }
+link = { tag = CMR loc = "Cameroon" }
+link = { tag = CPL loc = "Congress Poland" }
+link = { tag = CRS loc = "Corsica" }
+link = { tag = CSA loc = "The Confederate States of America" }
+link = { tag = CYR loc = "Cyrenaica" }
+link = { tag = CHY loc = "Chechnya" }
+link = { tag = DAG loc = "Dagestan" }
+link = { tag = DAK loc = "Dakota Republic" }
+link = { tag = DJA loc = "Jambi" }
+link = { tag = DLM loc = "Dalmatia" }
+link = { tag = DNB loc = "Danubian Federation" }
+link = { tag = DOI loc = "Dominica" }
+link = { tag = DON loc = "Cossack Republic" }
+link = { tag = DRA loc = "Dravidistan" }
+link = { tag = DUR loc = "Pashtunistan" }
+link = { tag = ENL loc = "England" }
+link = { tag = ENT loc = "Entre Rios" }
+link = { tag = ERT loc = "Eritrea" }
+link = { tag = FIJ loc = "Fiji" }
+link = { tag = FIU loc = "Fiume" }
+link = { tag = FJN loc = "Fujian" }
+link = { tag = FSA loc = "The Free States of America" }
+link = { tag = FSM loc = "Micronesia" }
+link = { tag = GAB loc = "Gabon" }
+link = { tag = GCO loc = "Gran Colombia" }
+link = { tag = GLC loc = "Galicia" }
+link = { tag = GLM loc = "Galicia-Lodomeria" }
+link = { tag = GMB loc = "Gambia" }
+link = { tag = GMJ loc = "Guominjun" }
+link = { tag = GNE loc = "Guinea" }
+link = { tag = GNG loc = "Guangdong" }
+link = { tag = GRA loc = "Grenada" }
+link = { tag = GRN loc = "Greenland" }
+link = { tag = GUY loc = "Guyana" }
+link = { tag = HAL loc = "Ha'il" }
+link = { tag = HDU loc = "Hindustan" }
+link = { tag = HNN loc = "Hunan" }
+link = { tag = HUI loc = "Anhui" }
+link = { tag = IBR loc = "Iberia" }
+link = { tag = INO loc = "Indonesia" }
+link = { tag = IOM loc = "Isle of Man" }
+link = { tag = IVC loc = "Ivory Coast" }
+link = { tag = IZH loc = "Ingria" }
+link = { tag = JAM loc = "Jamaica" }
+link = { tag = JNG loc = "Jersey & Guernsey" }
+link = { tag = JOR loc = "Jordan" }
+link = { tag = KAG loc = "Ishikawa" }
+link = { tag = KAM loc = "Kamchatka" }
+link = { tag = KAZ loc = "Kazakhstan" }
+link = { tag = KCH loc = "Kachin" }
+link = { tag = KDS loc = "Kurdistan" }
+link = { tag = KEL loc = "Kelantan" }
+link = { tag = KDH loc = "Kedah" }
+link = { tag = KER loc = "Cornwall" }
+link = { tag = KIT loc = "Saint Kitts" }
+link = { tag = KLM loc = "Kalimantan" }
+link = { tag = KMK loc = "Kalmykia" }
+link = { tag = KMT loc = "Nationalist China" }
+link = { tag = KNY loc = "Kenya" }
+link = { tag = KRL loc = "Karelia" }
+link = { tag = KRN loc = "Karnatak" }
+link = { tag = KRY loc = "Krasnoyarsk" }
+link = { tag = KWT loc = "Kuwait" }
+link = { tag = KTI loc = "Kutai" }
+link = { tag = KYR loc = "Kyrgyzstan" }
+link = { tag = LAN loc = "Lanfang" }
+link = { tag = LBY loc = "Libya" }
+link = { tag = LBN loc = "Lebanon" }
+link = { tag = LNA loc = "Lan Na" }
+link = { tag = LOR loc = "Lorraine" }
+link = { tag = LOS loc = "Los Altos" }
+link = { tag = LPL loc = "United Provinces" }
+link = { tag = LSK loc = "Alaska" }
+link = { tag = LUI loc = "Saint Lucia" }
+link = { tag = LUZ loc = "Lusatia" }
+link = { tag = LXA loc = "Laos" }
+link = { tag = MAH loc = "Maharashtra" }
+link = { tag = MAL loc = "Maluku" }
+link = { tag = MAR loc = "Marianas" }
+link = { tag = MCD loc = "Macedonia" }
+link = { tag = MDR loc = "Madeiras" }
+link = { tag = MDV loc = "Moldova" }
+link = { tag = MGH loc = "Maghreb" }
+link = { tag = MLI loc = "Mali" }
+link = { tag = MLT loc = "Malta" }
+link = { tag = MLW loc = "Malawi" }
+link = { tag = MLY loc = "Malaysia" }
+link = { tag = MOZ loc = "Mozambique" }
+link = { tag = MRS loc = "Marshall Islands" }
+link = { tag = MRT loc = "Marathas" }
+link = { tag = MRU loc = "Maritime Republic" }
+link = { tag = NGR loc = "Nigeria" }
+link = { tag = NIG loc = "Niger" }
+link = { tag = NOV loc = "Nova Scotia" }
+link = { tag = NQL loc = "North Queensland" }
+link = { tag = NSW loc = "New South Wales" }
+link = { tag = NTA loc = "North Australia" }
+link = { tag = NYE loc = "North Yemen" }
+link = { tag = OAX loc = "Oaxaca" }
+link = { tag = OCC loc = "Occitania" }
+link = { tag = PAP loc = "Papal States" }
+link = { tag = PER loc = "Iran" }
+link = { tag = PLS loc = "Palestine" }
+link = { tag = PLU loc = "Palau" }
+link = { tag = PTN loc = "Pattani" }
+link = { tag = PHL loc = "Philippines" }
+link = { tag = PLC loc = "Polish-Lithuanian Commonwealth" }
+link = { tag = PML loc = "Pomerelia" }
+link = { tag = PNP loc = "Pohnpei" }
+link = { tag = PNJ loc = "Punjab" }
+link = { tag = PNT loc = "Pontus" }
+link = { tag = PRI loc = "Puerto Rico" }
+link = { tag = PTG loc = "Patagonia" }
+link = { tag = PZN loc = "Poznan" }
+link = { tag = QLD loc = "Queensland" }
+link = { tag = QNG loc = "Qing" }
+link = { tag = RAJ loc = "Rajputana" }
+link = { tag = RGR loc = "Rio Grande" }
+link = { tag = RGS loc = "Rio Grande do Sul" }
+link = { tag = RHI loc = "Rhineland" }
+link = { tag = RMG loc = "Romagna" }
+link = { tag = RPL loc = "Assiniboia" }
+link = { tag = RYU loc = "Ryukyu" }
+link = { tag = SAA loc = "Saarland" }
+link = { tag = SAS loc = "South Australia" }
+link = { tag = SAT loc = "Kyushu" }
+link = { tag = SAV loc = "Saint Vincent" }
+link = { tag = SEN loc = "Tohoku" }
+link = { tag = SHA loc = "Shan" }
+link = { tag = SAK loc = "Siak" }
+link = { tag = SIB loc = "Siberian Republic" }
+link = { tag = SLE loc = "Sierra Leone" }
+link = { tag = SLS loc = "Silesia" }
+link = { tag = BRA loc = "Brunswick" }
+link = { tag = SLW loc = "Sulawesi" }
+link = { tag = SMI loc = "Sapmi" }
+link = { tag = SNG loc = "Senegal" }
+link = { tag = SNZ loc = "New Munster" }
+link = { tag = SON loc = "Sonora" }
+link = { tag = SPC loc = "Spain" }
+link = { tag = SPU loc = "South Peru" }
+link = { tag = SRD loc = "Sardinia" }
+link = { tag = SRI loc = "Sri Lanka" }
+link = { tag = BKF loc = "Upper Volta" }
+link = { tag = SUD loc = "Sudan" }
+link = { tag = SUL loc = "Sulu" }
+link = { tag = SVY loc = "Savoy" }
+link = { tag = SWH loc = "Schleswig-Holstein" }
+link = { tag = SWK loc = "Sarawak" }
+link = { tag = SIE loc = "Transylvania" }
+link = { tag = SXI loc = "Shanxi" }
+link = { tag = SYR loc = "Syria" }
+link = { tag = SZC loc = "Sichuan" }
+link = { tag = TAI loc = "Taiwan" }
+link = { tag = TAJ loc = "Tajikistan" }
+link = { tag = TAR loc = "Tatarstan" }
+link = { tag = TAS loc = "Tasmania" }
+link = { tag = TCA loc = "Transcaucasia" }
+link = { tag = TKG loc = "Shogunate Japan" }
+link = { tag = TKM loc = "Turkmenistan" }
+link = { tag = TKS loc = "Turkestan" }
+link = { tag = TGA loc = "Tonga" }
+link = { tag = TNZ loc = "Tanganyika" }
+link = { tag = TNT loc = "Tannu Tuva" }
+link = { tag = TOG loc = "Togo" }
+link = { tag = TOS loc = "Shikoku" }
+link = { tag = TOU loc = "Tukulor Empire" }
+link = { tag = TPG loc = "Heavenly Kingdom" }
+link = { tag = TRK loc = "Truk" }
+link = { tag = TRS loc = "Tarasco" }
+link = { tag = TTB loc = "Trinidad" }
+link = { tag = BYZ loc = "Greek Empire" }
+link = { tag = TUR loc = "Turkey" }
+link = { tag = UIL loc = "The New American Alliance" }
+link = { tag = UNB loc = "The Colorado Republic" }
+link = { tag = UNM loc = "The Pueblo Republic" }
+link = { tag = UOR loc = "The Oregon Country" }
+link = { tag = URA loc = "Ural Republic" }
+link = { tag = USA loc = "The United States of America" }
+link = { tag = UYG loc = "Uyghurstan" }
+link = { tag = UZB loc = "Uzbekistan" }
+link = { tag = VIC loc = "Victoria" }
+link = { tag = WAS loc = "Western Australia" }
+link = { tag = WES loc = "Westfalen" }
+link = { tag = WHA loc = "Wales" }
+link = { tag = YAK loc = "Yakutia" }
+link = { tag = YAP loc = "Yap" }
+link = { tag = YUC loc = "Yucatan" }
+link = { tag = YZW loc = "Yonezawa" }
+link = { tag = ZAM loc = "Zambia" }
+link = { tag = ARO loc = "Aro" }
+link = { tag = ASH loc = "Ashanti" }
+link = { tag = GHN loc = "Ghana" }
+link = { tag = AZA loc = "Azande" }
+link = { tag = BEN loc = "Benin" }
+link = { tag = BRD loc = "Burundi" }
+link = { tag = BSH loc = "Lesotho" }
+link = { tag = BUG loc = "Uganda" }
+link = { tag = CLA loc = "Calabar" }
+link = { tag = DAH loc = "Benin" }
+link = { tag = DAM loc = "Damagaram" }
+link = { tag = DAR loc = "Darfur" }
+link = { tag = DND loc = "Dendi" }
+link = { tag = GBU loc = "Guinea-Bissau" }
+link = { tag = GEL loc = "Geledi" }
+link = { tag = JAL loc = "Futa Jallon" }
+link = { tag = KBO loc = "Bornu" }
+link = { tag = KNG loc = "Wattara" }
+link = { tag = KON loc = "Kongo" }
+link = { tag = KUB loc = "Kuba" }
+link = { tag = KZB loc = "Kazembe" }
+link = { tag = LBA loc = "Luba" }
+link = { tag = LOA loc = "Loango" }
+link = { tag = LUN loc = "Lunda" }
+link = { tag = MAJ loc = "Majeerteen" }
+link = { tag = MAS loc = "Massina" }
+link = { tag = MAT loc = "Matabele" }
+link = { tag = MNG loc = "Mongo" }
+link = { tag = MOS loc = "Mossi" }
+link = { tag = OYO loc = "Oyo" }
+link = { tag = RWA loc = "Rwanda" }
+link = { tag = SEG loc = "Bambara" }
+link = { tag = SHO loc = "Shonaland" }
+link = { tag = SHW loc = "Shewa" }
+link = { tag = SOM loc = "Somaliland" }
+link = { tag = SUA loc = "Suazi" }
+link = { tag = TOO loc = "Futa Tooro" }
+link = { tag = TSW loc = "Bechuanaland" }
+link = { tag = WAD loc = "Wadai" }
+link = { tag = WRI loc = "Warri" }
+link = { tag = WOL loc = "Wolof" }
+link = { tag = XHO loc = "Xhosa" }
+link = { tag = AGC loc = "Angoche" }
+link = { tag = GAZ loc = "Gaza" }
+link = { tag = TRZ loc = "Trarza" }
+link = { tag = AWS loc = "Aussa" }
+link = { tag = GON loc = "Gonder" }
+link = { tag = HAR loc = "Harar" }
+link = { tag = KAF loc = "Kaffa" }
+link = { tag = SID loc = "Sidama" }
+link = { tag = TIG loc = "Tigray" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = AIN loc = "Ainu" }
+link = { tag = BIM loc = "Bima" }
+link = { tag = BMK loc = "Mali" }
+link = { tag = CEQ loc = "Equador Confederation" }
+link = { tag = ISL loc = "Islamic Caliphate" }
+link = { tag = LEO loc = "Leon" }
+link = { tag = SYC loc = "Sicily" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = Key loc = "English" }
+link = { tag = UTI loc = "Territory Exchange" }
+link = { tag = Key loc = "English" }

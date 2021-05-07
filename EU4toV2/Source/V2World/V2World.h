@@ -43,6 +43,7 @@
 #include <list>
 #include <memory>
 #include <set>
+#include "HpmTags/HpmTags.h"
 
 namespace mappers
 {
@@ -133,6 +134,7 @@ class World
 	void updateDeadNations();
 	void copyHpmFiles() const;
 	void updateCountryDetails();
+	void verifyHpmTags();
 	void outputGTFO(std::map<std::string, std::shared_ptr<Country>> countries) const;
 	void outputReturnCores(std::map<std::string, std::shared_ptr<V2::Country>> countries) const;
 
@@ -174,6 +176,7 @@ class World
 	Diplomacy diplomacy;
 	mappers::CountryFlags countryFlags;
 	mappers::UnionTagsMapper unionTagsMapper;
+	HpmTags hpmTags;
 };
 
 std::ostream& operator<<(std::ostream& output, const std::vector<std::pair<std::string, EU4::HistoricalEntry>>& historicalData);

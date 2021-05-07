@@ -586,6 +586,12 @@
     <ClCompile Include="Source\EU4World\Mods\ModNames.cpp">
       <Filter>EU4World\Mods</Filter>
     </ClCompile>
+    <ClCompile Include="Source\V2World\HpmTags\HpmTags.cpp">
+      <Filter>Vic2World\HpmTags</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\V2World\HpmTags\HpmTagsLink.cpp">
+      <Filter>Vic2World\HpmTags</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration.h" />
@@ -1127,6 +1133,12 @@
     <ClInclude Include="Source\EU4World\Mods\ModNames.h">
       <Filter>EU4World\Mods</Filter>
     </ClInclude>
+    <ClInclude Include="Source\V2World\HpmTags\HpmTags.h">
+      <Filter>Vic2World\HpmTags</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\V2World\HpmTags\HpmTagsLink.h">
+      <Filter>Vic2World\HpmTags</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="EU4World">
@@ -1377,6 +1389,9 @@
     </Filter>
     <Filter Include="Mappers\ReligiousGroups">
       <UniqueIdentifier>{26f2aa56-2c79-4c55-9757-7507b1a40e54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vic2World\HpmTags">
+      <UniqueIdentifier>{dbf8bf0a-da00-46ee-96e1-82dd14f5ad49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
