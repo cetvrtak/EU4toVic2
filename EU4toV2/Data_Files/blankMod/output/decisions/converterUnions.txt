@@ -144,15 +144,15 @@ political_decisions = {
 			OR = {
 				AND = {
 					primary_culture = south_italian
-					NOT = { exists = SCY }
+					NOT = { exists = SYC }
 					NOT = { exists = NAP }
 				}
 				AND = {
 					tag = NAP
-					NOT = { exists = SCY }
+					NOT = { exists = SYC }
 				}
 				AND = {
-					tag = SCY
+					tag = SYC
 					NOT = { exists = NAP }
 				}
 			}
@@ -279,6 +279,10 @@ political_decisions = {
 						is_culture_group = central_african
 						is_culture_group = west_african
 					}
+					OR = { # Only for former colonies
+						civilized = yes
+						civilization_progress = 0.4
+					}
 					capital_scope = {
 						OR = {
 							continent = north_america
@@ -311,7 +315,9 @@ political_decisions = {
 						}
 					}
 				}
-				set_country_flag = buro_independence
+				# Ensure the correct colonial culture
+				clr_country_flag = religi
+				primary_culture = dummy
 			}
 			#Native special - avoiding Iroquois forming USA 2c.
 			any_country = {
@@ -568,7 +574,7 @@ political_decisions = {
 				add_accepted_culture = czech
 				add_accepted_culture = slovak
 			}
-			ALL = {
+			ISL = {
 				primary_culture = bedouin
 				add_accepted_culture = union
 				add_accepted_culture = persian
@@ -655,12 +661,9 @@ political_decisions = {
 			1444 = { add_core = BIM }
 			1445 = { add_core = BIM }
 			1446 = { add_core = BIM }
-			#Fiji - grab the uncolonized
-			2454 = { secede_province = THIS }
-			2520 = { secede_province = THIS }
-			# Fiji - give it to the Fijians
-			2454 = { add_core = FIJ secede_province = FIJ change_controller = FIJ }
-			2520 = { add_core = FIJ secede_province = FIJ change_controller = FIJ }
+			# Fiji - give cores to the Fijians
+			2454 = { add_core = FIJ }
+			2520 = { add_core = FIJ }
 			#Jambi
 			1398 = { add_core = DJA }
 			1399 = { add_core = DJA }
@@ -683,11 +686,9 @@ political_decisions = {
 			1485 = { add_core = TAI }
 			2562 = { add_core = TAI }
 			#Tonga
-			2540 = { secede_province = THIS }
-			2540 = { add_core = TGA secede_province = TGA change_controller = TGA }
+			2540 = { add_core = TGA }
 			#Hawaii
-			658 = { secede_province = THIS }
-			658 = { secede_province = HAW change_controller = HAW }
+			658 = { add_core = HAW }
 			CHI_1487 = { add_core = FJN } #Fujian
 			CHI_1499 = { add_core = GNG } #Guangdong
 			CHI_1529 = { add_core = HNN } #Hunan
@@ -709,7 +710,7 @@ political_decisions = {
 			ENG_2513 = { add_core = SNZ } #South Island
 			778 = { add_core = FIU } #Fiume
 			736 = { add_core = TRE } #Trieste
-			381 = { add_core = LIM } #Limburg
+			381 = { add_core = LBG } #Limburg
 			1165 = { add_core = QAT } #Qatar
 			801 = { add_core = TAH } #Tahiti
 			#Name-sakes cores
@@ -750,9 +751,9 @@ political_decisions = {
 			724 = { add_core = GEN } #Genoa
 			754 = { add_core = NAP } #Naples
 			SAR_765 = { add_core = SRD } #Sardinia
-			SIC_763 = { add_core = SCY } #Sicily
+			SIC_763 = { add_core = SYC } #Sicily
 			747 = { add_core = SNA } #Siena
-			854 = { add_core = MLT remove_core = SCY } #Malta
+			854 = { add_core = MLT remove_core = SYC } #Malta
 			354 = { add_core = RIG } #Riga
 			834 = { add_core = ATH } #Athens
 			FRA_420 = { add_core = BRT } #Brittany
@@ -773,7 +774,7 @@ political_decisions = {
 			340 = { add_core = IZH }
 			698 = { add_core = MML } # Memelland
 			2200 = { add_core = MSK } # Miskito
-			608 = { add_core = NCT } # Neuchâtel
+			608 = { add_core = NEH } # Neuchâtel
 			2531 = { add_core = PPG } # Papua New Guinea
 			2529 = { add_core = PPG }
 			2530 = { add_core = PPG }
@@ -1635,15 +1636,18 @@ political_decisions = {
 	}
 	become_slovenia = {
 		potential = {
-			tag = AQU
-			tag = CRT
-			is_culture_group = south_slavic
+			OR = {
+				tag = AQU
+				tag = CTI
+				primary_culture = slovene
+			}
+			NOT = { tag = YUG }
 			NOT = { exists = SLO }
 		}	
 		allow = {
 			war = no
 			prestige = 5
-			is_culture_group = south_slavic
+			primary_culture = slovene
 		}
 		
 		effect = {
@@ -1804,6 +1808,7 @@ political_decisions = {
 		potential = {
 			primary_culture = irish
 			NOT = {
+				exists = CEL
 				exists = IRE
 				tag = ENG
 				tag = ENL
@@ -2582,7 +2587,7 @@ political_decisions = {
 				tag = ARA
 				tag = MUG
 				tag = TIM
-				tag = ALL
+				tag = ISL
 			}
 		}	
 		allow = {
@@ -2629,19 +2634,19 @@ political_decisions = {
 		potential = {
 			primary_culture = kurdish
 			NOT = {
-				exists = KDS
+				exists = SRN
 				tag = PER
 				tag = ARA
 				tag = TUR
 				tag = IRQ
 				tag = SYR
-				tag = ALL
+				tag = ISL
 			}
 		}	
 		allow = {
 			war = no
 			prestige = 5
-			KDS = {
+			SRN = {
 				all_core = {
 					OR = {
 						owned_by = THIS
@@ -2666,10 +2671,10 @@ political_decisions = {
 				annex_to = THIS
 			}
 			any_owned = {
-				add_core = KDS
+				add_core = SRN
 			}			
 			
-			change_tag = KDS
+			change_tag = SRN
 		}
 		ai_will_do = {
 			factor = 1
@@ -3140,7 +3145,7 @@ political_decisions = {
 			NOT = {
 				exists = YEM
 				tag = ARA
-				tag = ALL
+				tag = ISL
 			}
 		}	
 		allow = {
@@ -3410,6 +3415,7 @@ political_decisions = {
 				}
 				add_core = WSF
 			}
+			all_core = { remove_core = THIS }
 			change_tag = WSF
 			any_country = {
 				limit = {
@@ -3438,9 +3444,9 @@ political_decisions = {
 	}
 	oy_vey = {
 		news = yes
-		news_desc_long = "jew_NEWS_LONG"
-		news_desc_medium = "jew_NEWS_MEDIUM"
-		news_desc_short = "jew_NEWS_SHORT"
+		news_desc_long = "jew_NEWS"
+		news_desc_medium = "jew_NEWS"
+		news_desc_short = "jew_NEWS"
 		potential = {
 			is_greater_power = yes
 			is_culture_group = ISR
@@ -3478,6 +3484,95 @@ political_decisions = {
 				annex_to = FROM
 			}
 			set_global_flag = oy_vey
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	form_celtic = {
+		potential = {
+			OR = {
+				primary_culture = irish
+				primary_culture = pictish
+				primary_culture = welsh
+				primary_culture = breton
+			}
+			NOT = {
+				exists = CEL
+				tag = ENG
+				tag = GBR
+				tag = SPQ
+			}
+		}	
+		allow = {
+			war = no
+			prestige = 5
+			IRE = { all_core = { OR = { owned_by = THIS owner = { in_sphere = THIS } } } }
+			HSC = { all_core = { OR = { owned_by = THIS owner = { in_sphere = THIS } } } }
+			WHA = { all_core = { OR = { owned_by = THIS owner = { in_sphere = THIS } } } }
+			BRT = { all_core = { OR = { owned_by = THIS owner = { in_sphere = THIS } } } }
+		}
+		
+		effect = {
+			prestige = 10
+			any_country = {
+				limit = {
+					in_sphere = THIS
+					NOT = {
+						tag = THIS
+					}
+					capital_scope = { continent = europe }
+					OR = {
+						primary_culture = irish
+						primary_culture = pictish
+						primary_culture = welsh
+						primary_culture = breton
+					}
+				}
+				annex_to = THIS
+			}
+			any_owned = { add_core = CEL }
+			IRE = { all_core = { add_core = CEL remove_core = ENG remove_core = GBR } }
+			HSC = { all_core = { add_core = CEL remove_core = SCO remove_core = ENG remove_core = GBR } }
+			WHA = { all_core = { add_core = CEL remove_core = ENG remove_core = GBR } }
+			BRT = { all_core = { add_core = CEL remove_core = FRA } }
+			add_accepted_culture = irish
+			add_accepted_culture = pictish
+			add_accepted_culture = welsh
+			add_accepted_culture = breton
+			
+			change_tag = CEL
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	form_tatar = {
+		potential = {
+			NOT = { exists = TAR }
+			civilized = yes
+			primary_culture = tatar
+			OR = {
+				is_greater_power = yes
+				is_secondary_power = yes
+			}
+			number_of_states = 5
+		}	
+		allow = {
+			war = no
+			OR = {
+				is_greater_power = yes
+				is_secondary_power = yes
+			}
+			has_unclaimed_cores = no
+		}
+		
+		effect = {
+			prestige = 10
+			any_core = {
+				add_core = TAR
+			}
+			change_tag = TAR
 		}
 		ai_will_do = {
 			factor = 1
