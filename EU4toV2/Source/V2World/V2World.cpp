@@ -1893,7 +1893,7 @@ std::string V2::World::clipCountryFileName(const std::string& incoming) const
 
 void V2::World::convertIds()
 {
-	IdConverter idConverter(vanillaWorld.getProvinces(), provinceNameParser.getProvinceNames());
+	IdConverter idConverter(provinceNameParser.getProvinceNames());
 	const auto& provinceMap = idConverter.getProvinceMap();
 	const auto& stateMap = idConverter.getStateMap();
 

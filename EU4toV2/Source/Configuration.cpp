@@ -116,6 +116,7 @@ void Configuration::instantiate(std::istream& theStream, bool (*DoesFolderExist)
 	setOutputName();
 	if (isHpmEnabled())
 	{
+		vanillaVic2Path = Vic2Path;
 		Vic2Path += "/mod/HPM";
 	}
 	Log(LogLevel::Progress) << "3 %";

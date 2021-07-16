@@ -6,13 +6,22 @@
 #include <fstream>
 #include <set>
 
-V2::IdConverter::IdConverter(std::vector<int> vanillaProvinces, std::map<int, std::string> provinceLocalisation):
-	 mod(theConfiguration.getVic2ModName()), vanillaProvs(vanillaProvinces), locProvs(provinceLocalisation),
+V2::IdConverter::IdConverter(const std::map<int, std::string>& provinceLocalisation):
+	 locProvs(provinceLocalisation),
 	 vanillaMapper(mappers::ProvinceMapper("configurables/province_mappings.txt")),
 	 vanillaStateMapper(mappers::StateMapper(theConfiguration.getVanillaVic2Path() + "/map/region.txt")),
-	 provinceMapper(mappers::ProvinceMapper("configurables/" + theConfiguration.getVic2ModName() + "/province_mappings.txt")),
-	 stateMapper(mappers::StateMapper(theConfiguration.getVic2ModPath() + "/" + theConfiguration.getVic2ModName() + "/map/region.txt"))
+	 provinceMapper(mappers::ProvinceMapper("configurables/" + mod + "/province_mappings.txt")),
+	 stateMapper(mappers::StateMapper(theConfiguration.getVic2Path() + "/map/region.txt"))
 {
+	if (theConfiguration.isHpmEnabled())
+	{
+		mod = "HPM";
+	}
+	for (int i = 0; i < 3249; ++i)
+	{
+		Log(LogLevel::Info) << i;
+		vanillaProvs.push_back(i);
+	}
 	vanillaStates = vanillaStateMapper.getStateMap();
 	modStates = stateMapper.getStateMap();
 
@@ -22,7 +31,7 @@ V2::IdConverter::IdConverter(std::vector<int> vanillaProvinces, std::map<int, st
 	drawStateMap();
 	outStateMap("debug/state_map.txt");
 	outProvinceMap("debug/province_map.txt");
-	outStates(theConfiguration.getVic2ModPath() + "/" + mod + "/map/region.txt", "debug/region.txt");
+	outStates(theConfiguration.getVic2Path() + "/map/region.txt", "debug/region.txt");
 }
 
 void V2::IdConverter::drawProvinceMap()
@@ -60,7 +69,7 @@ void V2::IdConverter::drawStateMap()
 	// Namesakes map to each other
 	std::map<std::string, std::string> namesakes;
 	StateNameParser vanillaStatesMapper(theConfiguration.getVanillaVic2Path() + "/localisation");
-	StateNameParser modStatesMapper(theConfiguration.getVic2ModPath() + "/" + theConfiguration.getVic2ModName() + "/localisation");
+	StateNameParser modStatesMapper(theConfiguration.getVic2Path() + "/localisation");
 	const auto& vanillaLoc = vanillaStatesMapper.getStateNames();
 	const auto& modLoc = modStatesMapper.getStateNames();
 	for (const auto& [vanillaID, vanillaName]: vanillaLoc)

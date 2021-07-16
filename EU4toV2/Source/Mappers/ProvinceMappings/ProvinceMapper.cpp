@@ -21,6 +21,17 @@ mappers::ProvinceMapper::ProvinceMapper(): colonialRegionsMapper(std::make_uniqu
 	createMappings(mappings);
 }
 
+mappers::ProvinceMapper::ProvinceMapper(const std::string& file): colonialRegionsMapper(std::make_unique<EU4::ColonialRegions>())
+{
+	LOG(LogLevel::Info) << "Parsing province mappings from file " + file;
+	registerKeys();
+	parseFile(file);
+	clearRegisteredKeywords();
+
+	const auto& mappings = getBestMappingsVersion(theConfiguration.getEU4Version());
+	createMappings(mappings);
+}
+
 mappers::ProvinceMapper::ProvinceMapper(std::istream& mainStream, std::istream& colonialStream, const Configuration& testConfiguration):
 	 colonialRegionsMapper(std::make_unique<EU4::ColonialRegions>(colonialStream))
 {

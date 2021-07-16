@@ -61,6 +61,7 @@ class Configuration: commonItems::parser
 		[[nodiscard]] const auto& getSteamWorkshopPath() const { return SteamWorkshopPath; }
 		[[nodiscard]] const auto& getCK2ExportPath() const { return CK2ExportPath; }
 		[[nodiscard]] const auto& getVic2Path() const { return Vic2Path; }
+		[[nodiscard]] const auto& getVanillaVic2Path() const { return vanillaVic2Path; }
 		[[nodiscard]] const auto& getVic2DocumentsPath() const { return Vic2DocumentsPath; }
 		[[nodiscard]] const auto& getResetProvinces() const { return resetProvinces; }
 		[[nodiscard]] const auto& getEU4Version() const { return version; }
@@ -95,6 +96,7 @@ class Configuration: commonItems::parser
 		ABSORBCOLONIES absorbColonies = ABSORBCOLONIES::AbsorbNone;
 		AFRICARESET africaReset = AFRICARESET::ResetAfrica;
 		HYBRIDMOD hybridMod = HYBRIDMOD::None;
+		std::string vanillaVic2Path;
 		double popShapingFactor = 50.0;
 		bool debug = false;
 		bool randomiseRgos = false;
