@@ -1,4 +1,5 @@
 #include "CultureGroups/Culture.h"
+#include "CultureGroups/CultureGroup.h"
 #include "gtest/gtest.h"
 
 TEST(Mappers_CultureTests, primitivesDefaultToDefaults)
@@ -166,16 +167,19 @@ TEST(Mappers_CultureTests, neocultureSettingManuallySetsRadicalismTo10)
 TEST(Mappers_CultureTests, cultureCanBeTransmogrifiedFromEU4ToV2)
 {
 	std::stringstream input;
-	input << "primary = TAG\n";
-	input << "male_names = { Bob Jon }\n";
-	input << "dynasty_names = { Bobby Johnny }\n";
-	mappers::Culture culture(input);
+	input << "test_culture = {\n";
+	input << "\tprimary = TAG\n";
+	input << "\tmale_names = { Bob Jon }\n";
+	input << "\tdynasty_names = { Bobby Johnny }\n";
+	input << "}\n";
+	mappers::CultureGroup cultureGroup("test_group", input);
+	mappers::Culture culture = *cultureGroup.getCultures().begin()->second;
 
 	ASSERT_EQ(2, culture.getMaleNames().size());
 	ASSERT_EQ(2, culture.getDynastyNames().size());
 	ASSERT_EQ("TAG", culture.getPrimaryTag());
 
-	culture.transmogrify();
+	culture.transmogrify(culture.getColor(), cultureGroup.getCultures().size());
 
 	ASSERT_EQ(2, culture.getFirstNames().size());
 	ASSERT_EQ("Bob", culture.getFirstNames()[0]);
@@ -191,12 +195,15 @@ TEST(Mappers_CultureTests, cultureCanBeTransmogrifiedFromEU4ToV2)
 TEST(Mappers_CultureTests, transmogrifiedCultureCanBeOutput)
 {
 	std::stringstream input;
-	input << "primary = TAG\n";
-	input << "male_names = { Bob Jon }\n";
-	input << "dynasty_names = { Bobby Johnny }\n";
-	mappers::Culture culture(input);
+	input << "test_culture = {\n";
+	input << "\tprimary = TAG\n";
+	input << "\tmale_names = { Bob Jon }\n";
+	input << "\tdynasty_names = { Bobby Johnny }\n";
+	input << "}\n";
+	mappers::CultureGroup cultureGroup("test_group", input);
+	mappers::Culture culture = *cultureGroup.getCultures().begin()->second;
 
-	culture.transmogrify();
+	culture.transmogrify(culture.getColor(), cultureGroup.getCultures().size());
 
 	std::stringstream output;
 	output << "\t\tcolor " << *culture.getColor() << "\n"; // we don't know the color, it's random.

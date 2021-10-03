@@ -49,18 +49,14 @@ void mappers::Culture::registerKeys()
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-void mappers::Culture::transmogrify()
+void mappers::Culture::transmogrify(const std::optional<commonItems::Color>& mainColor, const size_t groupSize)
 {
 	firstNames = maleNames;
 	lastNames = dynastyNames;
 
-	std::random_device theRandomDevice;
-	std::mt19937 theEngine(theRandomDevice());
-	std::uniform_int_distribution<> theDistribution(0, 255);
-
-	const auto r = theDistribution(theEngine);
-	const auto g = theDistribution(theEngine);
-	const auto b = theDistribution(theEngine);
+	int r = groupSize * (mainColor->getRgbComponents()[0]) % 255;
+	int g = groupSize * (mainColor->getRgbComponents()[1]) % 255;
+	int b = groupSize * (mainColor->getRgbComponents()[2]) % 255;
 	color = commonItems::Color(std::array<int, 3>{r, g, b});
 	primaryTag.clear();
 }
