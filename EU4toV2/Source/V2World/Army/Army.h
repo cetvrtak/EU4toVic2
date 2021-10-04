@@ -25,6 +25,7 @@ class Army // also Navy
 		 bool civilized,
 		 const mappers::RegimentCostsMapper& regimentCostsMapper,
 		 std::map<int, std::shared_ptr<Province>> allProvinces,
+		 const std::vector<int> homeProvinces,
 		 const mappers::ProvinceMapper& provinceMapper,
 		 const mappers::PortProvinces& portProvincesMapper,
 		 std::shared_ptr<UnitNames> unitNames,
@@ -42,7 +43,7 @@ class Army // also Navy
 
 	AddRegimentToArmyResult addRegimentToArmy(REGIMENTTYPE chosenType,
 		 const std::map<int, std::shared_ptr<Province>>& allProvinces,
-		 const mappers::ProvinceMapper& provinceMapper,
+		 const std::vector<int> homeProvinces,
 		 const mappers::PortProvinces& portProvincesMapper,
 		 std::shared_ptr<UnitNames> unitNames,
 		 std::map<REGIMENTTYPE, int>& unitNameCount,
@@ -53,15 +54,11 @@ class Army // also Navy
 		 const mappers::PortProvinces& portProvincesMapper);
 
   private:
-	[[nodiscard]] std::optional<int> getProbabilisticHomeProvince(REGIMENTTYPE chosenType) const;
-	void blockHomeProvince(int blocked);
 
 	static REGIMENTTYPE pickCategory(const std::string& incCategory, bool civilized);
-	static std::shared_ptr<Province> pickRandomPortProvince(const std::set<int>& homeCandidates, const std::map<int, std::shared_ptr<Province>>& allProvinces);
 	static bool provinceRegimentCapacityPredicate(std::shared_ptr<Province> prov1, std::shared_ptr<Province> prov2);
 	static std::shared_ptr<Province> getProvinceForExpeditionaryArmy(const std::map<int, std::shared_ptr<Province>>& allProvinces, const std::string& tag);
 	static std::string getRegimentName(REGIMENTTYPE chosenType, std::map<REGIMENTTYPE, int>& unitNameCount, const std::string& localAdjective);
-	static int pickRandomProvinceID(std::set<int> homeCandidates);
 
 	std::string name;
 	int location = 0;

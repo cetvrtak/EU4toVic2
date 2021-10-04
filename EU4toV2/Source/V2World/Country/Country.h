@@ -123,6 +123,7 @@ class Country
 		if (provinces.contains(provinceID))
 			provinces.erase(provinceID);
 	}
+	std::vector<int> pickHomeCandidates();
 
 	[[nodiscard]] std::string getColonialRegion() const;
 	[[nodiscard]] virtual std::shared_ptr<EU4::Country> getSourceCountry() const { return srcCountry; }

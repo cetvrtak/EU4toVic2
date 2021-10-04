@@ -897,6 +897,7 @@ void V2::Country::convertArmies(const mappers::RegimentCostsMapper& regimentCost
 	if (provinces.empty())
 		return;
 
+	const auto& homeCandidates = pickHomeCandidates();
 	std::shared_ptr<UnitNames> unitNames = nullptr;
 	if (modCommons.getUnitNames())
 	{
@@ -916,6 +917,7 @@ void V2::Country::convertArmies(const mappers::RegimentCostsMapper& regimentCost
 			 details.civilized,
 			 regimentCostsMapper,
 			 allProvinces,
+			 homeCandidates,
 			 provinceMapper,
 			 portProvincesMapper,
 			 unitNames,
@@ -940,7 +942,7 @@ void V2::Country::convertArmies(const mappers::RegimentCostsMapper& regimentCost
 
 			switch (army->addRegimentToArmy(remainder.first,
 				 allProvinces,
-				 provinceMapper,
+				 homeCandidates,
 				 portProvincesMapper,
 				 unitNames,
 				 unitNameCount,
@@ -1112,3 +1114,15 @@ bool V2::Country::isCountryOutsideVNScope(const mappers::ProvinceMapper& provinc
 		Log(LogLevel::Debug) << "PIC returning " << outside;
 	return outside;
 }
+
+std::vector<int> V2::Country::pickHomeCandidates()
+{
+	std::vector<int> homeCandidates;
+	for (const auto& [id, province]: provinces)
+	{
+		if (province->getCores().count(tag))
+			homeCandidates.push_back(id);
+	}
+	return homeCandidates;
+}
+
