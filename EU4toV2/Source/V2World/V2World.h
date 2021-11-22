@@ -142,6 +142,8 @@ class World
 	void outputGTFO(std::map<std::string, std::shared_ptr<Country>> countries) const;
 	void outputReturnCores(std::map<std::string, std::shared_ptr<V2::Country>> countries) const;
 	void localizeProvinces();
+	void verifyEventIds();
+	void outputEventsList() const;
 	void processShatteredHre(const std::optional<std::string>& eu4HreTag);
 	std::string customizeFile(const std::string& filePath, const std::regex& oldRegex, const std::string& newString);
 	void outputDynamicContent() const;
@@ -187,6 +189,8 @@ class World
 	mappers::UnionTagsMapper unionTagsMapper;
 	mappers::ProvinceRenamings provinceRenamingsMapper;
 	mappers::VNColonialMapper vnColonialMapper;
+
+	std::multimap<int, std::string> eventsList;
 };
 
 std::ostream& operator<<(std::ostream& output, const std::vector<std::pair<std::string, EU4::HistoricalEntry>>& historicalData);

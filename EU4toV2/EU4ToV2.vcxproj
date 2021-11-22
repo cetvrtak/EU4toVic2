@@ -468,6 +468,8 @@ call save_commit_id.bat
     <ClCompile Include="Source\V2World\Diplomacy\Agreement.cpp" />
     <ClCompile Include="Source\V2World\Diplomacy\Diplomacy.cpp" />
     <ClCompile Include="Source\V2World\Diplomacy\Relation.cpp" />
+    <ClCompile Include="Source\V2World\Events\Event.cpp" />
+    <ClCompile Include="Source\V2World\Events\Events.cpp" />
     <ClCompile Include="Source\V2World\Flags\Flags.cpp" />
     <ClCompile Include="Source\V2World\Flags\FlagUtils.cpp" />
     <ClCompile Include="Source\V2World\Leader\Leader.cpp" />
@@ -672,6 +674,8 @@ call save_commit_id.bat
     <ClInclude Include="Source\V2World\Diplomacy\Agreement.h" />
     <ClInclude Include="Source\V2World\Diplomacy\Diplomacy.h" />
     <ClInclude Include="Source\V2World\Diplomacy\Relation.h" />
+    <ClInclude Include="Source\V2World\Events\Event.h" />
+    <ClInclude Include="Source\V2World\Events\Events.h" />
     <ClInclude Include="Source\V2World\Factory\Factory.h" />
     <ClInclude Include="Source\V2World\Flags\Flags.h" />
     <ClInclude Include="Source\V2World\Flags\FlagUtils.h" />

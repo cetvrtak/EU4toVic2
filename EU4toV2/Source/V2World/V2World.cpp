@@ -6,6 +6,7 @@
 #include "CommonFunctions.h"
 #include "Configuration.h"
 #include "CultureGroups/CultureGroup.h"
+#include "Events/Events.h"
 #include "Flags/Flags.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
@@ -157,6 +158,13 @@ V2::World::World(const EU4::World& sourceWorld,
 	Log(LogLevel::Info) << "-> Localizing Provinces";
 	localizeProvinces();
 	Log(LogLevel::Progress) << "73 %";
+
+	if (theConfiguration.getDebug())
+	{
+		Log(LogLevel::Debug) << "Verifying event IDs";
+		verifyEventIds();
+		Log(LogLevel::Debug) << "Event IDs verification finished";
+	}
 
 	Log(LogLevel::Info) << "---> Le Dump <---";
 	output(converterVersion);
@@ -1768,6 +1776,11 @@ void V2::World::output(const commonItems::ConverterVersion& converterVersion) co
 		Log(LogLevel::Notice) << "HPM Hybrid created. Do NOT enable HPM in Vic2 launcher, just this mod.";
 	}
 
+	if (theConfiguration.getDebug())
+	{
+		outputEventsList();
+	}
+
 	// verify countries got written
 	Log(LogLevel::Info) << "-> Verifying All Countries Written";
 	verifyCountriesWritten();
@@ -2346,5 +2359,74 @@ void V2::World::outputDynamicContent() const
 		if (!out.is_open())
 			Log(LogLevel::Debug) << "Could not open " + file + " for writing!";
 		out << localisation;
+	}
+}
+
+void V2::World::verifyEventIds()
+{
+	Events vic2Events(theConfiguration.getVic2Path() + "/events");
+	const auto& vic2Ids = vic2Events.getEventIds();
+	Events converterEvents("blankMod/output/events");
+	const auto& converterIds = converterEvents.getEventIds();
+	Events hybridizationEvents("configurables/HPM/events");
+	const auto& hybridizationIds = hybridizationEvents.getEventIds();
+
+	Log(LogLevel::Debug) << "\tVerifying blankMod/output/events";
+	for (const auto& [id, file]: converterIds)
+	{
+		eventsList.insert(std::make_pair(id, "[blankMod]," + file));
+		if (const auto& hpmConfigurables = commonItems::GetAllFilesInFolder("configurables/HPM/events");
+			theConfiguration.isHpmEnabled() && hpmConfigurables.contains(file))
+		{
+			continue;
+		}
+		if (vic2Ids.contains(id) && vic2Ids.at(id) != file)
+		{
+			Log(LogLevel::Debug) << " -> Conflicting ID:\t" << id << " in " << file;
+		}
+	}
+	Log(LogLevel::Debug) << "\tVerifying configurables/HPM/events";
+	for (const auto& [id, file]: hybridizationIds)
+	{
+		eventsList.insert(std::make_pair(id, "[configurables/HPM]," + file));
+		if (vic2Ids.contains(id) && vic2Ids.at(id) != file)
+		{
+			Log(LogLevel::Debug) << " -> Conflicting ID:\t" << id << " in " << file;
+		}
+	}
+
+	if (theConfiguration.isHpmEnabled())
+	{
+		Events vanillaEvents(theConfiguration.getVanillaVic2Path() + "/events");
+		for (const auto& [id, file]: vanillaEvents.getEventIds())
+		{
+			eventsList.insert(std::make_pair(id, "[Vanilla]," + file));
+		}
+	}
+	for (const auto& [id, file]: vic2Ids)
+	{
+		std::string path;
+		if (theConfiguration.isHpmEnabled())
+		{
+			path = "[HPM]";
+		}
+		else
+		{
+			path = "[Vanilla]";
+		}
+		eventsList.insert(std::make_pair(id, path + "," + file));
+	}
+}
+
+void V2::World::outputEventsList() const
+{
+	std::ofstream output("output/" + theConfiguration.getOutputName() + "/events_list.csv");
+	if (!output.is_open())
+		Log(LogLevel::Debug) << "Could not open events_list.csv for writing!";
+
+	output << "Event ID,Location,File\n";
+	for (const auto& [id, file]: eventsList)
+	{
+		output << id << "," << file << "\n";
 	}
 }
