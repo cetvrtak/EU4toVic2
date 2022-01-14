@@ -111,3 +111,50 @@ country_event = {
 		}
 	}
 }
+
+# Member leaving HRE
+country_event = {
+	id = 250005
+	title = EVTNAME250005
+	desc = EVTDESC250005
+    news = yes
+    news_desc_long = "EVTDESC250005_NEWS_LONG"
+    news_desc_medium = "EVTDESC250005_NEWS_MEDIUM"
+    news_desc_short = "EVTDESC250005_NEWS_SHORT"
+
+	trigger = {
+		has_country_flag = member_hre
+		has_country_flag = had_liberal_revolution
+		NOT = {
+			government = absolute_monarchy
+			government = prussian_constitutionalism
+			government = hms_government
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1
+	}
+
+	option = {
+		name = EVTOPTA250005
+		clr_country_flag = member_hre
+		random_country = {
+			limit = { has_country_flag = emperor_hre }
+			country_event = 250006	# Notify the Emperor
+		}
+	}
+}
+
+# Notify the Emperor
+country_event = {
+	id = 250006
+	title = EVTNAME250006
+	desc = EVTDESC250006
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA250006
+	}
+}
