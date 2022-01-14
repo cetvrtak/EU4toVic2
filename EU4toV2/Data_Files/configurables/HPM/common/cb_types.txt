@@ -690,34 +690,14 @@ imperial_ban = {
                 war_policy = pro_military
                 war_with = THIS
             }
-            tag = AUS
+            has_country_flag = emperor_hre
             OR = {
                 is_greater_power = yes
                 is_secondary_power = yes
             }
         }
-        is_vassal = no
-        neighbour = THIS
-        any_owned_province = {
-            OR = {
-                is_core = VEN
-                is_core = SLO
-                is_core = SLV
-                is_core = BOH
-                is_core = HUN
-                is_core = GLM
-                region = AUS_771
-                region = AUS_780
-                region = AUS_777
-                region = AUS_654
-                region = AUS_652
-                region = AUS_657
-            }
-        }
-        OR = {
-            NOT = { tag = ITA }
-            THIS = { NOT = { has_country_flag = accepts_italy } }
-        }
+        capital_scope = { is_core = HLR }
+        NOT = { has_country_flag = member_hre }
         NOT = { has_country_modifier = neutrality_modifier }
         #NOT = { in_sphere = THIS }
         OR = {
@@ -734,27 +714,14 @@ imperial_ban = {
     }
 
     allowed_states = {
-        any_owned_province = {
-            OR = {
-                is_core = VEN
-                is_core = SLO
-                is_core = SLV
-                is_core = BOH
-                is_core = HUN
-                region = AUS_702
-                region = AUS_771
-                region = AUS_780
-                region = AUS_777
-                region = AUS_654
-                region = AUS_652
-                region = AUS_657
-            }
-        }
+        any_owned_province = { is_core = THIS }
     }
 
+    po_add_to_sphere = yes
+    po_make_puppet = yes
     po_demand_state = yes
 
-    war_name = WAR_AUSTRIAN_EMPIRE_NAME
+    war_name = IMPERIAL_BAN_NAME
 
     on_add = {
         move_issue_percentage = {
@@ -765,13 +732,8 @@ imperial_ban = {
     }
 
     on_po_accepted = {
-        random_owned = {
-            limit = {
-                is_core = KRA
-                is_core = GLM
-            }
-            remove_core = KRA
-        }
+        country_event = 60040
+        set_country_flag = member_hre
     }
 
 }
