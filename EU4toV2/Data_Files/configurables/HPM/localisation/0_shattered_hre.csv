@@ -21,3 +21,9 @@ EVTDESC250005_NEWS_SHORT;The old duke of $COUNTRY$ has been exiled from his doma
 EVTNAME250006;$FROMCOUNTRY$ left the Holy Roman Empire;;;;;;;;;;;;;X
 EVTDESC250006;The old duke of $FROMCOUNTRY$ has been exiled from his domain by the revolutionaries. It is our obligation to recover his land and put $FROMCOUNTRY$ back under the wing of the Holy Roman Empire.;;;;;;;;;;;;;X
 EVTOPTA250006;Sure;;;;;;;;;;;;;X
+NORMAL_IMPERIAL_BAN_NAME;$ORDER$$FIRST$-$SECOND$ War of Imperial Restoration;;;;;;;;;;;;;
+AGRESSION_IMPERIAL_BAN_NAME;$ORDER$$FIRST$-$SECOND$ War of Imperial Restoration;;;;;;;;;;;;;
+imperial_ban;Imperial Ban;;;;;;;;;;;;;
+imperial_ban_desc;Reinstate the Imperial Prince overthrown by the liberal revolutionaries;;;;;;;;;;;;;
+imperial_ban_short;Reinstate the Imperial Prince;;;;;;;;;;;;
+imperial_ban_setup;Reinstate the Imperial Prince in $RECIPIENT$;;;;;;;;;;;;;
