@@ -32,7 +32,6 @@ political_decisions = {
 			OR = {
 				government = absolute_monarchy
 				government = prussian_constitutionalism
-				government = hms_government
 			}
 			OR = {
 				AND = {
