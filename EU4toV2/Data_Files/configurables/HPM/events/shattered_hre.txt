@@ -124,7 +124,17 @@ country_event = {
 
 	trigger = {
 		has_country_flag = member_hre
-		has_country_flag = had_liberal_revolution
+		OR = {
+			has_country_flag = had_liberal_revolution
+
+			# After socialism is enabled, liberal revolutions cannot fire anymore
+			# Use upper house composition reform as an indicator of country liberalism
+			AND = {
+				is_ideology_enabled = socialist
+				NOT = { upper_house_composition = party_appointed }
+				NOT = { upper_house_composition = appointed }
+			}
+		}
 		NOT = {
 			government = absolute_monarchy
 			government = prussian_constitutionalism
@@ -239,6 +249,15 @@ country_event = {
 		name = EVTOPTA250008
 		set_country_flag = member_hre
 		political_reform = wealth_weighted_voting
+		random_owned = {
+			limit = {
+				owner = {
+					NOT = { upper_house_composition = party_appointed }
+					NOT = { upper_house_composition = appointed }
+				}
+			}
+			owner = { political_reform = appointed }
+		}
 		relation = { who = FROM value = 100 }
 	}
 }
