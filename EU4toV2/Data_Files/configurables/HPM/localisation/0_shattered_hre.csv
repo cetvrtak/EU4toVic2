@@ -27,3 +27,7 @@ imperial_ban;Imperial Ban;;;;;;;;;;;;;
 imperial_ban_desc;Reinstate the Imperial Prince overthrown by the liberal revolutionaries;;;;;;;;;;;;;
 imperial_ban_short;Reinstate the Imperial Prince;;;;;;;;;;;;
 imperial_ban_setup;Reinstate the Imperial Prince in $RECIPIENT$;;;;;;;;;;;;;
+emperor_hre;Holy Roman Emperor;;;;;;;;;;;;;
+member_hre;Member of HRE;;;;;;;;;;;;;
+same_faith_as_emperor;Same faith as HRE Emperor;;;;;;;;;;;;;
+diff_faith_than_emperor;Different faith than HRE Emperor;;;;;;;;;;;;;
