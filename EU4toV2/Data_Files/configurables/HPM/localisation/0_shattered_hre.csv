@@ -15,18 +15,29 @@ EVTOPTB250003;We cast aside this ancient notion! We have our own glory.;Nous rej
 EVTNAME250005;Leave the Holy Roman Empire;Quitter le Saint Empire Romain;Verlassen Sie das Heilige Römische Reich;Opuść Święte Cesarstwo Rzymskie;Abandonar el Sacro Imperio Romano Germánico;Lascia il Sacro Romano Impero;Hagyja el a Szent Római Birodalmat;Opusťte Svatou říši římskou;Hagyja el a Szent Római Birodalmat;Verlaat het Heilige Roomse Rijk;Sair do Sacro Império Romano;Ïîêèíüòå Ñâÿùåííóþ Ðèìñêóþ èìïåðèþ;Jätä Pyhä Rooman valtakunta;x
 EVTDESC250005;With the old duke of $COUNTRY$ now in exile, we have effectively lost the protection of the Holy Roman Emperor.;Avec l'ancien duc de $COUNTRY$ maintenant en exil, nous avons effectivement perdu la protection de l'empereur romain.;Da der alte Herzog von $COUNTRY$ jetzt im Exil ist, haben wir praktisch den Schutz des Heiligen Römischen Kaisers verloren.;Gdy stary książę $COUNTRY$ znajduje się na wygnaniu, skutecznie straciliśmy ochronę cesarza Świętego Rzymu.;Con el antiguo duque de $COUNTRY$ ahora en el exilio, hemos perdido efectivamente la protección del Emperador del Sacro Imperio Romano.;Con il vecchio duca di $COUNTRY$ ora in esilio, abbiamo effettivamente perso la protezione del Sacro Romano Imperatore.;Mivel $COUNTRY$ régi hercege most száműzetésben van, gyakorlatilag elvesztettük a Szent Római Császár védelmét.;Se starým vévodou $COUNTRY$, který je nyní v exilu, jsme účinně ztratili ochranu císaře Svaté říše římské.;Mivel $COUNTRY$ régi hercege most száműzetésben van, gyakorlatilag elvesztettük a Szent Római Császár védelmét.;Met de oude hertog van $COUNTRY$ nu in ballingschap, hebben we in feite de bescherming van de Heilige Roomse keizer verloren.;Com o velho duque de $COUNTRY$ agora no exílio, perdemos efetivamente a proteção do Sacro Imperador Romano.;Òåïåðü, êîãäà ñòàðûé ãåðöîã $COUNTRY$ íàõîäèòñÿ â èçãíàíèè, ìû ôàêòè÷åñêè ïîòåðÿëè çàùèòó èìïåðàòîðà Ñâÿùåííîé Ðèìñêîé èìïåðèè.;Kun $COUNTRY$:n vanha herttua on nyt maanpaossa, olemme käytännössä menettäneet Pyhän Rooman keisarin suojan.;x
 EVTOPTA250005;We stand alone;Nous sommes seuls;Wir stehen allein;Stoimy sami;Nosotros estamos solos;Siamo soli;Egyedül állunk;Stojíme sami;Egyedül állunk;We staan alleen;Nós estamos sozinhos;Ìû îäèíîêè;Seisomme yksin;x
+EVTNAME250005_NEWS_TITLE;$COUNTRY$ leaves HRE;;;;;;;;;;;;;X
 EVTDESC250005_NEWS_LONG;The old duke of $COUNTRY$ has been exiled from his domain by the revolutionaries. There are already reports about the Emperor mobilizing to recover his land and put it back under the wing of the Holy Roman Empire.;;;;;;;;;;;;;X
 EVTDESC250005_NEWS_MEDIUM;The old duke of $COUNTRY$ has been exiled from his domain by the revolutionaries. There are already reports about the Emperor mobilizing to recover his land and put it back under the wing of the Holy Roman Empire.;;;;;;;;;;;;;X
 EVTDESC250005_NEWS_SHORT;The old duke of $COUNTRY$ has been exiled from his domain by the revolutionaries. The Holy Roman Emperor is not pleased with this.;;;;;;;;;;;;;X
 EVTNAME250006;$FROMCOUNTRY$ left the Holy Roman Empire;;;;;;;;;;;;;X
 EVTDESC250006;The old duke of $FROMCOUNTRY$ has been exiled from his domain by the revolutionaries. It is our obligation to recover his land and put $FROMCOUNTRY$ back under the wing of the Holy Roman Empire.;;;;;;;;;;;;;X
 EVTOPTA250006;Sure;;;;;;;;;;;;;X
+EVTNAME250007;$FROMCOUNTRY$ left the Holy Roman Empire;;;;;;;;;;;;;X
+EVTDESC250007;The old duke of $FROMCOUNTRY$ has been exiled from his domain by the revolutionaries. Hopefully, the Emperor will soon recover his land and put $FROMCOUNTRY$ back under the wing of the Holy Roman Empire.;;;;;;;;;;;;;X
+EVTOPTA250007;We'll see;;;;;;;;;;;;;X
+EVTNAME250008;Return to the Holy Roman Empire;;;;;;;;;;;;;X
+EVTDESC250008;The old duke of $COUNTRY$ has returned after being exiled from his domain by the revolutionaries. The Emperor has managed to recover his land and put $COUNTRY$ back under the wing of the Holy Roman Empire.;;;;;;;;;;;;;X
+EVTOPTA250008;Excellent;;;;;;;;;;;;;X
+EVTNAME250008_NEWS_TITLE;$COUNTRY$ rejoins HRE;;;;;;;;;;;;;X
+EVTDESC250008_NEWS_LONG;The old duke of $COUNTRY$ has returned after being exiled from his domain by the revolutionaries. The Emperor has managed to recover his land and put $COUNTRY$ back under the wing of the Holy Roman Empire.;;;;;;;;;;;;;X
+EVTDESC250008_NEWS_MEDIUM;The old duke of $COUNTRY$ has returned after being exiled from his domain by the revolutionaries. The Emperor has managed to recover his land and put $COUNTRY$ back under the wing of the Holy Roman Empire.;;;;;;;;;;;;;X
+EVTDESC250008_NEWS_SHORT;The old duke of $COUNTRY$ has been reinstated as an Imperial Prince of the Holy Roman Empire.;;;;;;;;;;;;;X
 NORMAL_IMPERIAL_BAN_NAME;$ORDER$$FIRST$-$SECOND$ War of Imperial Restoration;;;;;;;;;;;;;
 AGRESSION_IMPERIAL_BAN_NAME;$ORDER$$FIRST$-$SECOND$ War of Imperial Restoration;;;;;;;;;;;;;
 imperial_ban;Imperial Ban;;;;;;;;;;;;;
-imperial_ban_desc;Reinstate the Imperial Prince overthrown by the liberal revolutionaries;;;;;;;;;;;;;
+imperial_ban_desc;Reinstate the overthrown Imperial Prince as our vassal;;;;;;;;;;;;;
 imperial_ban_short;Reinstate the Imperial Prince;;;;;;;;;;;;
-imperial_ban_setup;Reinstate the Imperial Prince in $RECIPIENT$;;;;;;;;;;;;;
+imperial_ban_setup;Reinstate the Imperial Prince in $RECIPIENT$ as our vassal;;;;;;;;;;;;;
 emperor_hre;Holy Roman Emperor;;;;;;;;;;;;;
 member_hre;Member of HRE;;;;;;;;;;;;;
 same_faith_as_emperor;Same faith as HRE Emperor;;;;;;;;;;;;;
