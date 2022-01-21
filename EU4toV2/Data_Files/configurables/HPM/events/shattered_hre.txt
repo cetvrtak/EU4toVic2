@@ -122,32 +122,7 @@ country_event = {
 	news_desc_medium = "EVTDESC250005_NEWS_MEDIUM"
 	news_desc_short = "EVTDESC250005_NEWS_SHORT"
 
-	trigger = {
-		has_country_flag = member_hre
-		OR = {
-			has_country_flag = had_liberal_revolution
-
-			# After socialism is enabled, liberal revolutions cannot fire anymore
-			# Use upper house composition reform as an indicator of country liberalism
-			AND = {
-				is_ideology_enabled = socialist
-				NOT = { upper_house_composition = party_appointed }
-				NOT = { upper_house_composition = appointed }
-			}
-		}
-		NOT = {
-			government = absolute_monarchy
-			government = prussian_constitutionalism
-		}
-		OR = {
-			vote_franschise = universal_weighted_voting
-			vote_franschise = universal_voting
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 1
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = EVTOPTA250005
@@ -160,14 +135,6 @@ country_event = {
 			limit = {
 				exists = yes
 				has_country_flag = member_hre
-				OR = {
-					government = absolute_monarchy
-					government = prussian_constitutionalism
-				}
-				NOT = {
-					vote_franschise = universal_weighted_voting
-					vote_franschise = universal_voting
-				}
 			}
 			country_event = 250007	# Notify members
 		}
@@ -185,6 +152,10 @@ country_event = {
 	option = {
 		name = EVTOPTA250006
 		relation = { who = FROM value = -100 }
+		random_owned = {
+			limit = { owner = { is_our_vassal = FROM } }
+			owner = { release_vassal = FROM }
+		}
 		random_owned = {
 			limit = { owner = { alliance_with = FROM } }
 			owner = { leave_alliance = FROM }

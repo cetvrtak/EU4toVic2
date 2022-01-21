@@ -597,6 +597,10 @@ fascist_rebels = {
         prestige_factor = -0.25
         plurality = -25
         country_event = 800051
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -884,6 +888,10 @@ communist_rebels = {
         prestige_factor = -0.25
         plurality = -25
         country_event = 800052
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -1197,6 +1205,10 @@ anarcho_liberal_rebels = {
         prestige_factor = -0.25
         plurality = -25
         country_event = 800053
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -1896,6 +1908,10 @@ pan_nationalist_rebels = {
             }
             owner = { country_event = 96200 }
         }
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -2410,6 +2426,10 @@ christino_rebels = {
         prestige_factor = -0.25
         plurality = -25
         country_event = 37716
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -2919,6 +2939,10 @@ red_shirts = {
             }
             country_event = 11103
         }
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -3186,6 +3210,10 @@ indian_sepoys = {
 
     demands_enforced_effect = {
         country_event = 800147
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -3405,6 +3433,10 @@ indian_nationalists = {
                 owner = { is_culture_group = south_asian }
             }
             owner = { country_event = 96216 }
+        }
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
         }
     }
 }
@@ -3881,6 +3913,10 @@ liberal_rebels = {
         random_owned = {
             limit = { owner = { tag = URU } }
             owner = { set_country_flag = colorado_rule clr_country_flag = blanco_rule }
+        }
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
         }
     }
 }
@@ -4869,6 +4905,10 @@ socialist_rebels = {
         prestige_factor = -0.3
         plurality = -10
         country_event = 810056
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -5284,6 +5324,10 @@ turkish_nationalist_rebels = {
         }
         prestige_factor = -0.25
         country_event = 800054
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -5473,6 +5517,10 @@ native_rebels = {
         }
         prestige_factor = -0.2
         country_event = 810057
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -5894,6 +5942,10 @@ slave_revolt = {
         prestige_factor = -1
         war_exhaustion = 50
         add_country_modifier = { name = national_confusion duration = 1095 }
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
 
@@ -6123,5 +6175,9 @@ partisan_rebels = {
     }
 
     demands_enforced_effect = {
+        random_owned = {
+            limit = { owner = { has_country_flag = hre_member } }
+            country_event = 250005
+        }
     }
 }
