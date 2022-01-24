@@ -599,7 +599,7 @@ fascist_rebels = {
         country_event = 800051
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -890,7 +890,7 @@ communist_rebels = {
         country_event = 800052
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -1207,7 +1207,7 @@ anarcho_liberal_rebels = {
         country_event = 800053
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -1910,7 +1910,7 @@ pan_nationalist_rebels = {
         }
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -2428,7 +2428,7 @@ christino_rebels = {
         country_event = 37716
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -2941,7 +2941,7 @@ red_shirts = {
         }
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -3212,7 +3212,7 @@ indian_sepoys = {
         country_event = 800147
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -3436,7 +3436,7 @@ indian_nationalists = {
         }
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -3916,7 +3916,7 @@ liberal_rebels = {
         }
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -4907,7 +4907,7 @@ socialist_rebels = {
         country_event = 810056
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -5326,7 +5326,7 @@ turkish_nationalist_rebels = {
         country_event = 800054
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -5519,7 +5519,7 @@ native_rebels = {
         country_event = 810057
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -5944,7 +5944,7 @@ slave_revolt = {
         add_country_modifier = { name = national_confusion duration = 1095 }
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
@@ -6177,7 +6177,7 @@ partisan_rebels = {
     demands_enforced_effect = {
         random_owned = {
             limit = { owner = { has_country_flag = member_hre } }
-            country_event = 250005
+            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
         }
     }
 }
