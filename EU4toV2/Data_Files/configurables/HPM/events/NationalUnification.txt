@@ -478,6 +478,11 @@ country_event = {
             }
             country_event = { id = 96165 days = 20 }
         }
+        random_owned = {
+            limit = { owner = { has_country_flag = member_hre } }
+            owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            FROM = { clr_country_flag = member_hre }
+        }
         prestige = 10
         ai_chance = {
             factor = 95
@@ -491,6 +496,11 @@ country_event = {
         clr_country_flag = made_the_call_to_union
         any_pop = {
             militancy = 2
+        }
+        random_owned = {
+            limit = { owner = { has_country_flag = member_hre } }
+            owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            FROM = { clr_country_flag = member_hre }
         }
         ai_chance = {
             factor = 5

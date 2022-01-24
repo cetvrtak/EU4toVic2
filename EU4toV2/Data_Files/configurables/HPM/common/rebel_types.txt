@@ -1908,10 +1908,6 @@ pan_nationalist_rebels = {
             }
             owner = { country_event = 96200 }
         }
-        random_owned = {
-            limit = { owner = { has_country_flag = member_hre } }
-            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
-        }
     }
 }
 
