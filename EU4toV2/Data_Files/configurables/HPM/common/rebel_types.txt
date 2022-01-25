@@ -2935,10 +2935,6 @@ red_shirts = {
             }
             country_event = 11103
         }
-        random_owned = {
-            limit = { owner = { has_country_flag = member_hre } }
-            owner = { country_event = 250005 }	#Leave the Holy Roman Empire
-        }
     }
 }
 
