@@ -1403,6 +1403,11 @@ country_event = {
                 is_vassal = no
                 }
             change_tag = SGF
+            random_owned = {
+                limit = { owner = { has_country_flag = member_hre } }
+                owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+                FROM = { clr_country_flag = member_hre }
+            }
         }
         any_country = {
             limit = {
