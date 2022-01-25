@@ -494,6 +494,10 @@ political_decisions = {
                 all_core = { add_core = culture }
             }
 			change_tag = culture
+            random_owned = {
+                limit = { owner = { has_country_flag = member_hre } }
+                owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            }
 			any_country = {
 				limit = {
 					NOT = { is_greater_power = yes }
