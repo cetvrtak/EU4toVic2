@@ -1238,6 +1238,11 @@ country_event = {
                 }
         NGF = { inherit = THIS }
         change_tag_no_core_switch = NGF
+        random_owned = {
+            limit = { owner = { has_country_flag = member_hre } }
+            owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            FROM = { clr_country_flag = member_hre }
+        }
         ai_chance = {
             factor = 0
         }
@@ -1292,6 +1297,11 @@ country_event = {
             remove_core = THIS
             }
         change_tag = NGF
+        random_owned = {
+            limit = { owner = { has_country_flag = member_hre } }
+            owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            FROM = { clr_country_flag = member_hre }
+        }
         all_core = {
             limit = { is_core = PRU }
                 remove_core = PRU
@@ -1358,6 +1368,11 @@ country_event = {
             remove_core = THIS
             }
         change_tag = NGF
+        random_owned = {
+            limit = { owner = { has_country_flag = member_hre } }
+            owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            FROM = { clr_country_flag = member_hre }
+        }
         all_core = {
             limit = { is_core = PRU }
                 remove_core = PRU

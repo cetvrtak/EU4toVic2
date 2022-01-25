@@ -1067,6 +1067,11 @@ country_event = {
         all_core = { add_core = NGF }
         change_tag = NGF
         random_owned = {
+            limit = { owner = { has_country_flag = member_hre } }
+            owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            FROM = { clr_country_flag = member_hre }
+        }
+        random_owned = {
             limit = { owner = { is_culture_group = germanic accepted_culture = polish } }
             owner = { remove_accepted_culture = polish }
         }
