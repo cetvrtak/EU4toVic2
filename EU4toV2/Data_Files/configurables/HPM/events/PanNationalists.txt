@@ -1340,7 +1340,12 @@ country_event = {
                 country_event = 11101
             }
         }
-        random_country = {
+        random_owned = {
+            limit = { owner = { has_country_flag = member_hre } }
+            owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            FROM = { clr_country_flag = member_hre }
+        }
+       random_country = {
             limit = {
                 is_culture_group = scandinavian
                 is_cultural_union = yes
