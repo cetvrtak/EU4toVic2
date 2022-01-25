@@ -793,6 +793,11 @@ country_event = {
         }
         all_core = { remove_core = THIS }
         change_tag = GER
+        random_owned = {
+            limit = { owner = { has_country_flag = member_hre } }
+            owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            FROM = { clr_country_flag = member_hre }
+        }
         random_country = {
             limit = {
                 tag = AUS

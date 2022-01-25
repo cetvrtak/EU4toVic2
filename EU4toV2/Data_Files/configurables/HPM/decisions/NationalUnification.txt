@@ -552,6 +552,10 @@ political_decisions = {
                 add_core = GER
             }
             change_tag = GER
+            random_owned = {
+                limit = { owner = { has_country_flag = member_hre } }
+                owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            }
             add_accepted_culture = north_german
             add_accepted_culture = south_german
             random_owned = { limit = { owner = { accepted_culture = french } } owner = { remove_accepted_culture = french } }
@@ -738,6 +742,10 @@ political_decisions = {
                 add_core = GER
             }
             change_tag = GER
+            random_owned = {
+                limit = { owner = { has_country_flag = member_hre } }
+                owner = { country_event = 250005 }  #Leave the Holy Roman Empire
+            }
             add_accepted_culture = north_german
             set_global_flag = 3hurrahs
             any_country = {
