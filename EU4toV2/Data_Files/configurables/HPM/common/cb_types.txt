@@ -681,6 +681,13 @@ imperial_ban = {
     good_relation_militancy_factor = 1
 
     can_use = {
+        is_greater_power = no
+        is_cultural_union = no
+        NOT = {
+            tag = NGF
+            tag = SGF
+            tag = EFR
+        }
         NOT = { is_our_vassal = THIS }
         THIS = {
             OR = {
@@ -715,6 +722,91 @@ imperial_ban = {
     po_make_puppet = yes
 
     war_name = IMPERIAL_BAN_NAME
+
+    on_add = {
+        move_issue_percentage = {
+            from = jingoism
+            to = pro_military
+            value = 0.25
+        }
+    }
+
+    on_po_accepted = {
+        country_event = 250008
+    }
+}
+
+imperial_liberation = {
+    sprite_index = 15
+
+    construction_speed = 0.8
+
+    badboy_factor = 0
+    prestige_factor = 2
+    peace_cost_factor = 0.5
+    penalty_factor = 1
+    always = yes
+
+    break_truce_prestige_factor = 5
+    break_truce_infamy_factor = 2
+    break_truce_militancy_factor = 2
+    truce_months = 48
+
+    good_relation_prestige_factor = 1
+    good_relation_infamy_factor = 1
+    good_relation_militancy_factor = 1
+
+    can_use = {
+        OR = {
+            is_greater_power = yes
+            is_cultural_union = yes
+            tag = NGF
+            tag = SGF
+            tag = EFR
+        }
+        NOT = { is_our_vassal = THIS }
+        THIS = {
+            OR = {
+                war_policy = jingoism
+                war_policy = pro_military
+                war_with = THIS
+            }
+            has_country_flag = emperor_hre
+            OR = {
+                is_greater_power = yes
+                is_secondary_power = yes
+            }
+        }
+        NOT = { vassal_of = THIS }
+        capital_scope = { is_core = HLR }
+        NOT = { has_country_flag = member_hre }
+        NOT = { has_country_modifier = neutrality_modifier }
+        OR = {
+            THIS = {
+                NOT = { has_country_modifier = neutrality_modifier }
+                military_score = 1
+            }
+            war_with = THIS
+        }
+        OR = {
+            war_with = THIS
+            THIS = { NOT = { has_country_modifier = punitive_effects } }
+        }
+    }
+
+    allowed_countries = {
+        FROM = { has_country_flag = member_hre }
+        any_owned_province = { is_core = FROM }
+    }
+
+    allowed_states = {
+        any_owned_province = { is_core = FROM }
+    }
+
+    all_allowed_states = yes
+    po_transfer_provinces = yes
+
+    war_name = IMPERIAL_LIBERATION_NAME
 
     on_add = {
         move_issue_percentage = {
