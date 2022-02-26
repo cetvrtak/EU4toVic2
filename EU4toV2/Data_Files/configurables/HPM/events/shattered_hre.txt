@@ -208,5 +208,18 @@ country_event = {
 			owner = { political_reform = appointed }
 		}
 		relation = { who = FROM value = 400 }
+		random_owned = {
+			limit = {
+				owner = {
+					OR = {
+						government = proletarian_dictatorship
+						government = presidential_dictatorship
+						government = bourgeois_dictatorship
+						government = fascist_dictatorship
+					}
+				}
+			}
+			owner = { government = absolute_monarchy }
+		}
 	}
 }
