@@ -720,6 +720,7 @@ imperial_ban = {
     }
 
     po_make_puppet = yes
+    po_add_to_sphere = yes
 
     war_name = IMPERIAL_BAN_NAME
 
@@ -757,12 +758,8 @@ imperial_liberation = {
     good_relation_militancy_factor = 1
 
     can_use = {
-        OR = {
-            is_greater_power = yes
-            is_cultural_union = yes
-            tag = NGF
-            tag = SGF
-            tag = EFR
+        any_owned_province = {
+            any_core = { has_country_flag = member_hre }
         }
         NOT = { is_our_vassal = THIS }
         THIS = {
@@ -778,7 +775,6 @@ imperial_liberation = {
             }
         }
         NOT = { vassal_of = THIS }
-        capital_scope = { is_core = HLR }
         NOT = { has_country_flag = member_hre }
         NOT = { has_country_modifier = neutrality_modifier }
         OR = {
@@ -817,7 +813,8 @@ imperial_liberation = {
     }
 
     on_po_accepted = {
-        country_event = 250008
+        FROM = { country_event = 250008 }
+        country_event =    2651    # Territorial Loss event
     }
 }
 
