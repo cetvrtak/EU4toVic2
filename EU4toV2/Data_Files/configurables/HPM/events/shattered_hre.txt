@@ -160,17 +160,6 @@ country_event = {
 			limit = { owner = { alliance_with = FROM } }
 			owner = { leave_alliance = FROM }
 		}
-		random_owned = {
-			limit = { owner = { is_sphere_leader_of = FROM } }
-			owner = { diplomatic_influence = { who = FROM value = -200 } }
-			FROM = {
-				add_casus_belli = {
-					target = THIS
-					type = add_to_sphere
-					months = 36
-				}
-			}
-		}
 	}
 }
 
@@ -188,17 +177,6 @@ country_event = {
 		random_owned = {
 			limit = { owner = { alliance_with = FROM } }
 			owner = { leave_alliance = FROM }
-		}
-		random_owned = {
-			limit = { owner = { is_sphere_leader_of = FROM } }
-			owner = { diplomatic_influence = { who = FROM value = -200 } }
-			FROM = {
-				add_casus_belli = {
-					target = THIS
-					type = add_to_sphere
-					months = 36
-				}
-			}
 		}
 	}
 }
