@@ -207,6 +207,6 @@ country_event = {
 			}
 			owner = { political_reform = appointed }
 		}
-		relation = { who = FROM value = 100 }
+		relation = { who = FROM value = 400 }
 	}
 }
