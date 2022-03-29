@@ -598,7 +598,7 @@
 	link = { eu4 = 2527 v2 = 191 } # Atali -> Chattanooga
 	link = { eu4 = 934 eu4 = 939 eu4 = 4913 v2 = 188 } # Tsoyaha, Kaskinampo, Aniyutsi -> Nashville
 	link = { eu4 = 481 v2 = 203 } # Bermuda -> Bermuda
-	link = { eu4 = 933 eu4 = 2541 eu4 = 4882 v2 = 206 } # Iswa, Saluda, Etali -> Columbia
+	link = { eu4 = 933 eu4 = 2541 eu4 = 4882 v2 = 206 } # Iswa, Combahee, Etali -> Columbia
 	link = { eu4 = 2543 eu4 = 932 eu4 = 2542 v2 = 205 } # Waccamaw, Issati, Cusabo -> Charleston
 	link = { eu4 = 4931 eu4 = 4932 eu4 = 4930 eu4 = 4933 eu4 = 4928 eu4 = 4929 eu4 = 4927 eu4 = 4926 eu4 = 4925 eu4 = 4924 } # Cumberland Mountains, Great Smoky Mountains, Alleghenies, Blue Ridge, Allegheny Front, Appalachians, Blue Mountains, Adirondacks, White Mountains, Laurentian Massif -> DROPPED
 	link = { comment = "# Florida" }
@@ -607,7 +607,7 @@
 	link = { eu4 = 2537 eu4 = 2538 eu4 = 4881 v2 = 202 } # Ichisi, Ocute, Sawokli -> Valdosta
 	link = { eu4 = 930 eu4 = 931 v2 = 201 } # Kasihta, Coosa -> Atlanta
 	link = { eu4 = 927 eu4 = 2534 v2 = 199 } # Timucua, Yustaga -> St Augustine
-	link = { eu4 = 926 eu4 = 2536 eu4 = 2535 eu4 = 4625 eu4 = 4626 v2 = 200 } # Ais, Mayaimi, Calusa, Mayaca, Potano -> Tampa
+	link = { eu4 = 926 eu4 = 2536 eu4 = 2535 eu4 = 4625 eu4 = 4626 v2 = 200 } # Eyeish, Mayaimi, Calusa, Mayaca, Potano -> Tampa
 	link = { eu4 = 928 eu4 = 2533 eu4 = 923 v2 = 198 } # Apalachee, Chatot, Pensacola -> Tallahassee
 	link = { eu4 = 922 v2 = 197 } # Tohome -> Mobile
 	link = { eu4 = 925 eu4 = 924 eu4 = 2532 eu4 = 4883 v2 = 195 } # Coweta, Tawasa, Mabila, Napochi -> Montgomery
@@ -1206,7 +1206,8 @@
 	link = { eu4 = 101 v2 = 724 } # Genoa -> Genoa
 	link = { eu4 = 2992 v2 = 725 } # Albenga -> Savona
 	link = { eu4 = 102 v2 = 472 } # Nice -> Nice
-	link = { eu4 = 103 eu4 = 1875 eu4 = 4727 v2 = 720 v2 = 721 } # MANY-TO-MANY: Turin, Cuneo, Saluzzo -> Turin, Aosta
+	link = { eu4 = 103 eu4 = 1875 v2 = 720 v2 = 721 } # MANY-TO-MANY: Turin, Cuneo -> Turin, Aosta
+	link = { eu4 = 4727 v2 = 3327 } # Saluzzo -> Saluzzo
 	link = { eu4 = 2981 v2 = 723 } # Montferrat -> Alessandria
 	link = { eu4 = 2979 v2 = 722 } # Novara -> Novara
 	link = { eu4 = 104 eu4 = 1862 eu4 = 4740 eu4 = 4728 v2 = 726 } # Milan, Cremona, Como, Pavia -> Milan
@@ -1261,10 +1262,13 @@
 	link = { eu4 = 1770 v2 = 621 } # Manhartsberg -> Krems
 	link = { comment = "# Germany" }
 	link = { eu4 = 65 eu4 = 4707 v2 = 599 } # München, Wasserburg -> Munich
-	link = { eu4 = 64 eu4 = 2956 eu4 = 4708 eu4 = 4709 v2 = 600 } # Landshut, Straubing, Freising, Passau -> Landshut
-	link = { eu4 = 2957 eu4 = 1757 v2 = 602 } # Regensburg, Oberpfalz -> Regensburg
+	link = { eu4 = 64 eu4 = 2956 eu4 = 4708 v2 = 600 } # Landshut, Straubing, Freising -> Landshut
+	link = { eu4 = 4709 v2 = 3323 } # Passau -> Passau
+	link = { eu4 = 1757 v2 = 3324 } # Oberpfalz -> Oberpfalz
+	link = { eu4 = 2957 v2 = 602 } # Regensburg -> Regensburg
 	link = { eu4 = 2955 eu4 = 4711 v2 = 601 } # Ingolstadt, Donauwörth -> Ingolstadt
-	link = { eu4 = 1868 eu4 = 68 v2 = 592 } # Augsburg, Memmingen -> Augsburg
+	link = { eu4 = 68 v2 = 3325 } # Memmingen -> Memmingen
+	link = { eu4 = 1868 v2 = 592 } # Augsburg -> Augsburg
 	link = { eu4 = 72 v2 = 587 } # Breisgau -> Freiburg
 	link = { eu4 = 74 eu4 = 4714 v2 = 586 } # Baden, Durlach -> Karlsruhe
 	link = { eu4 = 70 v2 = 589 } # Stuttgart -> Stuttgart
@@ -1499,7 +1503,8 @@
 	link = { eu4 = 2997 v2 = 691 } # Tuchola -> Tuchel
 	link = { eu4 = 49 eu4 = 4747 v2 = 692 } # Neumark, Dramburg -> Deutsch Krone
 	link = { eu4 = 2969 v2 = 681 } # Sternberg -> Kustrin
-	link = { eu4 = 264 eu4 = 2966 v2 = 682 } # Breslau, Glogau -> Breslau
+	link = { eu4 = 2966 v2 = 3326 } # Glogau -> Glogau
+	link = { eu4 = 264 v2 = 682 } # Breslau -> Breslau
 	link = { eu4 = 4238 v2 = 683 } # Liegnitz -> Waldenburg
 	link = { eu4 = 254 v2 = 699 } # Poznan -> Posen
 	link = { eu4 = 255 v2 = 717 } # Kalisz -> Kalisz
