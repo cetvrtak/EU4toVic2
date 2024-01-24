@@ -2413,13 +2413,13 @@
 	link = { eu4 = 737 eu4 = 4228 eu4 = 4227 v2 = 1635 } # Jeonju, Naju, Jinju -> Kwangju
 	link = { eu4 = 2741 v2 = 1637 } # Jeju -> Cheju
 	link = { comment = "# Manchuria" }
-	link = { eu4 = 731 eu4 = 2107 eu4 = 2108 eu4 = 4654 eu4 = 4663 v2 = 1554 } # Ilan Hala, Ningguta, Huncun, Fu'erhe, Hurha -> Ninguta
+	link = { eu4 = 2107 eu4 = 2108 v2 = 1554 } # Ningguta, Huncun -> Ninguta
 	link = { eu4 = 730 eu4 = 2188 eu4 = 4201 eu4 = 4653 eu4 = 4661 v2 = 1555 } # Girin, Alchuka, Jianzhou, Maolian, Edala -> Jilin
 	link = { eu4 = 2112 eu4 = 2113 eu4 = 2111 eu4 = 726 eu4 = 2110 v2 = 1479 v2 = 1481 } # MANY-TO-MANY: Andong, Gaizhou, Hetu Ala, Shenyang, Yehe -> Mukden, Lüshun
 	link = { eu4 = 4652 v2 = 1480 } # Haicheng -> Jinzhou
-	link = { eu4 = 725 eu4 = 4200 eu4 = 728 eu4 = 4660 v2 = 1552 } # Cicigar, Hulan, Tuwan, Tunhe -> Qiqihar
-	link = { eu4 = 724 eu4 = 4218 eu4 = 4664 eu4 = 4665 v2 = 1002 } # Hulunbuir, Buteha, Oroqen, West Buteha -> Manzhouli
-	link = { eu4 = 2185 eu4 = 1053 eu4 = 727 v2 = 1553 } # Mergen, Hinggan, Aigun -> Aigun
+	link = { eu4 = 725 eu4 = 4200 v2 = 1552 } # Cicigar, Hulan -> Qiqihar
+	link = { eu4 = 724 eu4 = 4218 eu4 = 4664 eu4 = 4665 eu4 = 1053 eu4 = 4662 eu4 = 1049 v2 = 1002 } # Hulunbuir, Buteha, Oroqen, West Buteha, Hinggan, Halacha, Haiilanboo -> Manzhouli
+	link = { eu4 = 2185 eu4 = 727 eu4 = 4660 eu4 = 728 eu4 = 731 eu4 = 4663 eu4 = 4654 v2 = 1553 } # Mergen, Aigun, Tunhe, Tuwan, Ilan Hala, Hurha, Fu'erhe -> Aigun
 	link = { eu4 = 2187 eu4 = 2109 eu4 = 722 eu4 = 4203 eu4 = 4202 eu4 = 4674 eu4 = 4675 v2 = 1533 } # Sartu, Boduna, Jirem, Ju Ud, Taining, Korchin, Bayisingtu -> Jirim Chuulgan
 	link = { comment = "# Greater Mongolia" }
 	link = { eu4 = 721 eu4 = 717 eu4 = 4219 eu4 = 4667 eu4 = 4666 v2 = 1467 } # Setsen, Kherlen, Bayan Tumen, Bayan-Uul, Barag -> Bayan Tumen
@@ -2718,7 +2718,7 @@
 	link = { eu4 = 729 eu4 = 1050 eu4 = 4216 eu4 = 4215 eu4 = 4214 eu4 = 4217 eu4 = 4656 v2 = 1083 } # Bohori, Tyr, Oroch, Fudali, Ulch, Pijin, Wolanhe -> Boli
 	link = { eu4 = 1048 v2 = 1084 } # Miyoo Gasan -> Utchan
 	link = { eu4 = 2105 v2 = 2617 } # Kuru -> Amgun
-	link = { eu4 = 2104 eu4 = 1049 eu4 = 4662 eu4 = 4659 v2 = 1085 } # Birija, Haiilanboo, Halacha, Tulutingshan -> Hailanpao
+	link = { eu4 = 2104 eu4 = 4659 eu4 = 2103 v2 = 1085 } # Birija, Tulutingshan, Udi -> Hailanpao
 	link = { comment = "# Kamchatka" }
 	link = { eu4 = 1034 v2 = 1074 } # Kamchatka -> Petropavlovsk
 	link = { eu4 = 1035 eu4 = 1038 v2 = 2633 v2 = 2616 v2 = 2663 v2 = 1073 } # MANY-TO-MANY: Penzhina, Karalveyem -> Palana, Korf, Manily, Gizhiga
@@ -2728,8 +2728,7 @@
 	link = { eu4 = 1036 eu4 = 2439 v2 = 2660 } # Kolyma, Yarmanka -> Seymchan
 	link = { eu4 = 1044 v2 = 2618 } # Tauisk -> Talaya
 	link = { eu4 = 1043 v2 = 2639 v2 = 1072 } # Okhotsk -> Arman, Okhotsk
-	link = { eu4 = 1047 v2 = 2641 } # Jugjur -> Ajan
-	link = { eu4 = 2103 v2 = 1080 } # Udi -> Chumikan
+	link = { eu4 = 1047 v2 = 2641 v2 = 1080 } # Jugjur -> Ajan, Chumikan
 	link = { eu4 = 1040 eu4 = 1039 v2 = 2620 } # Suntar Khayata, Verkhoyansk -> Susuman
 	link = { eu4 = 1042 v2 = 2642 } # Sakha -> Tomtor
 	link = { eu4 = 2438 eu4 = 1046 v2 = 2648 } # Kharya, Maya -> Handyga
