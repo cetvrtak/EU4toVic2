@@ -1723,9 +1723,9 @@
 	link = { eu4 = 4271 v2 = 906 } # Suwayda -> As-Suwayda
 	link = { eu4 = 1855 v2 = 913 v2 = 912 v2 = 914 v2 = 915 } # Sidon -> Beirut, Baalbeck, Trablos, Sidon
 	link = { comment = "# Cis- and Transjordan" }
-	link = { eu4 = 1854 v2 = 918 v2 = 916 v2 = 919 } # Jaffa -> Nablus, Acre, Jaffa
+	link = { eu4 = 1854 v2 = 916 v2 = 919 } # Jaffa -> Acre, Jaffa
 	link = { eu4 = 364 v2 = 920 v2 = 1756 } # Gaza -> Gaza, Al Arish
-	link = { eu4 = 379 v2 = 917 v2 = 921 } # Jerusalem -> Jerusalem, Beersheba
+	link = { eu4 = 379 v2 = 917 v2 = 921 v2 = 918 } # Jerusalem -> Jerusalem, Beersheba, Nablus
 	link = { eu4 = 365 v2 = 1757 } # Sinai -> Sharm al-Shaykh
 	link = { eu4 = 380 v2 = 908 } # Al Karak -> Amman
 	link = { eu4 = 381 v2 = 909 } # Ajlun -> Jerash
@@ -2157,11 +2157,11 @@
 	link = { eu4 = 429 v2 = 1127 } # Isfahan -> Isfahan
 	link = { eu4 = 2222 eu4 = 4335 v2 = 1129 } # Ardakan, Kashan -> Kashan
 	link = { eu4 = 433 v2 = 1130 } # Yazd -> Yazd
-	link = { eu4 = 4329 eu4 = 4332 v2 = 1138 } # Fasa, Siraf -> Kangan
-	link = { eu4 = 2219 eu4 = 2223 v2 = 1141 } # Bandar Langeh, Larestan -> Lengeh
+	link = { eu4 = 4332 v2 = 1138 } # Siraf -> Kangan
+	link = { eu4 = 2219 v2 = 1141 } # Bandar Langeh -> Lengeh
 	link = { eu4 = 4171 v2 = 1137 } # Abarquh -> Yasuj
 	link = { eu4 = 2217 eu4 = 4342 v2 = 1134 } # Yasuj, Malamir -> Dehkord
-	link = { eu4 = 4331 eu4 = 2218 eu4 = 4330 v2 = 1135 } # Kazerun, Shiraz, Darab -> Shiraz
+	link = { eu4 = 4331 eu4 = 2218 eu4 = 4330 eu4 = 4329 eu4 = 2223 v2 = 1135 } # Kazerun, Shiraz, Darab, Fasa, Larestan -> Shiraz
 	link = { eu4 = 430 v2 = 1136 } # Dashtistan -> Bushire
 	link = { eu4 = 4289 eu4 = 4290 v2 = 1131 } # Shushtar, Hoveyzeh -> Ahvaz
 	link = { eu4 = 412 v2 = 1132 } # Ahvaz -> Abadan
