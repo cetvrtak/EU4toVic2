@@ -613,8 +613,8 @@
 	link = { eu4 = 922 v2 = 197 } # Tohome -> Mobile
 	link = { eu4 = 925 eu4 = 924 eu4 = 2532 eu4 = 4883 v2 = 195 } # Coweta, Tawasa, Mabila, Napochi -> Montgomery
 	link = { eu4 = 2531 v2 = 196 } # Abihka -> Gadsden
-	link = { eu4 = 918 v2 = 189 } # Chucalissa -> Memphis
-	link = { eu4 = 919 eu4 = 2528 v2 = 193 } # Chickasha, Yazoo -> Greenwood
+	link = { eu4 = 919 v2 = 189 } # Chickasha -> Memphis
+	link = { eu4 = 2528 eu4 = 918 v2 = 193 } # Yazoo, Chucalissa -> Greenwood
 	link = { eu4 = 920 eu4 = 2529 eu4 = 4884 v2 = 192 } # Chahta, Natchez, Houma -> Jackson
 	link = { eu4 = 2530 v2 = 194 } # Taneks-Haya -> Biloxi
 	link = { eu4 = 921 v2 = 140 } # Ishenoca -> Baton Rouge
@@ -632,7 +632,7 @@
 	link = { eu4 = 2669 eu4 = 4911 eu4 = 4886 v2 = 43 } # Hasinai, Nabaydacu, Nasoni -> Clarksville
 	link = { eu4 = 887 eu4 = 886 eu4 = 4910 eu4 = 4909 v2 = 134 } # Tickanwa'tic, Waco, Tawakoni, Kitsash -> Fort Parker
 	link = { eu4 = 2500 eu4 = 4627 v2 = 133 } # Tel Kondaha, Tanu -> Austin
-	link = { eu4 = 883 eu4 = 884 eu4 = 2499 eu4 = 2666 v2 = 137 v2 = 138 } # MANY-TO-MANY: Tche Sha, Auia, Coahuilteco, Tuintsundé -> San Antonio, Laredo
+	link = { eu4 = 883 eu4 = 884 eu4 = 2499 eu4 = 2666 eu4 = 2667 v2 = 137 v2 = 138 } # MANY-TO-MANY: Tche Sha, Auia, Coahuilteco, Tuintsundé, Cacaxtes -> San Antonio, Laredo
 	link = { eu4 = 2498 eu4 = 2497 eu4 = 4628 eu4 = 4629 v2 = 136 } # Tahuundé, Tsès Sembai, Nitahendé, Ndawe Qoha -> El Paso
 	link = { eu4 = 885 v2 = 135 } # Gulgahén -> Llano Estacado
 	link = { comment = "# Deseret and California" }
@@ -775,18 +775,17 @@
 	link = { eu4 = 853 eu4 = 4641 v2 = 2173 } # Tlapacoyan, Xilotepec -> Queretaro
 	link = { eu4 = 2615 eu4 = 4573 v2 = 2167 } # Guamares, Acambaro -> Guanajuato
 	link = { eu4 = 2617 eu4 = 4640 v2 = 2160 } # Huichol, Tecpatitlan -> Aguascalientes
-	link = { eu4 = 860 eu4 = 4648 eu4 = 4647 v2 = 2153 v2 = 2154 } # MANY-TO-MANY: Tepehuan, Acaxee, Xecora -> Durango, Santa Maria del Oro
+	link = { eu4 = 860 eu4 = 4648 eu4 = 4647 eu4 = 2618 v2 = 2153 v2 = 2154 } # MANY-TO-MANY: Tepehuan, Acaxee, Xecora, Toboso -> Durango, Santa Maria del Oro
 	link = { eu4 = 856 eu4 = 4645 eu4 = 4643 v2 = 2158 } # Zacatecas, Xochipillan, Xiconaque -> Zacatecas
 	link = { eu4 = 857 eu4 = 4642 v2 = 2159 } # Guachichil, Pame -> San Luis Potosi
 	link = { eu4 = 2642 eu4 = 2641 v2 = 2163 } # Metztitlan, Tziccoac -> Tampico
 	link = { eu4 = 858 eu4 = 2614 v2 = 2150 v2 = 2151 } # MANY-TO-MANY: Tamaulipas, Cotoname -> Ciudad Victoria, Saltillo
 	link = { eu4 = 2668 v2 = 2149 } # Borrado -> Matamoros
 	link = { eu4 = 2619 v2 = 2155 } # Laguneros -> Torreon
-	link = { eu4 = 2667 v2 = 2147 } # Cacaxtes -> Ciudad Acuña
 	link = { eu4 = 861 v2 = 2152 } # Coahuila -> Monclova
-	link = { eu4 = 2618 eu4 = 4646 v2 = 2145 } # Toboso, Tarahumara -> Parral
-	link = { eu4 = 864 eu4 = 4606 v2 = 2142 v2 = 2144 } # MANY-TO-MANY: Concho, Chichitames -> Chihuahua, Delicias
-	link = { eu4 = 863 eu4 = 4644 v2 = 2143 } # Suma, Jocome -> Ciudad Juarez
+	link = { eu4 = 4646 v2 = 2145 v2 = 2142 v2 = 2144 } # Tarahumara -> Parral, Chihuahua, Delicias
+	link = { eu4 = 4606 eu4 = 864 eu4 = 863 v2 = 2147 } # Chichitames, Concho, Suma -> Ciudad Acuña
+	link = { eu4 = 4644 v2 = 2143 } # Jocome -> Ciudad Juarez
 	link = { comment = "# Central America" }
 	link = { eu4 = 843 eu4 = 4589 v2 = 2190 } # Belize, Moran -> Belize
 	link = { eu4 = 842 eu4 = 4594 v2 = 2189 } # Petén, Tzul -> Sayaxche
