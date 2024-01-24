@@ -2754,7 +2754,7 @@
 	link = { eu4 = 716 v2 = 1469 } # Tannu Uriankhai -> Uriankhai
 	link = { eu4 = 1066 v2 = 1068 } # Altai Uriankhai -> Ulala
 	link = { eu4 = 2434 eu4 = 4687 v2 = 1067 } # Barnaul, Imakia -> Kemerevo
-	link = { eu4 = 4689 eu4 = 1071 v2 = 1064 } # Om, Irtesh -> Omsk
+	link = { eu4 = 4689 eu4 = 1071 eu4 = 4690 v2 = 1064 } # Om, Irtesh, Ishim -> Omsk
 	link = { eu4 = 2433 v2 = 2683 } # Vah -> Narym
 	link = { eu4 = 1063 v2 = 2691 } # Sayan -> Minusk
 	link = { eu4 = 1067 v2 = 2692 } # Turukhan -> Kostino
@@ -2770,7 +2770,7 @@
 	link = { eu4 = 1074 v2 = 1066 } # Sibir -> Tobolsk
 	link = { eu4 = 480 eu4 = 4688 v2 = 2686 } # Pegaya Orda, Baraba -> Kainsk
 	link = { eu4 = 1076 v2 = 2658 v2 = 2614 } # Kurgan -> Kurgan, Shadrinsk
-	link = { eu4 = 1075 eu4 = 4690 v2 = 1061 } # Tyumen, Ishim -> Tyumen
+	link = { eu4 = 1075 v2 = 1061 } # Tyumen -> Tyumen
 	link = { eu4 = 1966 v2 = 1060 } # Chelyaba -> Orsk
 	link = { comment = "# Urals" }
 	link = { eu4 = 2420 v2 = 1044 } # Agyidel -> Chkalov
