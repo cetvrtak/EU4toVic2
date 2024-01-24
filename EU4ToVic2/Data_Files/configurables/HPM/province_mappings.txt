@@ -1146,7 +1146,7 @@
 	link = { eu4 = 185 v2 = 427 } # Nemours -> Melun
 	link = { eu4 = 4390 v2 = 406 } # Troyes -> Troyes
 	link = { eu4 = 186 v2 = 408 v2 = 403 } # Reims -> Chalons, Laon
-	link = { eu4 = 181 v2 = 405 } # Rethel -> Charleville
+	link = { eu4 = 181 v2 = 405 v2 = 398 } # Rethel -> Charleville, Arlon
 	link = { eu4 = 4776 v2 = 440 } # Blois -> Blois
 	link = { eu4 = 184 v2 = 438 } # Orleanais -> Orleans
 	link = { eu4 = 178 v2 = 434 } # Anjou -> Angers
@@ -1225,7 +1225,7 @@
 	link = { eu4 = 1873 eu4 = 4722 v2 = 611 v2 = 2568 } # MANY-TO-MANY: Chur, Illanz -> Chur, Lugano
 	link = { comment = "# Benelux" }
 	link = { eu4 = 94 v2 = 397 } # Luxemburg -> Luxembourg
-	link = { eu4 = 93 v2 = 395 v2 = 398 v2 = 396 } # Liège -> Lüttich, Arlon, Eupen-Malmedy
+	link = { eu4 = 93 v2 = 395 v2 = 396 } # Liège -> Lüttich, Eupen-Malmedy
 	link = { eu4 = 1866 v2 = 392 } # Namur -> Namur
 	link = { eu4 = 91 v2 = 394 v2 = 393 } # Hainaut -> Châlerwè, Tournai
 	link = { eu4 = 90 v2 = 388 } # Bruges -> Bruges
@@ -1287,13 +1287,13 @@
 	link = { eu4 = 66 eu4 = 4717 v2 = 598 } # Bamberg, Bayreuth -> Bayreuth
 	link = { eu4 = 83 v2 = 579 v2 = 565 } # Nassau -> Neuwied, Wiesbaden
 	link = { eu4 = 84 v2 = 578 v2 = 2561 } # Berg -> Dusseldorf, Siegburg
-	link = { eu4 = 81 v2 = 567 v2 = 584 } # Oberhessen -> Giessen, Korbach
-	link = { eu4 = 82 v2 = 583 } # Westfalen -> Siegen
-	link = { eu4 = 1762 v2 = 566 } # Niederhessen -> Kassel
+	link = { eu4 = 81 v2 = 567 } # Oberhessen -> Giessen
+	link = { eu4 = 82 v2 = 583 v2 = 584 } # Westfalen -> Siegen, Korbach
+	link = { eu4 = 1762 eu4 = 2972 v2 = 566 } # Niederhessen, Paderborn -> Kassel
 	link = { eu4 = 69 v2 = 580 } # Dortmund -> Dortmund
-	link = { eu4 = 86 v2 = 581 } # Münster -> Munster
+	link = { eu4 = 86 v2 = 581 v2 = 582 } # Münster -> Munster, Bielefeld
 	link = { eu4 = 2973 v2 = 542 v2 = 1743 } # Meppen -> Lingen, Nordhorn
-	link = { eu4 = 2972 eu4 = 4775 v2 = 585 v2 = 582 } # MANY-TO-MANY: Paderborn, Ravensberg -> Detmold, Bielefeld
+	link = { eu4 = 4775 v2 = 585 } # Ravensberg -> Detmold
 	link = { eu4 = 56 v2 = 538 } # Osnabrück -> Osnabruck
 	link = { eu4 = 55 v2 = 540 } # Oldenburg -> Oldenburg
 	link = { eu4 = 2971 v2 = 535 v2 = 541 } # Hoya -> Nienburg, Cloppenburg
