@@ -2746,31 +2746,31 @@
 	link = { eu4 = 1054 eu4 = 2437 v2 = 2695 v2 = 2650 } # MANY-TO-MANY: Mukhtuya, Seganka -> Lensk, Malykaj
 	link = { eu4 = 1059 eu4 = 2436 v2 = 2694 } # East Tunguska, Chuna -> Erbogacen
 	link = { eu4 = 2442 v2 = 2677 } # Ust-Kut -> Ilimsk
-	link = { eu4 = 1060 v2 = 1075 } # Irkutsk -> Irkutsk
-	link = { eu4 = 1062 v2 = 1076 } # Angara -> Nizhneudinsk
-	link = { eu4 = 1061 eu4 = 2431 v2 = 2701 v2 = 2656 } # MANY-TO-MANY: West Tunguska, Uchamin -> Kansk, Baikit
-	link = { eu4 = 2432 eu4 = 1064 eu4 = 480 eu4 = 2433 v2 = 1063 } # Chulym, Tomsk, Pegaya Orda, Vah -> Tomsk
-	link = { eu4 = 1063 eu4 = 2443 eu4 = 1065 v2 = 1077 } # Sayan, Kan, Kuznetsk -> Krasnoyarsk
+	link = { eu4 = 1060 v2 = 1075 v2 = 1076 } # Irkutsk -> Irkutsk, Nizhneudinsk
+	link = { eu4 = 1062 eu4 = 2443 v2 = 2701 } # Angara, Kan -> Kansk
+	link = { eu4 = 1061 eu4 = 2431 v2 = 2656 } # West Tunguska, Uchamin -> Baikit
+	link = { eu4 = 1064 eu4 = 1068 v2 = 1063 v2 = 1070 } # MANY-TO-MANY: Tomsk, Ket -> Tomsk, Yeniseysk
+	link = { eu4 = 1065 v2 = 2698 v2 = 2674 } # Kuznetsk -> Kuznetsk, Abakan
 	link = { eu4 = 716 v2 = 1469 } # Tannu Uriankhai -> Uriankhai
-	link = { eu4 = 1066 v2 = 1068 v2 = 2674 v2 = 2698 } # Altai Uriankhai -> Ulala, Abakan, Kuznetsk
-	link = { eu4 = 2434 v2 = 1067 } # Barnaul -> Kemerevo
-	link = { eu4 = 4690 eu4 = 4689 v2 = 1064 } # Ishim, Om -> Omsk
-	link = { eu4 = 4688 v2 = 2683 } # Baraba -> Narym
-	link = { eu4 = 1068 v2 = 2691 } # Ket -> Minusk
+	link = { eu4 = 1066 v2 = 1068 } # Altai Uriankhai -> Ulala
+	link = { eu4 = 2434 eu4 = 4687 v2 = 1067 } # Barnaul, Imakia -> Kemerevo
+	link = { eu4 = 4689 eu4 = 1071 v2 = 1064 } # Om, Irtesh -> Omsk
+	link = { eu4 = 2433 v2 = 2683 } # Vah -> Narym
+	link = { eu4 = 1063 v2 = 2691 } # Sayan -> Minusk
 	link = { eu4 = 1067 v2 = 2692 } # Turukhan -> Kostino
 	link = { comment = "# Western Siberia" }
-	link = { eu4 = 2430 v2 = 2615 } # Baykha -> Sidorovsk
-	link = { eu4 = 1070 v2 = 1070 } # Narim -> Yeniseysk
-	link = { eu4 = 1071 v2 = 2646 } # Irtesh -> Surgut
-	link = { eu4 = 1069 v2 = 2613 } # Surgut -> Nadym
+	link = { eu4 = 2430 eu4 = 1070 v2 = 2615 } # Baykha, Narim -> Sidorovsk
+	link = { eu4 = 2432 v2 = 1077 } # Chulym -> Krasnoyarsk
+	link = { eu4 = 2428 v2 = 2646 } # Yugan -> Surgut
+	link = { eu4 = 2445 v2 = 2613 } # Mangazea -> Nadym
 	link = { eu4 = 2429 v2 = 1065 } # Agan -> Nyagan
-	link = { eu4 = 2445 eu4 = 1072 v2 = 2684 } # Mangazea, Obdorsk -> Aksarka
-	link = { eu4 = 1073 eu4 = 4691 v2 = 2682 } # Berezov, As -> Obdorsk
-	link = { eu4 = 2428 v2 = 2690 } # Yugan -> Yugansk
+	link = { eu4 = 1072 v2 = 2684 } # Obdorsk -> Aksarka
+	link = { eu4 = 1073 v2 = 2682 } # Berezov -> Obdorsk
+	link = { eu4 = 1069 eu4 = 4691 v2 = 2690 } # Surgut, As -> Yugansk
 	link = { eu4 = 1074 v2 = 1066 } # Sibir -> Tobolsk
-	link = { eu4 = 4687 v2 = 2686 } # Imakia -> Kainsk
+	link = { eu4 = 480 eu4 = 4688 v2 = 2686 } # Pegaya Orda, Baraba -> Kainsk
 	link = { eu4 = 1076 v2 = 2658 v2 = 2614 } # Kurgan -> Kurgan, Shadrinsk
-	link = { eu4 = 1075 v2 = 1061 } # Tyumen -> Tyumen
+	link = { eu4 = 1075 eu4 = 4690 v2 = 1061 } # Tyumen, Ishim -> Tyumen
 	link = { eu4 = 1966 v2 = 1060 } # Chelyaba -> Orsk
 	link = { comment = "# Urals" }
 	link = { eu4 = 2420 v2 = 1044 } # Agyidel -> Chkalov
