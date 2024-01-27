@@ -1621,24 +1621,24 @@
 	link = { eu4 = 303 eu4 = 2415 v2 = 1037 } # Saratov, Etkara -> Saratov
 	link = { eu4 = 304 v2 = 1021 } # Penza -> Penza
 	link = { eu4 = 302 eu4 = 1778 v2 = 1025 } # Tambov, Kasimov -> Tambov
-	link = { eu4 = 300 v2 = 1011 } # Tula -> Tula
+	link = { eu4 = 300 eu4 = 4252 v2 = 1011 } # Tula, Kolomna -> Tula
 	link = { eu4 = 301 eu4 = 4255 v2 = 1012 } # Ryazan, Pronsk -> Ryazan
-	link = { eu4 = 295 eu4 = 4252 eu4 = 4251 v2 = 1008 v2 = 1009 } # MANY-TO-MANY: Moskva, Kolomna, Mozhaisk -> Moscow, Borodino
+	link = { eu4 = 295 eu4 = 4251 v2 = 1008 v2 = 1009 } # MANY-TO-MANY: Moskva, Mozhaisk -> Moscow, Borodino
 	link = { eu4 = 296 v2 = 1010 } # Kaluga -> Kaluga
-	link = { eu4 = 1752 eu4 = 4243 v2 = 999 } # Rzhev, Toropets -> Rzhev
-	link = { eu4 = 4148 v2 = 1007 } # Luki -> Velikiye Luki
+	link = { eu4 = 1752 v2 = 999 } # Rzhev -> Rzhev
+	link = { eu4 = 4148 eu4 = 4243 v2 = 1007 } # Luki, Toropets -> Velikiye Luki
 	link = { eu4 = 1960 v2 = 1006 } # Ostrov -> Pskov
 	link = { eu4 = 274 v2 = 997 } # Pskov -> Gdov
 	link = { eu4 = 34 v2 = 996 } # Ingermanland -> Luga
 	link = { eu4 = 310 eu4 = 311 v2 = 1003 } # Novgorod, Kholm -> Novgorod
 	link = { eu4 = 33 v2 = 994 } # Neva -> St Petersburg
-	link = { eu4 = 1959 v2 = 1005 } # Torzhok -> Borovichi
-	link = { eu4 = 294 eu4 = 4248 eu4 = 4249 v2 = 998 } # Tver, Kashin, Zubtsov -> Tver
-	link = { eu4 = 4117 v2 = 1000 } # Bezhetsk -> Staritsa
+	link = { eu4 = 1959 eu4 = 4260 v2 = 1005 } # Torzhok, Vyshny Volochyok -> Borovichi
+	link = { eu4 = 4248 eu4 = 4117 v2 = 998 } # Kashin, Bezhetsk -> Tver
+	link = { eu4 = 4249 eu4 = 294 v2 = 1000 } # Zubtsov, Tver -> Staritsa
 	link = { eu4 = 2749 v2 = 1004 } # Tikhvin -> Tikhvin
 	link = { eu4 = 1961 v2 = 2580 } # Ladoga -> Novaya Ladoga
 	link = { eu4 = 30 eu4 = 32 v2 = 339 } # Viborg, Kexholm -> Viipuri
-	link = { eu4 = 307 v2 = 1013 } # Vladimir -> Vladimir
+	link = { eu4 = 307 eu4 = 4253 v2 = 1013 } # Vladimir, Yuriev -> Vladimir
 	link = { eu4 = 306 eu4 = 2423 eu4 = 1754 v2 = 1020 } # Nizhny Novgorod, Alatyr, Murom -> Nizhni Novgorod
 	link = { eu4 = 1082 eu4 = 2422 eu4 = 4264 v2 = 1030 } # Kazan, Veda-Suvar, Tetyushi -> Kazan
 	link = { eu4 = 2421 eu4 = 4267 v2 = 1032 } # Juketau, Bolgar -> Chistopol
@@ -1656,9 +1656,9 @@
 	link = { eu4 = 1776 eu4 = 4124 v2 = 984 } # White Karelia, Karelia -> Kostomushka
 	link = { eu4 = 309 v2 = 995 v2 = 988 } # Olonets -> Petrozavodsk, Povyents
 	link = { eu4 = 312 v2 = 989 } # Beloozero -> Vologda
-	link = { eu4 = 4261 eu4 = 4260 v2 = 992 } # Ustyuzhna, Vyshny Volochyok -> Belozersk
+	link = { eu4 = 4261 v2 = 992 } # Ustyuzhna -> Belozersk
 	link = { eu4 = 314 eu4 = 4259 v2 = 991 } # Vologda, Velsk -> Uglich
-	link = { eu4 = 308 eu4 = 4147 eu4 = 4253 v2 = 1001 } # Yaroslavl, Rostov, Yuriev -> Yaroslavl
+	link = { eu4 = 308 eu4 = 4147 v2 = 1001 } # Yaroslavl, Rostov -> Yaroslavl
 	link = { eu4 = 1753 eu4 = 4250 v2 = 1023 } # Kostroma, Mologa -> Kostorma
 	link = { eu4 = 1956 eu4 = 4254 v2 = 1022 } # Suzdal, Starodub -> Ivanovo
 	link = { eu4 = 1957 v2 = 1024 } # Galich -> Galich
