@@ -1531,16 +1531,16 @@
 	link = { eu4 = 41 v2 = 695 } # Königsberg -> Twangste
 	link = { comment = "# Belarus" }
 	link = { eu4 = 277 v2 = 937 } # Brest -> Brest-Litovsk
-	link = { eu4 = 1937 v2 = 936 } # Grodno -> Grodno
+	link = { eu4 = 1937 v2 = 936 v2 = 938 } # Grodno -> Grodno, Lida
 	link = { eu4 = 272 eu4 = 770 v2 = 360 } # Vilna, Braslaw -> Vilnius
 	link = { eu4 = 278 v2 = 940 } # Pinsk -> Pinsk
 	link = { eu4 = 4537 v2 = 939 } # Nowogrodek -> Baranovichi
-	link = { eu4 = 1941 eu4 = 4545 v2 = 941 } # Turov, Sluck -> Slutsk
-	link = { eu4 = 4247 eu4 = 4115 v2 = 942 } # Owrucz, Mazyr -> Mozyr
+	link = { eu4 = 4545 v2 = 941 } # Sluck -> Slutsk
+	link = { eu4 = 4247 eu4 = 4115 eu4 = 1941 v2 = 942 } # Owrucz, Mazyr, Turov -> Mozyr
 	link = { eu4 = 276 eu4 = 4544 v2 = 718 } # Minsk, Bobrujsk -> Minsk
-	link = { eu4 = 4242 v2 = 938 } # Ula -> Lida
-	link = { eu4 = 292 v2 = 948 } # Mogilev -> Mogilev
-	link = { eu4 = 4246 v2 = 944 v2 = 949 } # Mstislav -> Orsha, Gomel
+	link = { eu4 = 4242 v2 = 948 } # Ula -> Mogilev
+	link = { eu4 = 292 v2 = 949 } # Mogilev -> Gomel
+	link = { eu4 = 4246 v2 = 944 } # Mstislav -> Orsha
 	link = { eu4 = 275 v2 = 946 v2 = 947 } # Polotsk -> Polotsk, Pastavy
 	link = { eu4 = 771 v2 = 945 } # Vitebsk -> Vitebsk
 	link = { comment = "# Baltics" }
