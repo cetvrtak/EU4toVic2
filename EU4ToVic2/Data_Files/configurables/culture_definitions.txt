@@ -3045,6 +3045,17 @@ east_slavic = {
 		Paskevych Petlyura Radchenko Shevchenko Skoropads'kyy Stefaniv Tymoshenko Vitovs'kyy }
 		radicalism = 10
     }
+    kishinyov = {
+    	color = {135 175 135}
+
+		first_names = { Alekhey Andrey Anton Arkadyy Borys Dmytro Fiodor Hryhoryy Ivan Lavr Leonid Lev
+		Mykhayil Mykola Nikita Oleksandr Pavel Petro Roman Semion Serhyy Valeryy
+		Viktor Volodymyr Vladyslav Yuryy }
+
+		last_names = { Bezruchko Chernyakhovs'kyy Dyachenko Hamula Hrihoriyev Hrekov Ivanenko Ivanov
+		Krapustians'kyy Kondratenko Leshchenko Lesh·chinskyy "Omelyanovych-Pavlenko"
+		Paskevych Petlyura Radchenko Shevchenko Skoropads'kyy Stefaniv Tymoshenko Vitovs'kyy }
+	}
 	ugrian = {  
 		hpm = no
 		color = {60 160 160}
