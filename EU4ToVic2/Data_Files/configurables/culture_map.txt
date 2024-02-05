@@ -410,7 +410,7 @@ link = { vic2 = byelorussian eu4 = russian_culture region = white_ruthenia_area 
 link = { vic2 = byelorussian eu4 = russian_culture region = smolensk_area }
 link = { vic2 = ukrainian eu4 = russian_culture region = ruthenia_region }
 link = { vic2 = ukrainian eu4 = ukrainian }
-link = { vic2 = western_slavic eu4 = kishinyov }
+link = { vic2 = kishinyov eu4 = kishinyov }
 link = { vic2 = russian eu4 = russian_culture eu4 = old_slavic eu4 = pomor eu4 = russian_colonial }
 link = { vic2 = ugrian eu4 = meshchera eu4 = ugrorussian }
 
