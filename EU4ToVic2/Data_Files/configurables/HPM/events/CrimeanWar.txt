@@ -73,7 +73,7 @@ country_event = {
 
     option = {
         name = "EVT97501OPTA"
-        TUR = { country_event = 97502 }
+        BUL = { country_event = 97502 }
         relation = { who = RUS value = -100 }
         leave_alliance = RUS
         ai_chance = {
@@ -84,7 +84,7 @@ country_event = {
     option = {
         name = "EVT97501OPTB"
         prestige = -50
-        relation = { who = TUR value = -50 }
+        relation = { who = BUL value = -50 }
         ai_chance = {
             factor = 5
         }
@@ -121,11 +121,11 @@ country_event = {
         prestige = 5
         relation = { who = RUS value = 50 }
         FRA = {
-            diplomatic_influence = { who = TUR value = -100 }
-            relation = { who = TUR value = -200 }
-            leave_alliance = TUR
+            diplomatic_influence = { who = BUL value = -100 }
+            relation = { who = BUL value = -200 }
+            leave_alliance = BUL
             casus_belli = {
-                target = TUR
+                target = BUL
                 type = cut_down_to_size
                 months = 24
             }
@@ -162,8 +162,8 @@ country_event = {
 
     option = {
         name = "EVT97503OPTA"
-        diplomatic_influence = { who = TUR value = -400 }
-        relation = { who = TUR value = -400 }
+        diplomatic_influence = { who = BUL value = -400 }
+        relation = { who = BUL value = -400 }
     }
 }
 
@@ -180,16 +180,16 @@ country_event = {
         prestige = 20
         random_country = {
             limit = {
-                is_sphere_leader_of = TUR
+                is_sphere_leader_of = BUL
                 NOT = { tag = FRA }
                 NOT = { tag = RUS }
             }
-            diplomatic_influence = { who = TUR value = -100 }
+            diplomatic_influence = { who = BUL value = -100 }
             relation = { who = FRA value = -25 }
         }
-        diplomatic_influence = { who = TUR value = 100 }
-        relation = { who = TUR value = 300 }
-        create_alliance = TUR
+        diplomatic_influence = { who = BUL value = 100 }
+        relation = { who = BUL value = 300 }
+        create_alliance = BUL
     }
 }
 
@@ -200,7 +200,7 @@ country_event = {
     picture = "french_on_crimean_war"
 
     trigger = {
-        tag = TUR
+        tag = BUL
         has_country_flag = refused_french_claim
         NOT = { has_global_flag = france_protector_of_eastern_christians }
         war = no
@@ -248,7 +248,7 @@ country_event = {
         has_global_flag = france_protector_of_eastern_christians
         NOT = {
             war_with = RUS
-            war_with = TUR
+            war_with = BUL
             has_global_flag = abandoned_holy_land
             has_global_flag = treaty_of_paris_1856
             has_global_flag = treaty_of_paris_russia
@@ -262,14 +262,14 @@ country_event = {
     option = {
         name = "EVT97506OPTA"
         prestige = -10
-        diplomatic_influence = { who = TUR value = -50 }
+        diplomatic_influence = { who = BUL value = -50 }
         relation = { who = RUS value = 50 }
         ai_chance = {
             factor = 10
             modifier = {
                 factor = 4
                 NOT = {
-                    relation = { who = TUR value = 0 }
+                    relation = { who = BUL value = 0 }
                 }
             }
             modifier = {
@@ -283,11 +283,11 @@ country_event = {
         name = "EVT97506OPTB"
         set_country_flag = england_protecting_interests
         prestige = 5
-        diplomatic_influence = { who = TUR value = 100 }
-        relation = { who = TUR value = 100 }
+        diplomatic_influence = { who = BUL value = 100 }
+        relation = { who = BUL value = 100 }
         relation = { who = RUS value = -50 }
         leave_alliance = RUS
-        create_alliance = TUR
+        create_alliance = BUL
         ai_chance = {
             factor = 80
         }
@@ -303,8 +303,8 @@ country_event = {
     fire_only_once = yes
 
     trigger = {
-        tag = TUR
-        RUS = { war_with = TUR }
+        tag = BUL
+        RUS = { war_with = BUL }
         has_global_flag = crimea_has_happened
         NOT = { has_global_flag = treaty_of_paris_1856 }
         NOT = { has_global_flag = treaty_of_paris_russia }
@@ -314,7 +314,7 @@ country_event = {
             controlled_by = RUS
             NOT = { country_units_in_province = FRA }
             NOT = { country_units_in_province = ENG }
-            NOT = { country_units_in_province = TUR }
+            NOT = { country_units_in_province = BUL }
             province_control_days = 90
         }
         national_provinces_occupied = .60
@@ -366,12 +366,12 @@ country_event = {
     option = {
         name = "EVT97508OPTA"
         set_country_flag = crimean_surrender
-        TUR = { country_event = 97509 }
-        end_war = TUR
+        BUL = { country_event = 97509 }
+        end_war = BUL
         any_country = {
             limit = {
                 war_with = THIS
-                vassal_of = TUR
+                vassal_of = BUL
             }
             country_event = 97511
         }
@@ -485,7 +485,7 @@ country_event = {
                 months = 60
             }
             casus_belli = {
-                target = TUR
+                target = BUL
                 type = add_to_sphere
                 months = 60
             }
@@ -504,15 +504,15 @@ country_event = {
                 months = 60
             }
             casus_belli = {
-                target = TUR
+                target = BUL
                 type = add_to_sphere
                 months = 60
             }
         }
         RUS = {
-            military_access = TUR
-            diplomatic_influence = { who = TUR value = 100 }
-            relation = { who = TUR value = 200 }
+            military_access = BUL
+            diplomatic_influence = { who = BUL value = 100 }
+            relation = { who = BUL value = 200 }
         }
         soldiers = {
             limit = { is_primary_culture = yes }
@@ -592,7 +592,7 @@ country_event = {
                 OR = {
                     tag = FRA
                     has_country_flag = england_protecting_interests
-                    alliance_with = TUR
+                    alliance_with = BUL
                 }
             }
             casus_belli = {
@@ -639,16 +639,16 @@ country_event = {
         tag = ROM
         war = no
         owns = 678
-        vassal_of = TUR
+        vassal_of = BUL
         RUS = {
             is_greater_power = yes
             NOT = {
-                truce_with = TUR
+                truce_with = BUL
                 war_exhaustion = 20
                 num_of_revolts = 1
             }
         }
-        TUR = { is_greater_power = no }
+        BUL = { is_greater_power = no }
         NOT = {
             any_greater_power = { war_with = RUS }
             has_country_flag = romanian_war_of_independence
@@ -658,11 +658,11 @@ country_event = {
         months = 36
         modifier = {
             factor = 0.8
-            TUR = { war = yes }
+            BUL = { war = yes }
         }
         modifier = {
             factor = 0.1
-            TUR = { num_of_revolts = 5 }
+            BUL = { num_of_revolts = 5 }
         }
         modifier = {
             factor = 0.5
@@ -677,12 +677,12 @@ country_event = {
     option = {
         name = "EVT97515OPTA"
         prestige = 10
-        leave_alliance = TUR
-        relation = { who = TUR value = -100 }
+        leave_alliance = BUL
+        relation = { who = BUL value = -100 }
         RUS = { country_event = 97516 }
         random_country = {
             limit = {
-                tag = TUR
+                tag = BUL
                 is_greater_power = yes
             }
             diplomatic_influence = { who = ROM value = -300 }
@@ -695,7 +695,7 @@ country_event = {
     option = {
         name = "EVT97515OPTB"
         prestige = -5
-        relation = { who = TUR value = 50 }
+        relation = { who = BUL value = 50 }
         relation = { who = RUS value = -50 }
         ai_chance = {
             factor = 5
@@ -714,8 +714,8 @@ country_event = {
     option = {
         name = "EVT97516OPTA"
         prestige = 10
-        leave_alliance = TUR
-        relation = { who = TUR value = -100 }
+        leave_alliance = BUL
+        relation = { who = BUL value = -100 }
         relation = { who = ROM value = 400 }
         random_country = {
             limit = {
@@ -734,12 +734,12 @@ country_event = {
         military_access = ROM
         ROM = { country_event = 97517 }
         casus_belli = {
-            target = TUR
+            target = BUL
             type = free_allied_cores
             months = 24
         }
         casus_belli = {
-            target = TUR
+            target = BUL
             type = release_puppet
             months = 24
         }
@@ -794,7 +794,7 @@ country_event = {
     option = {
         name = "EVT97504OPTA"
         set_country_flag = romanian_war_of_independence
-        TUR = {
+        BUL = {
             release_vassal = THIS
             casus_belli = {
                 target = THIS
@@ -817,7 +817,7 @@ country_event = {
     option = {
         name = "EVT96161OPTA"
         prestige = -5
-        TUR = {
+        BUL = {
             release_vassal = THIS
             casus_belli = {
                 target = THIS
@@ -844,8 +844,8 @@ country_event = {
         owns = 678
         is_vassal = no
         RUS = {
-            NOT = { war_with = TUR }
-            truce_with = TUR
+            NOT = { war_with = BUL }
+            truce_with = BUL
         }
     }
 
@@ -890,10 +890,10 @@ country_event = {
         tag = ROM
         has_country_flag = romanian_war_of_independence
         war = no
-        vassal_of = TUR
-        RUS = { NOT = { war_with = TUR } }
+        vassal_of = BUL
+        RUS = { NOT = { war_with = BUL } }
         OR = {
-            RUS = { NOT = { truce_with = TUR } }
+            RUS = { NOT = { truce_with = BUL } }
             NOT = { owns = 678 }
         }
     }
