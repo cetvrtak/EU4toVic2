@@ -345,7 +345,8 @@ link = { vic2 = virshjuros eu4 = lithuanian eu4 = pruthenian eu4 = old_prussian 
 link = { vic2 = smelis eu4 = lithuanian eu4 = pruthenian eu4 = old_prussian eu4 = latvian eu4 = kurland_culture eu4 = baltic_colonial eu4 = aestian region = oceania_superregion }
 link = { vic2 = juodaodis eu4 = lithuanian eu4 = pruthenian eu4 = old_prussian eu4 = latvian eu4 = kurland_culture eu4 = baltic_colonial eu4 = aestian region = niger_region region = guinea_region region = central_africa_region region = sahel_region region = horn_of_africa_region region = east_africa_region region = kongo_region region = south_africa_region }
 link = { vic2 = lithuanian eu4 = lithuanian eu4 = samogitian eu4 = curonian }
-link = { vic2 = pruthenian eu4 = pruthenian eu4 = old_prussian eu4 = sudovian }
+link = { vic2 = north_german eu4 = pruthenian }
+link = { vic2 = pruthenian eu4 = old_prussian eu4 = sudovian }
 link = { vic2 = latvian eu4 = livonian eu4 = latvian eu4 = kurland_culture eu4 = baltic_colonial eu4 = semigallian eu4 = selonian eu4 = livlander }
 link = { vic2 = estonian eu4 = estonian }
 ##Split of Proto-Baltic (Aestian)
