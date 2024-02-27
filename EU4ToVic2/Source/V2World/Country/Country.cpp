@@ -388,6 +388,11 @@ void V2::Country::finalizeInvestments(const mappers::IdeaEffectMapper& ideaEffec
 		details.reforms.vote_franchise = -2;
 	if (details.government == "democracy" && details.reforms.upper_house_composition < 0)
 		details.reforms.upper_house_composition = 1;
+
+	// And absolute monarchies going too high
+	if (details.government == "absolute_monarchy" && details.reforms.vote_franchise > -2.5) {
+		details.reforms.vote_franchise = -3;
+	}
 }
 
 void V2::Country::resolvePolitics()
