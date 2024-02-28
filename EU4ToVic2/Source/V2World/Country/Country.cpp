@@ -728,14 +728,15 @@ void V2::Country::newCivConversionMethod(double topTech, int topInstitutions, co
 	if (civLevel < 0)
 		civLevel = 0;
 
-	const auto& techGroup = srcCountry->getTechGroup();
+	const auto& culture = details.primaryCulture != "dummy" ? details.primaryCulture : *details.acceptedCultures.begin();
+	const auto& techGroup = techGroupsMapper.getTechGroupFromCulture(culture);
 
 	if (theConfiguration.getEuroCentrism() == Configuration::EUROCENTRISM::EuroCentric)
 	{
 		// For eurocentric setups, we do some overrides. Literacy is boosted or reduced according to specs
 		details.literacy *= 1 + (static_cast<double>(techGroupsMapper.getLiteracyFromTechGroup(techGroup)) - 5.0) * 10.0 / 100.0;
 		// Westernization=10 countries must be civilized even if lagging behind in tech and scores, otherwise we scale it according to config file.
-		if (techGroupsMapper.getWesternizationFromTechGroup(techGroup) == 10)
+		if (techGroupsMapper.getWesternizationFromCulture(culture) == 10)
 			civLevel = 100;
 		else
 			civLevel = civLevel * (static_cast<double>(techGroupsMapper.getWesternizationFromTechGroup(techGroup)) / 10.0);
