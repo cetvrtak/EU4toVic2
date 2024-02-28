@@ -97,6 +97,7 @@ class Province
 
 	[[nodiscard]] std::optional<std::string> getDominantCulture();
 	[[nodiscard]] int getTotalPopulation() const;
+	[[nodiscard]] int getSoldierPopulation() const;
 	[[nodiscard]] std::vector<std::string> getCulturesOverThreshold(double percentOfPopulation) const;
 	[[nodiscard]] std::optional<std::pair<int, std::vector<std::shared_ptr<Pop>>>> getPopsForOutput() const;
 	[[nodiscard]] std::vector<std::shared_ptr<Pop>> getPops(const std::string& type) const;

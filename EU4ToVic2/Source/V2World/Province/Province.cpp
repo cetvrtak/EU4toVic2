@@ -441,6 +441,17 @@ int V2::Province::getTotalPopulation() const
 	return total;
 }
 
+int V2::Province::getSoldierPopulation() const
+{
+	auto total = 0;
+	for (const auto& pop: pops)
+	{
+		if (pop->getType() == "soldiers")
+			total += pop->getSize();
+	}
+	return total;
+}
+
 std::vector<std::string> V2::Province::getCulturesOverThreshold(double percentOfPopulation) const
 {
 	const auto totalPopulation = getTotalPopulation();
@@ -1022,10 +1033,12 @@ std::shared_ptr<V2::Pop> V2::Province::getSoldierPopForArmy(const bool force)
 			}
 		}
 	}
+
+	double soldierProportion = 100.0 * getSoldierPopulation() / getTotalPopulation();
 	// try largest to smallest, trying to grow
 	for (const auto& soldier: soldierPops)
 	{
-		if (growSoldierPop(*soldier)) // Will actually grow and increment supported regiment count
+		if (soldierProportion < 5 && growSoldierPop(*soldier)) // Will actually grow and increment supported regiment count
 		{
 			return soldier;
 		}
