@@ -82,21 +82,9 @@ V2::World::World(const EU4::World& sourceWorld,
 	setupStates();
 	Log(LogLevel::Progress) << "57 %";
 
-	Log(LogLevel::Info) << "-> Generating Unciv Reforms";
-	convertUncivReforms(sourceWorld, techGroupsMapper);
-	Log(LogLevel::Progress) << "58 %";
-
-	Log(LogLevel::Info) << "-> Converting Technology Levels";
-	convertTechs();
-	Log(LogLevel::Progress) << "59 %";
-
-	Log(LogLevel::Info) << "-> Distributing Factories";
-	allocateFactories(sourceWorld);
-	Log(LogLevel::Progress) << "60 %";
-
 	Log(LogLevel::Info) << "-> Distributing Pops";
 	setupPops(sourceWorld);
-	Log(LogLevel::Progress) << "61 %";
+	Log(LogLevel::Progress) << "58 %";
 
 	if (theConfiguration.isVN())
 	{
@@ -106,10 +94,22 @@ V2::World::World(const EU4::World& sourceWorld,
 
 	Log(LogLevel::Info) << "-> Releasing Invasive Fauna Into Colonies";
 	modifyPrimaryAndAcceptedCultures();
-	Log(LogLevel::Progress) << "62 %";
+	Log(LogLevel::Progress) << "59 %";
 
 	Log(LogLevel::Info) << "-> Monitoring Native Fauna Reaction";
 	addAcceptedCultures(sourceWorld.getRegions());
+	Log(LogLevel::Progress) << "60 %";
+
+	Log(LogLevel::Info) << "-> Generating Unciv Reforms";
+	convertUncivReforms(sourceWorld, techGroupsMapper);
+	Log(LogLevel::Progress) << "61 %";
+
+	Log(LogLevel::Info) << "-> Converting Technology Levels";
+	convertTechs();
+	Log(LogLevel::Progress) << "62 %";
+
+	Log(LogLevel::Info) << "-> Distributing Factories";
+	allocateFactories(sourceWorld);
 	Log(LogLevel::Progress) << "63 %";
 
 	Log(LogLevel::Info) << "-> Dropping Infected AI Cores";

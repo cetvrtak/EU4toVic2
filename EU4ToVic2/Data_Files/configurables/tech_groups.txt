@@ -78,7 +78,7 @@ eastern = {
 	# South Slavic
 	slovene novisvet juzhno crni bosniak croat macedonian serb bulgarian albanian
 	# East Slavic
-	novvymir yuzhny smugly russian ukrainian byelorussian ukrainian western_slavic ugric alaskan kholodnovoynsky
+	novvymir yuzhny smugly russian ukrainian byelorussian ukrainian western_slavic ugric alaskan kholodnovoynsky kishinyov
 	# Carpathian
 	ujvilag delian fekete hungarian lumenoua sudic negru aromanian romanian szekely kulfoldi
 	# Greek-ish
