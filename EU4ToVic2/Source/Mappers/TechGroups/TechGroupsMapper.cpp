@@ -20,6 +20,7 @@ mappers::TechGroupsMapper::TechGroupsMapper()
 				Log(LogLevel::Warning) << "Culture: " << culture << " already has a westernization score of " << culWestItr->second << "! Overriding with "
 											  << techGroups.getWesternization() << ".";
 			cultureWesternization[culture] = techGroups.getWesternization();
+			cultureTechGroup[culture] = techGroup;
 		}
 	});
 
@@ -61,4 +62,12 @@ int mappers::TechGroupsMapper::getLiteracyFromTechGroup(const std::string& techG
 		return techGroup->second;
 	Log(LogLevel::Warning) << "Unknown tech group: " << techGroupName;
 	return 0;
+}
+
+std::string mappers::TechGroupsMapper::getTechGroupFromCulture(const std::string& culture) const
+{
+	const auto& techGroupItr = cultureTechGroup.find(culture);
+	if (techGroupItr != cultureTechGroup.end())
+		return techGroupItr->second;
+	return "western";
 }
