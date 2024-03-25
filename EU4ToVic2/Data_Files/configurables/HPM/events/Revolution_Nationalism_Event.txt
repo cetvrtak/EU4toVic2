@@ -396,7 +396,10 @@ province_event = {
         state_scope = {
             any_owned = {
                 limit = {
-                    is_colonial = yes
+                    OR = {
+                        is_colonial = yes
+                        is_overseas = yes
+                    }
                     controlled_by = REB
                     NOT = { country_units_in_province = THIS }
                 }
