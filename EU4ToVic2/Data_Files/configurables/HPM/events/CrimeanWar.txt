@@ -555,9 +555,17 @@ country_event = {
         name = "EVT97510OPTA"
         prestige = -10
         remove_country_modifier = protector_of_eastern_christendom
-        348 = {
+        random_owned = {
+            limit = { province_id = 348 }
             fort = -3
             naval_base = -3
+        }
+        random_owned = {
+            limit = {
+                province_id = 348
+                is_core = FIN
+                FIN = { exists = yes }
+            }
             secede_province = FIN
             remove_core = RUS
         }

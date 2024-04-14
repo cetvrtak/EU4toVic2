@@ -820,7 +820,7 @@ country_event = {
         name = "EVTOPTA19030"
         prestige = 5
         relation = {
-            who = TUR
+            who = BUL
             value = 30
         }
         FROM = {
@@ -830,7 +830,7 @@ country_event = {
             factor = 50
             modifier = {
                 factor = 1.5
-                alliance_with = TUR
+                alliance_with = BUL
             }
             modifier = {
                 factor = 0.5
@@ -838,7 +838,7 @@ country_event = {
             }
             modifier = {
                 factor = 0.25
-                truce_with = TUR
+                truce_with = BUL
             }
             modifier = {
                 factor = 1.5
@@ -846,12 +846,12 @@ country_event = {
             }
             modifier = {
                 factor = 0
-                war_with = TUR
+                war_with = BUL
             }
             modifier = {
                 factor = 1.25
                 relation = {
-                    who = TUR
+                    who = BUL
                     value = 50
                 }
             }
@@ -878,7 +878,7 @@ country_event = {
                 factor = 1.25
                 NOT = {
                     relation = {
-                        who = TUR
+                        who = BUL
                         value = 0
                     }
                 }
