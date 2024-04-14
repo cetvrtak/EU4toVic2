@@ -176,7 +176,8 @@ political_decisions = {
                         is_vassal = no
                     }
                 }
-                create_vassal = ROM
+                inherit = ROM
+                release_vassal = ROM
             }
             random_country = {
                 limit = {
