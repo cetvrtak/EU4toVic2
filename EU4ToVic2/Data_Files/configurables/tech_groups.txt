@@ -92,6 +92,7 @@ eastern = {
 
 ottoman = {
 	westernization = 10
+	hpm_westernization = 2
 	literacy = 3
 	industry = 2
 	cultures = {
