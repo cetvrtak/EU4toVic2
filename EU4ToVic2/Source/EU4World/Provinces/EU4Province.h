@@ -33,6 +33,7 @@ class Province: commonItems::convenientParser
 	[[nodiscard]] auto getProvinceWeight() const { return provinceWeight; }
 	[[nodiscard]] auto getInvestmentFactor() const { return investmentFactor; }
 
+	[[nodiscard]] const auto& getSuperRegion() const { return superRegion; }
 	[[nodiscard]] const auto& getArea() const { return areaName; }
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getOwnerString() const { return ownerString; }
@@ -48,6 +49,7 @@ class Province: commonItems::convenientParser
 	void removeCore(const std::string& tag) { cores.erase(tag); }
 	void setOwnerString(const std::string& _owner) { ownerString = _owner; }
 	void setControllerString(const std::string& _controller) { controllerString = _controller; }
+	void setSuperRegion(const std::string& _superRegion) { superRegion = _superRegion; }
 	void setArea(const std::string& theArea) { areaName = theArea; }
 	void determineProvinceWeight(const mappers::Buildings& buildingTypes);
 	void updatePopRatioCulture(const std::string& oldCultureName, const std::string& neoCultureName, const std::string& superRegion)
@@ -80,6 +82,7 @@ class Province: commonItems::convenientParser
 	ProvinceBuildings buildings;
 
 	std::set<std::string> greatProjects;
+	std::optional<std::string> superRegion;
 	std::string areaName;
 
 	// province attributes for weights

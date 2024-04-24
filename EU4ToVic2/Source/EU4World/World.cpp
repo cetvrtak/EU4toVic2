@@ -138,9 +138,13 @@ EU4::World::World(const mappers::IdeaEffectMapper& ideaEffectMapper, const commo
 		removeLandlessNations();
 	}
 
+	Log(LogLevel::Info) << "-> Assigning super regions to provinces";
+	setProvinceSuperRegions();
+	Log(LogLevel::Progress) << "33 %";
+
 	Log(LogLevel::Info) << "-> Marking new world countries";
 	markNewWorldCountries();
-	Log(LogLevel::Progress) << "33 %";
+	Log(LogLevel::Progress) << "34 %";
 
 	Log(LogLevel::Info) << "*** Good-bye EU4, you served us well. ***";
 	Log(LogLevel::Progress) << "40 %";
@@ -343,6 +347,18 @@ void EU4::World::buildPopRatios() const
 {
 	for (const auto& province: provinces->getAllProvinces())
 		province.second->buildPopRatio(superGroupMapper, *regions);
+}
+
+void EU4::World::setProvinceSuperRegions()
+{
+	for (const auto& province: provinces->getAllProvinces())
+	{
+		const auto& superRegionName = regions->getParentSuperRegionName(province.first);
+		if (!superRegionName)	// sea or wasteland
+			continue;
+
+		province.second->setSuperRegion(*superRegionName);
+	}
 }
 
 void EU4::World::generateNeoCultures()

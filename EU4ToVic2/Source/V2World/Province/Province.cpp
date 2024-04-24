@@ -251,6 +251,9 @@ void V2::Province::convertFromOldProvince(const std::vector<std::shared_ptr<EU4:
 		const auto& continentMatch = continentsMapper.getEU4Continent(provinceSources.front()->getNum());
 		if (continentMatch)
 			details.continent = *continentMatch;
+
+		if (const auto& srcSuperRegion = provinceSources.front()->getSuperRegion(); srcSuperRegion)
+			superRegion = *srcSuperRegion;
 	}
 
 	// And finally, demographics

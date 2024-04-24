@@ -174,6 +174,7 @@ class Country
 	std::map<int, std::shared_ptr<Province>> provinces;
 	std::set<std::string> decisions;
 	std::vector<std::shared_ptr<State>> states;
+	std::string region;
 	std::vector<Leader> leaders;
 	std::set<std::string> techs;
 	std::set<std::string> inventions;

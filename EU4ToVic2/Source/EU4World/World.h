@@ -66,6 +66,7 @@ class World: commonItems::parser
 	void fillHistoricalData();
 	void buildProvinceWeights() const;
 	void catalogueNativeCultures();
+	void setProvinceSuperRegions();
 	void generateNeoCultures();
 	void buildPopRatios() const;
 	void calculateIndustry() const;

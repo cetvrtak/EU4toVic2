@@ -2312,12 +2312,14 @@ void V2::World::copyHpmFiles() const
 	// common
 	for (const auto& file: commonItems::GetAllFilesInFolder(hpm + "/common"))
 	{
-		if (file == "cb_types.txt" || file == "rebel_types.txt")
+		if (file == "rebel_types.txt")
 			fs::remove(out + "/common/" + file);
 		else if (commonItems::DoesFileExist(out + "/common/" + file))
 			continue;
 		fs::copy_file(hpm + "/common/" + file, out + "/common/" + file);
 	}
+	fs::remove(out + "/common/cb_types.txt");
+	fs::copy_file("configurables/HPM/common/cb_types.txt", out + "/common/cb_types.txt");
 	for (const auto& file: commonItems::GetAllFilesInFolder("configurables/HPM/common/countries"))
 	{
 		fs::remove(out + "/common/countries/" + file);
@@ -2376,6 +2378,12 @@ void V2::World::updateCountryDetails()
 					country->addPolicy(party.getName(), "social_policy", defaultPosition);
 				}
 			}
+		}
+
+		if (provinces.contains(country->getCapital())) {
+			const auto& capitalProvince = provinces.at(country->getCapital());
+			if (const std::string capitalSuperRegion = capitalProvince->getSuperRegion(); !capitalSuperRegion.empty())
+				country->addCountryFlag(capitalSuperRegion);
 		}
 	}
 }
