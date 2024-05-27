@@ -69,8 +69,6 @@ void V2::World::outputGTFO(std::map<std::string, std::shared_ptr<V2::Country>> c
 	{
 		if (skip.contains(tag))
 			continue;
-		if (!country->getSourceCountry())
-			continue;
 		std::string countryName;
 		if (!country->getLocalName().empty())
 		{
@@ -131,6 +129,11 @@ void V2::World::outputReturnCores(std::map<std::string, std::shared_ptr<V2::Coun
 				 "province, and are otherwise kept hidden from view to avoid having them clutter up your decision list.;;;;;;;;;;;;x\n";
 	outLoc << "return_core_off_title;Disable 'Return Cores' decisions;;;;;;;;;;;;x,,\n";
 	outLoc << "return_core_off_desc;Your decision list will now be uncluttered.;;;;;;;;;;;;x,,\n";
+	outLoc << "transfer_own_cores_on_title;'Return Cores': Transfer our own cores too;;;;;;;;;;;;;;;;;;;x,,\n";
+	outLoc << "transfer_own_cores_on_desc;When returning cores to satellite countries, transfer our own cores too.;;;;;;;;;;;;;;;;;;;;x,,\n";
+	outLoc << "transfer_own_cores_off_title;'Return Cores': Don't transfer our own cores;;;;;;;;;;;;;;;;;;;x,,\n";
+	outLoc << "transfer_own_cores_off_desc;When returning cores to satellite countries, don't transfer our own cores.;;;;;;;;;;;;;;;;;;;;x,,\n";
+	outLoc << "transfer_own_cores;Transfer our own cores too;;;;;;;;;;;;;;;;;;;;x,,\n";
 	outLoc << "return_core_disabled_title;Deactivate 'Return Cores' decisions;;;;;;;;;;;;x,,\n";
 	outLoc << "return_core_disabled_desc;The 'Return Cores' decisions will disappear from this game session and won't reappear again. You won't be able to use "
 				 "these decisions again for this game.;;;;;;;;;;;;x,,\n";
@@ -170,6 +173,27 @@ void V2::World::outputReturnCores(std::map<std::string, std::shared_ptr<V2::Coun
 	output << "\t\tallow = { ai = no }\n";
 	output << "\t\teffect = { clr_country_flag = return_cores_decision } \n";
 	output << "\t}\n";
+	output << "\ttransfer_own_cores_on = {\n";
+	output << "\t\tpicture = return_cores_img\n";
+	output << "\t\talert = yes\n";
+	output << "\t\tpotential = {\n";
+	output << "\t\t\thas_country_flag = return_cores_decision\n";
+	output << "\t\t\tNOT = { has_country_flag = transfer_own_cores }\n";
+	output << "\t\t\tany_owned_province = { is_core = THIS any_core = { OR = { in_sphere = THIS vassal_of = THIS } } } \n";
+	output << "\t\t}\n";
+	output << "\t\tallow = { civilized = yes ai = no }\n";
+	output << "\t\teffect = { set_country_flag = transfer_own_cores } \n";
+	output << "\t}\n";
+	output << "\ttransfer_own_cores_off = { \n";
+	output << "\t\tpicture = return_cores_img\n";
+	output << "\t\talert = no \n";
+	output << "\t\tpotential = {\n";
+	output << "\t\t\thas_country_flag = return_cores_decision\n";
+	output << "\t\t\thas_country_flag = transfer_own_cores \n";
+	output << "\t\t}\n";
+	output << "\t\tallow = { ai = no }\n";
+	output << "\t\teffect = { clr_country_flag = transfer_own_cores } \n";
+	output << "\t}\n";
 	output << "\treturn_core_disabled = {\n";
 	output << "\t\tpicture = return_cores_img\n";
 	output << "\t\talert = no\n";
@@ -188,8 +212,6 @@ void V2::World::outputReturnCores(std::map<std::string, std::shared_ptr<V2::Coun
 	for (const auto& [tag, country]: countries)
 	{
 		if (skip.contains(tag))
-			continue;
-		if (!country->getSourceCountry())
 			continue;
 		std::string countryName;
 		if (!country->getLocalName().empty())
@@ -220,7 +242,10 @@ void V2::World::outputReturnCores(std::map<std::string, std::shared_ptr<V2::Coun
 		output << "\t\t\t}\n";
 		output << "\t\t\tany_owned_province = {\n";
 		output << "\t\t\t\tis_core = " << tag << "\n";
-		output << "\t\t\t\tNOT = { is_core = THIS }\n";
+		output << "\t\t\t\tOR = {\n";
+		output << "\t\t\t\t\tNOT = { is_core = THIS }\n";
+		output << "\t\t\t\t\towner = { has_country_flag = transfer_own_cores }\n";
+		output << "\t\t\t\t}\n";
 		output << "\t\t\t}\n";
 		output << "\t\t}\n";
 		output << "\n";
@@ -238,6 +263,15 @@ void V2::World::outputReturnCores(std::map<std::string, std::shared_ptr<V2::Coun
 		output << "\t\t\t\t\tis_core = " << tag << "\n";
 		output << "\t\t\t\t}\n";
 		output << "\t\t\t\tsecede_province = " << tag << "\n";
+		output << "\t\t\t}\n";
+		output << "\t\t\tany_owned = {\n";
+		output << "\t\t\t\tlimit = {\n";
+		output << "\t\t\t\t\tis_core = THIS\n";
+		output << "\t\t\t\t\tis_core = " << tag << "\n";
+		output << "\t\t\t\t\towner = { has_country_flag = transfer_own_cores }\n";
+		output << "\t\t\t\t}\n";
+		output << "\t\t\t\tsecede_province = " << tag << "\n";
+		output << "\t\t\t\tremove_core = THIS\n";
 		output << "\t\t\t}\n";
 		output << "\t\t}\n";
 		output << "\t}\n";
