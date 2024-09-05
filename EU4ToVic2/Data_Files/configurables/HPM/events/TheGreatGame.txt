@@ -1200,13 +1200,6 @@ country_event = {
         vassal_of = RUS
         ai = yes
         civilized = no
-        OR = {
-            primary_culture = uzbek
-            primary_culture = kirgiz
-            primary_culture = turkmen
-            primary_culture = tajik
-            primary_culture = kazak
-        }
         NOT = { has_country_flag = no_russian_doctrine }
         overlord = {
             is_disarmed = no
