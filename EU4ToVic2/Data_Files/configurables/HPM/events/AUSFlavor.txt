@@ -650,10 +650,12 @@ country_event = {
     major = yes
 
     trigger = {
+        NOT = { has_global_flag = ferdinand_assassinated }
         year = 1914
         OR = {
             tag = AUS
             tag = KUK
+            has_country_flag = annexed_bosnia
         }
         OR = {
             government = absolute_monarchy
@@ -661,28 +663,13 @@ country_event = {
             government = prussian_constitutionalism
         }
         war = no
-        is_disarmed = no
-        OR = {
-            is_greater_power = yes
-            in_sphere = GER
-            in_sphere = NGF
-            in_sphere = PRU
-        }
         exists = SER
-        SER = {
-            is_disarmed = no
-            neighbour = THIS
-        }
+        SER = { neighbour = THIS }
         any_owned_province = {
-            is_core = SER
+            is_primary_culture = SER
             average_militancy = 4
         }
-        NOT = {
-            has_country_flag = ferdinand_assassinated
-            revolt_percentage = .25
-            truce_with = SER
-            is_sphere_leader_of = SER
-        }
+        NOT = { truce_with = SER }
     }
 
     mean_time_to_happen = {
@@ -690,11 +677,129 @@ country_event = {
     }
 
     immediate = {
-        set_country_flag = ferdinand_assassinated
+        set_global_flag = ferdinand_assassinated
     }
 
     option = {
-        name = "EVT90016OPTA"
+        name = "EVT90016OPTA"    # Send an ultimatum
+        SER = { country_event = { id = 900170 days = 2 } }
+        ai_chance = {
+            factor = 75
+        }
+    }
+    option = {
+        name = "EVT90016OPTB"    # Conduct an investigation
+        prestige = 25
+        ai_chance = {
+            factor = 25
+            modifier = {
+                factor = 0
+                is_greater_power = yes
+            }
+            modifier = {
+                factor = 0
+                in_sphere = GER
+            }
+            modifier = {
+                factor = 0
+                in_sphere = NGF
+            }
+            modifier = {
+                factor = 0
+                in_sphere = PRU
+            }
+        }
+    }
+}
+
+country_event = {
+
+    id = 900170 # Austrian Ultimatum
+
+    title = "EVTNAME900170"
+    desc = "EVTDESC900170"
+    picture = "franz_ferdinand_assassination"
+    major = yes
+
+    is_triggered_only = yes
+
+    option = {
+        name = "EVT900170OPTA"    # Impossible demands
+        random_country = {
+            limit = {
+                is_greater_power = yes
+                NOT = { tag = FROM }
+                NOT = { relation = { who = FROM value = -100 } }
+                relation = { who = THIS value = -150 }
+                is_disarmed = no
+            }
+            diplomatic_influence = { who = THIS value = 200 }
+            relation = { who = THIS value = 200 }
+            prestige = 25
+            country_event = 900171    # Notify about including Serbia in SoI
+        }
+        FROM = { country_event = { id = 900180 days = 3 } }
+        ai_chance = {
+            factor = 75
+            modifier = {
+                factor = 0
+                in_sphere = FROM
+            }
+        }
+    }
+    option = {
+        name = "EVT900170OPTB" # We will prove our innocence
+        FROM = {
+            diplomatic_influence = { who = THIS value = 200 }
+            prestige = 25
+        }
+        any_greater_power = {
+            limit = { NOT = { tag = FROM } }
+            diplomatic_influence = { who = THIS value = -100 }
+        }
+        ai_chance = {
+            factor = 25
+            modifier = {
+                factor = 0
+                in_sphere = RUS
+            }
+        }
+    }
+}
+
+country_event = {
+
+    id = 900171    # Serbia asks our help
+
+    title = "EVTNAME900171"
+    desc = "EVTDESC900171"
+    picture = "franz_ferdinand_assassination"
+
+    is_triggered_only = yes
+
+    option = {
+        name = "EVT900171OPTA"    # Make sure they give their best!
+    }
+}
+
+country_event = {
+
+    id = 900180 # Serbian Reply
+
+    title = "EVTNAME900180"
+    desc = "EVTDESC900180"
+    #news = yes
+    #news_title = "EVTNAME900180_NEWS_TITLE"
+    #news_desc_long = "EVTDESC900180_NEWS_LONG"
+    #news_desc_medium = "EVTDESC900180_NEWS_MEDIUM"
+    #news_desc_short = "EVTDESC900180_NEWS_SHORT"
+    picture = "franz_ferdinand_assassination"
+    major = yes
+
+    is_triggered_only = yes
+
+    option = {
+        name = "EVT900180OPTA"    # This is an outrage!
         any_owned = {
             limit = { culture = serb }
             add_province_modifier = {
@@ -703,10 +808,7 @@ country_event = {
             }
         }
         any_pop = {
-            limit = {
-                location = { is_core = SER }
-                has_pop_culture = serb
-            }
+            limit = { has_pop_culture = serb }
             militancy = 6
         }
         relation = {
@@ -738,7 +840,7 @@ country_event = {
         }
     }
     option = {
-        name = "EVT90016OPTB"
+        name = "EVT900180OPTB"    # We cannot let this come to war.
         prestige = -25
         any_owned = {
             limit = { culture = serb }
@@ -748,10 +850,7 @@ country_event = {
             }
         }
         any_pop = {
-            limit = {
-                location = { is_core = SER }
-                has_pop_culture = serb
-            }
+            limit = { has_pop_culture = serb }
             militancy = 6
         }
         any_pop = {
