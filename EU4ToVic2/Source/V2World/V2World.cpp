@@ -2325,7 +2325,7 @@ void V2::World::copyHpmFiles() const
 	}
 
 	commonItems::CopyFolder(hpm + "/battleplans", out + "/battleplans");
-	commonItems::CopyFolder(hpm + "/poptypes", out + "/poptypes");
+	commonItems::CopyFolder("configurables/HPM/poptypes", out + "/poptypes");
 	commonItems::CopyFolder(hpm + "/units", out + "/units");
 
 	// news
