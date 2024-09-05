@@ -565,6 +565,10 @@ political_decisions = {
             prestige = 10
             badboy = 5
             inherit = BOS
+            any_pop = {
+                limit = { has_pop_culture = serb }
+                militancy = 6
+            }
             random_owned = {
                 limit = {
                     NOT = { is_core = THIS }

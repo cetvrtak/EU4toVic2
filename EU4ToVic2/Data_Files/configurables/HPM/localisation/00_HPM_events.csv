@@ -3144,8 +3144,19 @@ EVTDESC98008;A group of Czech radical democrats attempted to overthrow the gover
 EVT98008OPTA;We will not give in to insurrection.;;;;;;;;;;;;;
 EVTNAME90016;Archduke Ferdinand Assassinated;;;;;;;;;;;;;
 EVTDESC90016;One of the most prominent members of Austrian aristocracy has been murdered by a Serbian assassin, a member of a group of nationalists who seek to rejoin with the Serbian nation. There are definite suspicions that the Serbian government has been secretly helping these nationalists and is behind the event.;;;;;;;;;;;;;
-EVT90016OPTA;This is an outrage!;;;;;;;;;;;;;
-EVT90016OPTB;We cannot let this come to war.;;;;;;;;;;;;;
+EVT90016OPTA;Send an ultimatum!;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
+EVT90016OPTB;Conduct a thourough investigation at the crime scene.;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
+EVTNAME900170;$FROMCOUNTRY_ADJ$ Ultimatum;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,,
+EVTDESC900170;$FROMCOUNTRY$ claims to have demonstrated the culpability and assistance provided to the conspirators in the assassination of Archduke Ferdinand by various Serbian officials. They have sent us a list of demands among which the point 6 stating: "Bring to trial all accessories to the Archduke's assassination and allow "$FROMCOUNTRY_ADJ$ delegates" (law enforcement officers) to take part in the investigations.";;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
+EVT900170OPTA;This is an absolute impossibility for a state which had the slightest regard for its dignity.;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
+EVTNAME900171;$FROMCOUNTRY$ is asking for our help;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,,
+EVTDESC900171;Austrians are accusing Serbia of providing assistance to the conspirators in the assassination of Archduke Ferdinand. The evidence, however, are only circumstantional. Our diplomats can try to talk some sense into both of them, but averting the outright war won't be easy.;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
+EVT900171OPTA;Make sure they give their best!;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
+EVT900170OPTB;We will prove our innocence.;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
+EVTNAME900180;Serbian Reply;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,,
+EVTDESC900180;Backed by their powerful allies, Serbia has failed to deliver an unconditionally positive answer to our ultimatum.;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
+EVT900180OPTA;This is an outrage!;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
+EVT900180OPTB;We cannot let this come to war.;;;;;;;;;;;;x,,,,,,,,,,,,,,,,,,,,,
 EVTNAME20110;Natives in $STATENAME$;;;;;;;;;;;;;
 EVTDESC20110;A recent demonstration in $PROVINCENAME$ has brought attention to the plight of natives in $STATENAME$, namely to their oppression by the $COUNTRY_ADJ$ government and their demands for independence. If something isn't done soon we may be facing intervention by foreign powers.;;;;;;;;;;;;;
 EVT20110OPTA;Silence the troublemakers. Immediately.;;;;;;;;;;;;;
