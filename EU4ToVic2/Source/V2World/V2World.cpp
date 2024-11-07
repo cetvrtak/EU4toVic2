@@ -2310,14 +2310,16 @@ void V2::World::copyHpmFiles() const
 	}
 
 	// common
+	fs::remove(out + "/common/rebel_types.txt");
 	for (const auto& file: commonItems::GetAllFilesInFolder(hpm + "/common"))
 	{
-		if (file == "cb_types.txt" || file == "rebel_types.txt")
-			fs::remove(out + "/common/" + file);
-		else if (commonItems::DoesFileExist(out + "/common/" + file))
+		if (commonItems::DoesFileExist(out + "/common/" + file))
 			continue;
 		fs::copy_file(hpm + "/common/" + file, out + "/common/" + file);
 	}
+	fs::remove(out + "/common/cb_types.txt");
+	fs::copy_file("configurables/HPM/common/cb_types.txt", out + "/common/cb_types.txt");
+
 	for (const auto& file: commonItems::GetAllFilesInFolder("configurables/HPM/common/countries"))
 	{
 		fs::remove(out + "/common/countries/" + file);
