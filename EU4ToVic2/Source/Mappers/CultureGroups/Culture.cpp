@@ -51,13 +51,13 @@ void mappers::Culture::registerKeys()
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-void mappers::Culture::transmogrify()
+void mappers::Culture::transmogrify(std::string_view cultureName)
 {
 	firstNames = maleNames;
 	lastNames = dynastyNames;
 
-	std::random_device theRandomDevice;
-	std::mt19937 theEngine(theRandomDevice());
+	std::seed_seq seed(cultureName.begin(), cultureName.end());
+	std::mt19937 theEngine(seed);
 	std::uniform_int_distribution<> theDistribution(0, 255);
 
 	const auto r = theDistribution(theEngine);

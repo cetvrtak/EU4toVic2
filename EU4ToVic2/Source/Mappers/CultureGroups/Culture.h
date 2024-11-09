@@ -37,7 +37,7 @@ class Culture: commonItems::parser
 	}
 	void setOriginalCulture(const std::string& origName) { originalCulture = origName; }
 
-	void transmogrify();
+	void transmogrify(std::string_view cultureName);
 
 	friend std::ostream& operator<<(std::ostream& output, const Culture& culture);
 

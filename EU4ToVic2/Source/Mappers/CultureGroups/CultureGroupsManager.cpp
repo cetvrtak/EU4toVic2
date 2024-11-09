@@ -131,7 +131,7 @@ void mappers::CultureGroupsManager::importNeoCultures(const EU4::Regions& region
 
 			// Now transmogrify eu4 culture definitions into V2 culture definitions.
 			auto v2Culture = std::make_shared<Culture>(*eu4Culture);
-			v2Culture->transmogrify();
+			v2Culture->transmogrify(eu4CultureName);
 
 			// and file under appropriate group.
 			destV2CultureGroup->addNeoCulture(eu4CultureName, v2Culture, eu4CultureName);
@@ -164,7 +164,7 @@ void mappers::CultureGroupsManager::importDynamicCultures(const std::shared_ptr<
 
 			// Now transmogrify eu4 culture definitions into V2 culture definitions.
 			auto v2Culture = std::make_shared<Culture>(*eu4Culture);
-			v2Culture->transmogrify();
+			v2Culture->transmogrify(eu4CultureName);
 
 			// and file into that group.
 			destV2CultureGroup->mergeCulture(eu4CultureName, v2Culture);
