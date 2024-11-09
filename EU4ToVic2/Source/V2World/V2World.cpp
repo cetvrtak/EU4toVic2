@@ -23,8 +23,7 @@ constexpr int MAX_LIBERTY_COUNTRIES = 20;
 V2::World::World(const EU4::World& sourceWorld,
 	 const mappers::IdeaEffectMapper& ideaEffectMapper,
 	 const mappers::TechGroupsMapper& techGroupsMapper,
-	 const commonItems::ConverterVersion& converterVersion):
-	 historicalData(sourceWorld.getHistoricalData())
+	 const commonItems::ConverterVersion& converterVersion): historicalData(sourceWorld.getHistoricalData())
 {
 	Log(LogLevel::Progress) << "45 %";
 
@@ -1760,7 +1759,7 @@ void V2::World::output(const commonItems::ConverterVersion& converterVersion, co
 	Log(LogLevel::Progress) << "88 %";
 
 	Log(LogLevel::Info) << "-> Setting Flags";
-	flags.setV2Tags(countries, countryMapper);
+	flags.setV2Tags(countries, countryMapper, theConfiguration.getOutputName());
 	Log(LogLevel::Progress) << "89 %";
 
 	Log(LogLevel::Info) << "<- Writing Flags";

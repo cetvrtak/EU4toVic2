@@ -15,7 +15,9 @@ class Country;
 class Flags
 {
   public:
-	void setV2Tags(const std::map<std::string, std::shared_ptr<Country>>& V2Countries, const mappers::CountryMappings& countryMapper);
+	void setV2Tags(const std::map<std::string, std::shared_ptr<Country>>& V2Countries,
+		 const mappers::CountryMappings& countryMapper,
+		 const std::string& outputName);
 	void output() const;
 
   private:

@@ -12,11 +12,11 @@
 #include <iterator>
 #include <random>
 
-void V2::Flags::setV2Tags(const std::map<std::string, std::shared_ptr<Country>>& V2Countries, const mappers::CountryMappings& countryMapper)
+void V2::Flags::setV2Tags(const std::map<std::string, std::shared_ptr<Country>>& V2Countries,
+	 const mappers::CountryMappings& countryMapper,
+	 const std::string& outputName)
 {
 	tagMap.clear();
-
-	static std::mt19937 generator(static_cast<int>(std::chrono::system_clock::now().time_since_epoch().count()));
 
 	determineUseableFlags();
 	getRequiredTags(V2Countries);
@@ -51,12 +51,12 @@ void V2::Flags::setV2Tags(const std::map<std::string, std::shared_ptr<Country>>&
 				// Yay hardcoded paths. If I get round to it, I'll point these at religion.txt instead.
 				if (religion == "sunni" || religion == "shiite" || religion == "ibadi")
 				{
-					randomTitle = countryMapper.getTitleMapper().getRandomIslamicTitle();
+					randomTitle = countryMapper.getTitleMapper().getRandomIslamicTitle(country.first, outputName);
 				}
 				else if (religion == "mahayana" || religion == "gelugpa" || religion == "theravada" || religion == "sikh" || religion == "hindu" ||
 							religion == "jain")
 				{
-					randomTitle = countryMapper.getTitleMapper().getRandomIndianTitle();
+					randomTitle = countryMapper.getTitleMapper().getRandomIndianTitle(country.first, outputName);
 				}
 
 				if (randomTitle && usableFlagTags.count(*randomTitle))
@@ -119,8 +119,8 @@ void V2::Flags::setV2Tags(const std::map<std::string, std::shared_ptr<Country>>&
 	{
 		std::vector<std::string> colonyFlagsKeys = colonialFlagsMapper.getCommonNames();
 
-		std::random_device rd;
-		std::mt19937 g(rd());
+		std::seed_seq seed(outputName.begin(), outputName.end());
+		std::mt19937 g(seed);
 		std::shuffle(colonyFlagsKeys.begin(), colonyFlagsKeys.end(), g);
 
 		for (const auto& key: colonyFlagsKeys)
@@ -152,6 +152,9 @@ void V2::Flags::setV2Tags(const std::map<std::string, std::shared_ptr<Country>>&
 	// All the remaining tags now need one of the usable flags.
 	for (const auto& requiredTag: requiredTags)
 	{
+		const auto& theSeedStr = outputName + requiredTag;
+		std::seed_seq seed(theSeedStr.begin(), theSeedStr.end());
+		static std::mt19937 generator(seed);
 		size_t randomTagIndex = std::uniform_int_distribution<size_t>(0, usableFlagTags.size() - 1)(generator);
 		auto randomTagIter = usableFlagTags.begin();
 		advance(randomTagIter, randomTagIndex);

@@ -15,8 +15,8 @@ class TitleMapper: commonItems::parser
 
 	[[nodiscard]] bool doesTitleExist(const std::string& title) const;
 	[[nodiscard]] std::optional<std::string> getTitleForName(const std::string& name) const;
-	[[nodiscard]] std::optional<std::string> getRandomIslamicTitle() const;
-	[[nodiscard]] std::optional<std::string> getRandomIndianTitle() const;
+	[[nodiscard]] std::optional<std::string> getRandomIslamicTitle(const std::string& tag, const std::string& outputName) const;
+	[[nodiscard]] std::optional<std::string> getRandomIndianTitle(const std::string& tag, const std::string& outputName) const;
 
   private:
 	void registerKeys();
