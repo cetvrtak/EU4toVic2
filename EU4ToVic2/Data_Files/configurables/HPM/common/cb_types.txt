@@ -2555,7 +2555,7 @@ free_balkans = {
         NOT = { is_our_vassal = THIS }
         is_vassal = no
         number_of_states = 2
-        tag = TUR
+        tag = BUL
         any_owned_province = {
             OR = {
                 is_core = GRE
@@ -2630,7 +2630,7 @@ free_balkans = {
                 exists = yes
                 is_cultural_union = no
             }
-            NOT = { vassal_of = TUR }
+            NOT = { vassal_of = BUL }
         }
         FROM = {
             OR = {
