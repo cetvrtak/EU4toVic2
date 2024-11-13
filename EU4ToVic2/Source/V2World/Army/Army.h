@@ -7,6 +7,7 @@
 #include "../../Mappers/RegimentCosts/RegimentCostsMapper.h"
 #include "../Province/Province.h"
 #include "Regiment.h"
+#include <random>
 
 namespace V2
 {
@@ -74,6 +75,7 @@ class Army // also Navy
 	bool isNavy = false;
 	std::string tag;
 	bool created = true;
+	static std::mt19937 randomEngine;
 };
 } // namespace V2
 

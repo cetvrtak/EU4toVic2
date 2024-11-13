@@ -5,6 +5,8 @@
 #include <queue>
 #include <random>
 
+std::mt19937 V2::Army::randomEngine(0);
+
 V2::Army::Army(const EU4::EU4Army& eu4Army,
 	 std::string _tag,
 	 const bool civilized,
@@ -18,6 +20,9 @@ V2::Army::Army(const EU4::EU4Army& eu4Army,
 	 name(eu4Army.getName()),
 	 tag(std::move(_tag))
 {
+	std::seed_seq randomSeed(tag.begin(), tag.end());
+	randomEngine.seed(randomSeed);
+
 	// See what we're dealing with
 	for (const auto& eu4Regiment: eu4Army.getRegiments())
 	{
@@ -301,7 +306,7 @@ std::optional<int> V2::Army::getProbabilisticHomeProvince(const REGIMENTTYPE cho
 		return std::nullopt;
 
 	std::set<int> randomProvince;
-	std::sample(candidates.begin(), candidates.end(), std::inserter(randomProvince, randomProvince.begin()), 1, std::mt19937{std::random_device{}()});
+	std::sample(candidates.begin(), candidates.end(), std::inserter(randomProvince, randomProvince.begin()), 1, randomEngine);
 	return *randomProvince.begin();
 }
 
@@ -309,7 +314,7 @@ std::shared_ptr<V2::Province> V2::Army::pickRandomPortProvince(const std::set<in
 	 const std::map<int, std::shared_ptr<Province>>& allProvinces)
 {
 	std::set<int> randomProvince;
-	std::sample(homeCandidates.begin(), homeCandidates.end(), std::inserter(randomProvince, randomProvince.begin()), 1, std::mt19937{std::random_device{}()});
+	std::sample(homeCandidates.begin(), homeCandidates.end(), std::inserter(randomProvince, randomProvince.begin()), 1, randomEngine);
 
 	const auto& provinceItr = allProvinces.find(*randomProvince.begin());
 	if (provinceItr != allProvinces.end())
@@ -320,7 +325,7 @@ std::shared_ptr<V2::Province> V2::Army::pickRandomPortProvince(const std::set<in
 int V2::Army::pickRandomProvinceID(std::set<int> homeCandidates)
 {
 	std::set<int> randomProvince;
-	std::sample(homeCandidates.begin(), homeCandidates.end(), std::inserter(randomProvince, randomProvince.begin()), 1, std::mt19937{std::random_device{}()});
+	std::sample(homeCandidates.begin(), homeCandidates.end(), std::inserter(randomProvince, randomProvince.begin()), 1, randomEngine);
 	if (randomProvince.empty())
 		return 0;
 	return *randomProvince.begin();
