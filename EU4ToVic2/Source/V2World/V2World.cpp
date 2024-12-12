@@ -2307,6 +2307,8 @@ void V2::World::copyHpmFiles() const
 		fs::remove(out + "/decisions/" + file);
 		fs::copy_file("configurables/HPM/decisions/" + file, out + "/decisions/" + file);
 	}
+	commonItems::CopyFolder(hpm + "/gfx/pictures/events", out + "/gfx/pictures/events");
+	commonItems::CopyFolder(hpm + "/gfx/pictures/decisions", out + "/gfx/pictures/decisions");
 
 	// common
 	fs::remove(out + "/common/rebel_types.txt");
